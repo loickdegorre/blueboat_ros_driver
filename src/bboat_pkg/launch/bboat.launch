@@ -1,0 +1,59 @@
+<launch>
+	
+	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" />
+
+	<!-- Setting ROS control -->
+	<node name="set_sysid"
+	pkg="mavros"
+	type="mavparam"
+	args="set SYSID_MYGCS 1"
+	output="screen"
+	/>
+
+	<!-- BBoat Mission node -->
+	<node name="bboat_mission_node"
+	type="mission_node.py"
+	pkg="bboat_pkg"
+	output="screen">
+		<param name="filepath" value="$(arg filepath)" />
+	</node>
+	
+	<!-- BBoat Driver node -->
+	<node name="bboat_driver_node"
+	type="driver_node.py"
+	pkg="bboat_pkg"
+	output="screen"
+	/>
+
+	<!-- BBoat Sensor node -->
+	<node name="bboat_sensor_node"
+	type="sensor_node.py"
+	pkg="bboat_pkg"
+	output="screen"
+	/>
+
+
+
+
+	<!-- BBoat Virtual Sail Boat node -->
+	<node name="bboat_vsb_node"
+	type="virtual_sb_node.py"
+	pkg="bboat_pkg"
+	output="screen"
+	/>
+
+	<!-- BBoat Controller node -->
+	<node name="bboat_controller_node"
+	type="controller_node.py"
+	pkg="bboat_pkg"
+	output="screen"
+	/>
+
+	<!-- Joystick node -->
+	<node name="joystick_node"
+	type="joy_node"
+	pkg="joy"
+	output="screen"
+	/>
+	
+</launch>

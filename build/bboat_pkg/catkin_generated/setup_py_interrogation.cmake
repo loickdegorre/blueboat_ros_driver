@@ -1,0 +1,7 @@
+set(bboat_pkg_SETUP_PY_SETUP_MODULE "distutils.core")
+set(bboat_pkg_SETUP_PY_VERSION "0.0.0")
+set(bboat_pkg_SETUP_PY_SCRIPTS "")
+set(bboat_pkg_SETUP_PY_PACKAGES "bboat_pkg")
+set(bboat_pkg_SETUP_PY_PACKAGE_DIRS "src/bboat_pkg")
+set(bboat_pkg_SETUP_PY_MODULES "")
+set(bboat_pkg_SETUP_PY_MODULE_DIRS "")
