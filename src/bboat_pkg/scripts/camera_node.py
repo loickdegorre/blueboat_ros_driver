@@ -23,12 +23,13 @@ class CameraNode():
 		rospy.loginfo('[CAMERA] Camera Node Start')
 
 	def loop(self): 
-		rospy.loginfo('[CAMERA] Camera node loop')
+		rospy.loginfo('[CAMERA] Camera node loop') 
 		rc_msg = OverrideRCIn()
 		for i in range(0,16):
 			chan = [1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500]
 
 			chan[i] = 1700
+			testst
 
 
 			rc_msg.channels = chan
