@@ -18,9 +18,36 @@ from numpy.random import randn,rand,uniform
 from numpy.linalg import inv, det, norm, eig,qr
 
 
-from bboat_pkg.srv import next_target_serv, mode_serv, mode_servResponse
+from bboat_pkg.srv import next_target_serv, mode_serv, mode_servResponse, reset_vsb_serv
 from lib.bboat_lib import *
 
+WIND_ANGLE = -pi/4 #-pi/2
+WIND_SPEED = 1.5
+
+#----------------------------------------
+# Sailboat Model function
+def f_SB(x,u, ψ, awind, P):
+    x,u=x.flatten(),u.flatten()
+    p0,p1,p2,p3,p4,p5,p6,p7,p8,p9 = P.flatten()
+    θ=x[2]; v=x[3]; w=x[4]; δr=u[0]; δsmax=u[1];
+    w_ap = np.array([[awind*cos(ψ-θ) - v],[awind*sin(ψ-θ)]])
+    ψ_ap = angle(w_ap)
+    a_ap = norm(w_ap)
+    sigma = cos(ψ_ap) + cos(δsmax)
+    if sigma < 0 :
+        δs = pi + ψ_ap
+    else :
+        δs = -sign(sin(ψ_ap))*δsmax
+    fr = p4*v*sin(δr)
+    fs = p3*(a_ap**2)* sin(δs-ψ_ap)
+    # print(f'merde   {sin(δs-ψ_ap)}') 
+
+    dx=v*cos(θ) + p0*awind*cos(ψ)
+    dy=v*sin(θ) + p0*awind*sin(ψ)
+    dv=(fs*sin(δs)-fr*sin(δr)-p1*v**2)/p8
+    dw=(fs*(p5-p6*cos(δs)) - p7*fr*cos(δr) - p2*w*v)/p9
+    xdot=np.array([ [dx],[dy],[w],[dv],[dw]])
+    return xdot,δs 
 
 
 # Sailboat Controller - Path following
@@ -51,7 +78,7 @@ def validation(a,b,m,h):
     '''
         Validates reach of the b waypoint if robot is passed the point or in a rad radius circle around b
     '''
-    rad = 5 # Security radius around target - [m]
+    rad = 2 # Security radius around target - [m]
     return (np.dot((b-a).T,(b-m))<0 or np.linalg.norm(b-m)<rad )
 #----------------------------------------
 
@@ -74,7 +101,7 @@ class VirtualSBNode():
         # Init -> In the first round, SB takes position of Helios
         p0,p1,p2,p3,p4,p5,p6,p7,p8,p9 = 0.1,50,6000,1000,2000,1,1,2,300,10000
         self.P = np.array([[p0], [p1], [p2], [p3], [p4], [p5], [p6], [p7], [p8], [p9]])
-        self.Z = np.array([[0.], [0.], [0.], [0.], [0.]])
+        self.Z = np.array([[0.], [0.], [pi/4.], [0.], [0.]])
         self.dZ = np.array([[0.], [0.], [0.], [0.], [0.]])
         self.δsmax = pi/4
         self.δs = self.δsmax
@@ -84,6 +111,9 @@ class VirtualSBNode():
         self.flag_first_round = 1
 
         self.θ_bar = self.Z[2,0]
+
+
+        
 
         # ------
         ## Data Storage -> Printing
@@ -97,10 +127,16 @@ class VirtualSBNode():
         self.psi_sent_store = []
         self.time_store = []
 
+        self.u_SB_store = []
+        self.v_SB_store = []
+        self.r_SB_store = []
+
+        self.Z_prec = np.zeros((5,1))
+
 
         # ------
         ## Param Simu
-        self.awind, self.ψ = 3, -pi/2 # Vent -> Rendre parametrable
+        self.awind, self.ψ = WIND_SPEED, WIND_ANGLE # Vent -> Rendre parametrable
         self.r, self.ζ = 5, pi/4+0.2
 
         # --- Mission service client
@@ -128,7 +164,7 @@ class VirtualSBNode():
 
         # ------
         ## Loop timing - force loop period to dT while using spin_once
-        self.dT = 0.02
+        self.dT = 0.05
         self.rate = rospy.Rate(1/self.dT)
 
         # ------
@@ -137,12 +173,25 @@ class VirtualSBNode():
         self.pose_robot = PoseStamped()
         rospy.wait_for_message('/pose_robot_R0', PoseStamped, timeout=None)
 
+        self.vel_robot_RB = np.zeros((3,1))
+        # self.u_robot_store = []
+        # self.v_robot_store = []
+        # self.r_robot_store = []
+        # self.sub_vel_robot = rospy.Subscriber('/vel_robot_RB', Twist, self.Vel_Robot_callback)
+
+        self.u1, self.u2 = 0, 0
+        # self.u1_store = []
+        # self.u2_store = []
+        # self.sub_cmd = rospy.Subscriber('/command', cmd_msg, self.Command_callback)
 
 
         # ------
         ## Publishers
         self.pub_position = rospy.Publisher('/vSBPosition',PoseStamped,  queue_size=10)
         self.pub_speed = rospy.Publisher('/vSBSpeed',PoseStamped,  queue_size=10)
+
+        self.pub_a = rospy.Publisher('/a', Point, queue_size=10)
+        self.pub_b = rospy.Publisher('/b', Point, queue_size=10)
 
         # ------
         ## Tf Broadcaster SB state
@@ -163,11 +212,8 @@ class VirtualSBNode():
                 rospy.logwarn(f'[VSB] Mode service cannot be reached - {str(exc)}')
                 connected = False
 
-        # --- Matplotlib plotting
-        self.flag_plotting = False
-        if self.flag_plotting:
-            self.fig = figure()
-            self.plot_wind = self.fig.add_subplot(111, aspect='equal')
+
+        rospy.Service('/reset_vsb', reset_vsb_serv, self.Reset_VSB_Service_callback)
 
         # --- Init done
         rospy.loginfo('[VSB] VSB node Start')
@@ -177,10 +223,12 @@ class VirtualSBNode():
 
             x, y, psi, v, w = self.Z.flatten()
             dx, dy, r, dv, dw = self.dZ.flatten()
+            u_SB, v_SB = 0,0
+
 
             resp = self.client_mode(True)
 
-            if resp.mission == "MI3" and resp.mode == "AUTO":
+            if resp.mission == "PTN" and resp.mode == "AUTO":
                 msg_pose = PoseStamped()
                 msg_pose.pose.position.x, msg_pose.pose.position.y = self.b[0,0], self.b[1,0]
                 self.pub_position.publish(msg_pose)
@@ -189,29 +237,56 @@ class VirtualSBNode():
             if self.flag_continue_mission and resp.mode == "AUTO" and resp.mission == "VSB": # Sailboat stops at the last point or if in manual mode
                 self.W, self.q, self.θ_bar = control_SB(self.Z, self.q, self.a, self.b, self.r, self.ψ, self.ζ) 
                 self.dZ, self.δs = f_SB(self.Z, self.W, self.ψ, self.awind, self.P)
+
                 self.Z = self.Z + self.dZ*self.dT
 
-                # --- Build and publish Messages pose + speed
-                msg_pos = PoseStamped()
-                msg_spe = PoseStamped()
-                msg_pos.header.stamp = rospy.Time.now()
-                msg_pos.header.frame_id = 'ref_lamb'
-                msg_pos.pose.position.x, msg_pos.pose.position.y, msg_pos.pose.position.z = x, y, psi
+                # print(f'dZ {self.dZ[0,0]},{self.dZ[1,0]} - diff {(self.Z - self.Z_prec)/self.dT}')
+                self.Z_prec = self.Z
 
-                msg_spe.pose.position.x, msg_spe.pose.position.y, msg_spe.pose.position.z = dx, dy, r
+                u_SB = self.dZ[0,0]*cos(self.Z[2,0]) - self.dZ[1,0]*sin(self.Z[2,0])
+                v_SB = self.dZ[0,0]*sin(self.Z[2,0]) + self.dZ[1,0]*cos(self.Z[2,0])
 
 
-                self.pub_position.publish(msg_pos)
-                self.pub_speed.publish(msg_spe)
                 
             else:
                 # rospy.loginfo('[VSB] Iddle')
-                rospy.sleep(10)
-
-                self.dZ = np.zeros((5,1))
                 self.Z = self.Z + self.dZ*self.dT
+                # rospy.sleep(10)
+
+                # self.dZ = np.zeros((5,1))
+                # self.Z = self.Z + self.dZ*self.dT
+
+                # self.Z = np.array([[self.pose_robot.pose.position.x], [self.pose_robot.pose.position.y], [self.pose_robot.pose.position.z], [0], [0]])
+                
+                u_rob, v_rob, r_rob = self.vel_robot_RB.flatten()
+
+                self.dZ[0,0] = u_rob*cos(self.Z[2,0]) + v_rob*sin(self.Z[2,0])
+                self.dZ[1,0] = -u_rob*sin(self.Z[2,0]) + v_rob*cos(self.Z[2,0])
+                self.dZ[2,0] = r_rob
+
+                self.Z = self.Z + self.dZ*self.dT
+                # self.Z[2,0] = self.pose_robot.pose.position.z
+
+                # print(f'dZ {self.dZ[0,0]}, {self.dZ[1,0]} - dT {self.dT}')
+                # print(f'Z avant {self.Z}')
+                # print(f'Z apres {self.Z}')
+ 
+
+            # --- Build and publish Messages pose + speed
+
+            x, y, psi, v, w = self.Z.flatten()
+            dx, dy, r, dv, dw = self.dZ.flatten()
+            msg_pos = PoseStamped()
+            msg_spe = PoseStamped()
+            msg_pos.header.stamp = rospy.Time.now()
+            msg_pos.header.frame_id = 'ref_lamb'
+            msg_pos.pose.position.x, msg_pos.pose.position.y, msg_pos.pose.position.z = x, y, psi
+
+            msg_spe.pose.position.x, msg_spe.pose.position.y, msg_spe.pose.position.z = dx, dy, r
 
 
+            self.pub_position.publish(msg_pos)
+            self.pub_speed.publish(msg_spe)
 
             # --- Broadcast SB tf -> rviz
             t = TransformStamped()
@@ -241,6 +316,16 @@ class VirtualSBNode():
             t.transform.rotation.w = 0.0
             self.tf_broadcaster.sendTransformMessage(t)
 
+            msg = Point()
+            msg.x=self.a[0,0]
+            msg.y=self.a[1,0]
+            self.pub_a.publish(msg)
+            msg = Point()
+            msg.x=self.b[0,0]
+            msg.y=self.b[1,0]
+            self.pub_b.publish(msg)
+
+
 
             # --- Validation
             # Validation logic - 5 consecutive validation checks to switch call switch target
@@ -261,28 +346,25 @@ class VirtualSBNode():
             else:
                 self.validation_count=0
 
-            self.x_SB_store.append(self.Z[0,0])
-            self.y_SB_store.append(self.Z[1,0])
+            # self.x_SB_store.append(self.Z[0,0])
+            # self.y_SB_store.append(self.Z[1,0])
 
-            # Plotting
-            if self.flag_plotting:
-                cla()
-                self.plot_wind.grid()
 
-                plot([self.a[0,0], self.b[0,0]], [self.a[1,0], self.b[1,0]], 'k')
-                plot(self.x_SB_store, self.y_SB_store, '--r')
-                plot(self.Z[0,0], self.Z[1,0], 'or')
-                x_rob, y_rob, psi_rob = self.pose_robot.pose.position.x, self.pose_robot.pose.position.y, self.pose_robot.pose.position.z
-                plot(x_rob, y_rob, 'ob')
-                plot([x_rob, x_rob+5*cos(psi_rob)], [y_rob, y_rob+5*sin(psi_rob)], 'b')
+            # self.u_robot_store.append(self.vel_robot_RB[0,0])
+            # self.v_robot_store.append(self.vel_robot_RB[1,0])
+            # self.r_robot_store.append(self.vel_robot_RB[2,0])
 
-                plot([self.Z[0,0], self.Z[0,0]+5*cos(self.Z[2,0])], [self.Z[1,0], self.Z[1,0]+5*sin(self.Z[2,0])], 'r')
-                plot([self.Z[0,0], self.Z[0,0]+5*cos(self.θ_bar)], [self.Z[1,0], self.Z[1,0]+5*sin(self.θ_bar)], 'g')
+            # self.u_SB_store.append(u_SB)
+            # self.v_SB_store.append(v_SB)
+            # self.r_SB_store.append(self.dZ[2,0])
 
-                wind = 10*self.awind * np.array([[cos(self.ψ)], [sin(self.ψ)]])
-                quiver(self.Z[0,0]+3, self.Z[1,0]+3, wind[0,0], wind[1,0])
-                pause(.001)
-                show(block=False)
+            # self.u1_store.append(self.u1)
+            # self.u2_store.append(self.u2)
+
+            # # Plotting
+            # if self.flag_plotting:
+            #     self.Plot()
+
 
             self.rate.sleep()
 
@@ -297,6 +379,98 @@ class VirtualSBNode():
             self.Z[0] = msg.pose.position.x
             self.Z[1] = msg.pose.position.y
             self.flag_first_round = 0
+
+    def Vel_Robot_callback(self, msg): 
+        self.vel_robot_RB = np.array([[msg.linear.x], [msg.linear.y], [msg.angular.z]])
+
+    def Command_callback(self, msg): 
+        '''
+            Parse command msg
+            Turn forward and turning speed to 1100 - 2000 values to override
+        '''
+        self.u1, self.u2 = msg.u1.data, msg.u2.data
+
+    def Reset_VSB_Service_callback(self, req): 
+        rospy.loginfo('[VSB] Reset VSB to current bboat pos')
+        self.Z = np.array([[self.pose_robot.pose.position.x], [self.pose_robot.pose.position.y], [self.pose_robot.pose.position.z], [0], [0]])
+
+        resp = True
+        return resp
+
+
+    # def Plot(self): 
+    #     # Plot en y abscisse, x ordonnée pour avoir North vers le haut
+    #     figure(1)
+    #     cla()
+    #     self.plot_wind.grid()
+    #     # self.plot_wind.invert_xaxis()
+    #     xlabel('y_0 : East')
+    #     ylabel('x_0 : North')
+
+
+    #     plot([self.a[1,0], self.b[1,0]], [self.a[0,0], self.b[0,0]], 'k')
+    #     plot(self.b[1,0], self.b[0,0], 'ok')
+    #     plot(self.y_SB_store, self.x_SB_store, '--r')
+    #     plot(self.Z[1,0], self.Z[0,0], 'or')
+
+    #     x_rob, y_rob, psi_rob = self.pose_robot.pose.position.x, self.pose_robot.pose.position.y, self.pose_robot.pose.position.z
+    #     plot(y_rob, x_rob, 'ob')
+    #     plot([y_rob, y_rob+5*sin(psi_rob)], [x_rob, x_rob+5*cos(psi_rob)], 'b')
+
+    #     plot([self.Z[1,0], self.Z[1,0]+5*sin(self.Z[2,0])], [self.Z[0,0], self.Z[0,0]+5*cos(self.Z[2,0])], 'r')
+    #     plot([self.Z[1,0], self.Z[1,0]+5*sin(self.θ_bar)],  [self.Z[0,0], self.Z[0,0]+5*cos(self.θ_bar)], 'g')
+
+    #     wind = 10*self.awind * np.array([[cos(self.ψ)], [sin(self.ψ)]])
+    #     quiver(self.b[1,0]+3, self.b[0,0]+3, wind[1,0], wind[0,0])
+        
+    #     pause(.0001)
+    #     show(block=False)
+
+
+        # figure(2)
+        # subplot(3,1,1)
+        # cla()
+        # grid()
+        # ylabel('u')
+        # if len(self.u_SB_store) > 50: 
+        #     plot(self.u_SB_store[len(self.u_SB_store)-50:len(self.u_SB_store)-1], '-b')
+        #     plot(self.u_robot_store[len(self.u_SB_store)-50:len(self.u_SB_store)-1], '-r')
+        #     plot(self.u1_store[len(self.u_SB_store)-50:len(self.u_SB_store)-1], '-g')
+        # else: 
+        #     plot(self.u_SB_store, '-b')
+        #     plot(self.u_robot_store, '-r')
+        #     plot(self.u1_store, '-g')
+
+        # subplot(3,1,2)
+        # cla()
+        # grid()
+        # if len(self.u_SB_store) > 50: 
+        #     plot(self.v_SB_store[len(self.v_SB_store)-50:len(self.v_SB_store)-1], '-b')
+        #     plot(self.v_robot_store[len(self.v_SB_store)-50:len(self.v_SB_store)-1], '-r')
+        # else: 
+        #     plot(self.v_SB_store, '-b')
+        #     plot(self.v_robot_store, '-r')
+        # ylabel('v')
+
+
+        # subplot(3,1,3)
+        # cla()
+        # grid()
+        # if len(self.u_SB_store) > 50: 
+        #     plot(self.r_SB_store[len(self.r_SB_store)-50:len(self.r_SB_store)-1], '-b')
+        #     plot(self.r_robot_store[len(self.r_SB_store)-50:len(self.r_SB_store)-1], '-r')
+        #     plot(self.u2_store[len(self.r_SB_store)-50:len(self.r_SB_store)-1], '-g')
+        # else: 
+        #     plot(self.r_SB_store, '-b')
+        #     plot(self.r_robot_store, '-r')
+        #     plot(self.u2_store, '-g')
+        # plot('r')
+
+        # pause(0.001)
+        # show(block=False)
+
+
+
 
 
 # Main function.

@@ -12,6 +12,23 @@ from numpy import mean,pi,cos,sin,sinc,sqrt,tan,arctan,arctan2,tanh,arcsin,arcco
 from numpy.random import randn,rand,uniform
 from numpy.linalg import inv, det, norm, eig,qr
 
+
+from geometry_msgs.msg import PoseStamped, Point, Twist
+
+
+from matplotlib.pyplot import *
+
+from bboat_pkg.msg import *
+
+MAX_SPEED_FWRD = 2.5 #m/s Bluerobotics website 
+MAX_SPEED_TURN = 0.7 #rad/s -> ~30cm between thruster and center
+
+U2_THRESH = 0.75
+
+
+lat_standard, lon_standard = 48.4180211,-4.4721604 # Bat M ENSTA
+
+
 def deg_to_Lamb (x1,y1):
 	transformer=Transformer.from_crs(4326,2154,always_xy=True)
 	point=[(x1,y1)]
@@ -41,28 +58,28 @@ def f_dubins(x,u):
 
 	return np.array([[dx], [dy], [dpsi]])
 
-#----------------------------------------
-# Sailboat Model function
-def f_SB(x,u, ψ, awind, P):
-    x,u=x.flatten(),u.flatten()
-    p0,p1,p2,p3,p4,p5,p6,p7,p8,p9 = P.flatten()
-    θ=x[2]; v=x[3]; w=x[4]; δr=u[0]; δsmax=u[1];
-    w_ap = np.array([[awind*cos(ψ-θ) - v],[awind*sin(ψ-θ)]])
-    ψ_ap = angle(w_ap)
-    a_ap=norm(w_ap)
-    sigma = cos(ψ_ap) + cos(δsmax)
-    if sigma < 0 :
-        δs = pi + ψ_ap
-    else :
-        δs = -sign(sin(ψ_ap))*δsmax
-    fr = p4*v*sin(δr)
-    fs = p3*(a_ap**2)* sin(δs-ψ_ap)
-    dx=v*cos(θ) + p0*awind*cos(ψ)
-    dy=v*sin(θ) + p0*awind*sin(ψ)
-    dv=(fs*sin(δs)-fr*sin(δr)-p1*v**2)/p8
-    dw=(fs*(p5-p6*cos(δs)) - p7*fr*cos(δr) - p2*w*v)/p9
-    xdot=np.array([ [dx],[dy],[w],[dv],[dw]])
-    return xdot,δs 
+# #----------------------------------------
+# # Sailboat Model function
+# def f_SB(x,u, ψ, awind, P):
+#     x,u=x.flatten(),u.flatten()
+#     p0,p1,p2,p3,p4,p5,p6,p7,p8,p9 = P.flatten()
+#     θ=x[2]; v=x[3]; w=x[4]; δr=u[0]; δsmax=u[1];
+#     w_ap = np.array([[awind*cos(ψ-θ) - v],[awind*sin(ψ-θ)]])
+#     ψ_ap = angle(w_ap)
+#     a_ap=norm(w_ap)
+#     sigma = cos(ψ_ap) + cos(δsmax)
+#     if sigma < 0 :
+#         δs = pi + ψ_ap
+#     else :
+#         δs = -sign(sin(ψ_ap))*δsmax
+#     fr = p4*v*sin(δr)
+#     fs = p3*(a_ap**2)* sin(δs-ψ_ap)
+#     dx=v*cos(θ) + p0*awind*cos(ψ)
+#     dy=v*sin(θ) + p0*awind*sin(ψ)
+#     dv=(fs*sin(δs)-fr*sin(δr)-p1*v**2)/p8
+#     dw=(fs*(p5-p6*cos(δs)) - p7*fr*cos(δr) - p2*w*v)/p9
+#     xdot=np.array([ [dx],[dy],[w],[dv],[dw]])
+#     return xdot,δs 
 
 #----------------------------------------
 def angle(x):

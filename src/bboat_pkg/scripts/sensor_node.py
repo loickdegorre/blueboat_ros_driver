@@ -4,7 +4,7 @@ import rospy
 from math import pi, cos, sin
 import numpy as np
 
-from geometry_msgs.msg import PoseStamped, Point, TransformStamped
+from geometry_msgs.msg import PoseStamped, Point, TransformStamped, TwistStamped, Twist
 import tf
 
 from std_msgs.msg import Float64
@@ -16,8 +16,6 @@ from sensor_msgs.msg import NavSatFix
 from bboat_pkg.srv import reset_lamb_serv, lambert_ref_serv
 
 from lib.bboat_lib import *
-
-lat_standard, lon_standard = 48.4180211,-4.4721604 # Bat M ENSTA
 
 
 class SensorNode():
@@ -39,16 +37,26 @@ class SensorNode():
 		self.flag_set_ref_lamb = True
 		self.ref_lamb = np.zeros((2,1))
 		self.pose_R0=np.zeros((3,1)) # x, y, psi local frame
+
 		self.vel_R0=np.zeros((3,1)) #dx, dy, dpsi local frame
+
+
+		self.vel_RB=np.zeros((3,1)) # u v r 
+
+
+		self.count_msg_gps = 0
 
 		# --- Subs
 		self.sub_pose_global = rospy.Subscriber('/mavros/global_position/global', NavSatFix, self.Pose_Global_callback)
 		rospy.wait_for_message('/mavros/global_position/global', NavSatFix, timeout=None)
 		self.sub_heading = rospy.Subscriber('/mavros/global_position/compass_hdg', Float64, self.Heading_callback)
 
-		
+		self.sub_vel = rospy.Subscriber('/mavros/local_position/velocity_body', TwistStamped, self.Velocity_callback)
+
 		# --- Pubs
 		self.pub_pose_R0 = rospy.Publisher('/pose_robot_R0', PoseStamped, queue_size=10)
+
+		self.pub_vel_RB = rospy.Publisher('/vel_robot_RB', Twist, queue_size=10)
 
 		# --- Service
 		rospy.Service('/reset_lamb_ref', reset_lamb_serv, self.Reset_Lamb_callback)
@@ -74,6 +82,12 @@ class SensorNode():
 			pose_msg.pose.position.z = self.pose_R0[2,0] #psi
 			# print(f'cap : {self.pose_R0[2,0]}')
 			self.pub_pose_R0.publish(pose_msg)
+
+			vel_msg = Twist()
+			vel_msg.linear.x = self.vel_RB[0,0]
+			vel_msg.linear.y = self.vel_RB[1,0]
+			vel_msg.angular.z = self.vel_RB[2,0]
+			self.pub_vel_RB.publish(vel_msg)
 
 
 			t = TransformStamped()
@@ -105,6 +119,10 @@ class SensorNode():
 			self.tf_broadcaster.sendTransformMessage(t)
 
 
+
+
+
+
 	def Pose_Global_callback(self, msg): 
 		'''
 			Parse GPS pose into local robot pose in lambert frame
@@ -115,11 +133,16 @@ class SensorNode():
 		if msg.status.status >= 0:
 			lat, lon = msg.latitude, msg.longitude
 		else: # --- Send ref lat and lon if no GPS fix - for testing
-			rospy.logwarn('[SENSOR] No GPS Fix') 
+			if self.count_msg_gps > 50:
+				rospy.logwarn('[SENSOR] No GPS Fix') 
+				self.count_msg_gps = 0
+			else:
+				self.count_msg_gps+=1
+				
 			lat,lon = lat_standard, lon_standard
-		# print(f'sensor lat {lat} lon {lon}')
-		x,y = deg_to_Lamb(lon, lat)	
-		# print(f'sensor pose lambert avant {x} | {y}')
+		
+		# x,y = deg_to_Lamb(lon, lat)	
+		y,x = deg_to_Lamb(lon, lat)	
 
 		# --- First call or when requested with service - Set lambert ref to current position
 		if self.flag_set_ref_lamb:
@@ -157,7 +180,9 @@ class SensorNode():
 		resp.y = self.ref_lamb[1,0]
 		return resp
 
+	def Velocity_callback(self, msg): 
 
+		self.vel_RB[0], self.vel_RB[1], self.vel_RB[2] = msg.twist.linear.x, msg.twist.linear.y, msg.twist.angular.z
 
 
 # Main function.

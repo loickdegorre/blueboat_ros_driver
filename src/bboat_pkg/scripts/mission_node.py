@@ -53,13 +53,12 @@ class MissionNode():
 			rospy.sleep(1)
 
 	def Next_Target_callback(self, req): 
-		rospy.loginfo('[MISSION] Next target service callback')
+		# rospy.loginfo('[MISSION] Next target service callback')
 		next_point = Pose()
 		if self.next_point_index < len(self.mission_points): 
 			rospy.loginfo('[MISSION] Next point, continue mission')
 			continue_mission = True
 			lat, lon = self.mission_points[self.next_point_index, 0], self.mission_points[self.next_point_index, 1]
-
 
 			next_point_lambert = deg_to_Lamb(lon, lat)
 
@@ -72,8 +71,14 @@ class MissionNode():
 
 			#print(f'mission : next point lambert apres {next_point_lambert[0]- self.ref_lamb[0,0]} | {next_point_lambert[1]- self.ref_lamb[1,0]}')
 
-			next_point.position.x = next_point_lambert[0]- self.ref_lamb[0,0]
-			next_point.position.y = next_point_lambert[1]- self.ref_lamb[1,0]	
+			# next_point.position.x = next_point_lambert[1]- self.ref_lamb[1,0]
+			# next_point.position.y = next_point_lambert[0]- self.ref_lamb[0,0]	
+
+			next_point.position.x = next_point_lambert[1]- self.ref_lamb[0,0]
+			next_point.position.y = next_point_lambert[0]- self.ref_lamb[1,0]	
+
+
+			print(f'-------------- point {self.next_point_index} lat {lat}, lon {lon} x {next_point.position.x}, y {next_point.position.y}')
 
 			self.current_target = np.array([[next_point.position.x], [next_point.position.y]])
 			self.next_point_index +=1
@@ -96,6 +101,7 @@ class MissionNode():
 			px.append(float(tab[0]))
 			py.append(float(tab[1]))
 		points = np.array([px,py])
+
 		return points.transpose()
 
 	def Ref_Lambert_callback(self, msg):
@@ -104,7 +110,21 @@ class MissionNode():
 
 	def Current_Target_callback(self, req):
 		trgt = Point()
-		trgt.x, trgt.y = self.current_target[0,0], self.current_target[1,0]
+
+		lat, lon = self.mission_points[0, 0], self.mission_points[0, 1]
+		next_point_lambert = deg_to_Lamb(lon, lat)
+
+		#print(f'mission : next point lambert {next_point_lambert[0]} | {next_point_lambert[1]}')
+
+		resp = self.client_ref_lambert(True)
+		self.ref_lamb[0,0] = resp.lambert_ref.x
+		self.ref_lamb[1,0] = resp.lambert_ref.y
+
+
+		#print(f'mission : next point lambert apres {next_point_lambert[0]- self.ref_lamb[0,0]} | {next_point_lambert[1]- self.ref_lamb[1,0]}')
+
+		trgt.x, trgt.y = next_point_lambert[1]- self.ref_lamb[0,0], next_point_lambert[0]- self.ref_lamb[1,0]
+
 		return trgt
 
 

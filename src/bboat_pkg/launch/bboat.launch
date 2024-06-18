@@ -1,6 +1,14 @@
 <launch>
 	
-	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" />
+	<!-- arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" / -->
+	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/boulouris_1.txt" />
+	
+	<arg name="record" default="false" />	
+		
+
+	<arg name="log" default="0" />
+
+	<arg name="plot" default="0" />
 
 	<!-- Setting ROS control -->
 	<node name="set_sysid"
@@ -32,19 +40,40 @@
 	output="screen"
 	/>
 
+	<!-- BBoat Logger node -->
+	<node name="bboat_logger_node"
+	type="logger_node.py"
+	pkg="bboat_pkg"
+	output="screen">
+		<param name="log" value="$(arg log)" />
+	</node>
 
+	<!-- BBoat Plotter node -->
+	<node name="bboat_plotter_node"
+	type="plotter_node.py"
+	pkg="bboat_pkg"
+	output="screen">
+		<param name="plot" value="$(arg plot)" />
+	</node>
 
 
 	<!-- BBoat Virtual Sail Boat node -->
 	<node name="bboat_vsb_node"
 	type="virtual_sb_node.py"
 	pkg="bboat_pkg"
-	output="screen"
-	/>
+	output="screen"/>
+	
 
 	<!-- BBoat Controller node -->
 	<node name="bboat_controller_node"
 	type="controller_node.py"
+	pkg="bboat_pkg"
+	output="screen"
+	/>
+
+	<!-- BBoat Camera node -->
+	<node name="bboat_camera_node"
+	type="camera_node.py"
 	pkg="bboat_pkg"
 	output="screen"
 	/>
@@ -55,5 +84,8 @@
 	pkg="joy"
 	output="screen"
 	/>
-	
+
+	<node pkg="rosbag" type="record" name="rosbag_record_cam"
+       args="record -a"
+       if="$(arg record)" />	
 </launch>
