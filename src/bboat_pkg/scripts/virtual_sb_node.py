@@ -346,25 +346,6 @@ class VirtualSBNode():
             else:
                 self.validation_count=0
 
-            # self.x_SB_store.append(self.Z[0,0])
-            # self.y_SB_store.append(self.Z[1,0])
-
-
-            # self.u_robot_store.append(self.vel_robot_RB[0,0])
-            # self.v_robot_store.append(self.vel_robot_RB[1,0])
-            # self.r_robot_store.append(self.vel_robot_RB[2,0])
-
-            # self.u_SB_store.append(u_SB)
-            # self.v_SB_store.append(v_SB)
-            # self.r_SB_store.append(self.dZ[2,0])
-
-            # self.u1_store.append(self.u1)
-            # self.u2_store.append(self.u2)
-
-            # # Plotting
-            # if self.flag_plotting:
-            #     self.Plot()
-
 
             self.rate.sleep()
 
@@ -396,81 +377,6 @@ class VirtualSBNode():
 
         resp = True
         return resp
-
-
-    # def Plot(self): 
-    #     # Plot en y abscisse, x ordonnée pour avoir North vers le haut
-    #     figure(1)
-    #     cla()
-    #     self.plot_wind.grid()
-    #     # self.plot_wind.invert_xaxis()
-    #     xlabel('y_0 : East')
-    #     ylabel('x_0 : North')
-
-
-    #     plot([self.a[1,0], self.b[1,0]], [self.a[0,0], self.b[0,0]], 'k')
-    #     plot(self.b[1,0], self.b[0,0], 'ok')
-    #     plot(self.y_SB_store, self.x_SB_store, '--r')
-    #     plot(self.Z[1,0], self.Z[0,0], 'or')
-
-    #     x_rob, y_rob, psi_rob = self.pose_robot.pose.position.x, self.pose_robot.pose.position.y, self.pose_robot.pose.position.z
-    #     plot(y_rob, x_rob, 'ob')
-    #     plot([y_rob, y_rob+5*sin(psi_rob)], [x_rob, x_rob+5*cos(psi_rob)], 'b')
-
-    #     plot([self.Z[1,0], self.Z[1,0]+5*sin(self.Z[2,0])], [self.Z[0,0], self.Z[0,0]+5*cos(self.Z[2,0])], 'r')
-    #     plot([self.Z[1,0], self.Z[1,0]+5*sin(self.θ_bar)],  [self.Z[0,0], self.Z[0,0]+5*cos(self.θ_bar)], 'g')
-
-    #     wind = 10*self.awind * np.array([[cos(self.ψ)], [sin(self.ψ)]])
-    #     quiver(self.b[1,0]+3, self.b[0,0]+3, wind[1,0], wind[0,0])
-        
-    #     pause(.0001)
-    #     show(block=False)
-
-
-        # figure(2)
-        # subplot(3,1,1)
-        # cla()
-        # grid()
-        # ylabel('u')
-        # if len(self.u_SB_store) > 50: 
-        #     plot(self.u_SB_store[len(self.u_SB_store)-50:len(self.u_SB_store)-1], '-b')
-        #     plot(self.u_robot_store[len(self.u_SB_store)-50:len(self.u_SB_store)-1], '-r')
-        #     plot(self.u1_store[len(self.u_SB_store)-50:len(self.u_SB_store)-1], '-g')
-        # else: 
-        #     plot(self.u_SB_store, '-b')
-        #     plot(self.u_robot_store, '-r')
-        #     plot(self.u1_store, '-g')
-
-        # subplot(3,1,2)
-        # cla()
-        # grid()
-        # if len(self.u_SB_store) > 50: 
-        #     plot(self.v_SB_store[len(self.v_SB_store)-50:len(self.v_SB_store)-1], '-b')
-        #     plot(self.v_robot_store[len(self.v_SB_store)-50:len(self.v_SB_store)-1], '-r')
-        # else: 
-        #     plot(self.v_SB_store, '-b')
-        #     plot(self.v_robot_store, '-r')
-        # ylabel('v')
-
-
-        # subplot(3,1,3)
-        # cla()
-        # grid()
-        # if len(self.u_SB_store) > 50: 
-        #     plot(self.r_SB_store[len(self.r_SB_store)-50:len(self.r_SB_store)-1], '-b')
-        #     plot(self.r_robot_store[len(self.r_SB_store)-50:len(self.r_SB_store)-1], '-r')
-        #     plot(self.u2_store[len(self.r_SB_store)-50:len(self.r_SB_store)-1], '-g')
-        # else: 
-        #     plot(self.r_SB_store, '-b')
-        #     plot(self.r_robot_store, '-r')
-        #     plot(self.u2_store, '-g')
-        # plot('r')
-
-        # pause(0.001)
-        # show(block=False)
-
-
-
 
 
 # Main function.

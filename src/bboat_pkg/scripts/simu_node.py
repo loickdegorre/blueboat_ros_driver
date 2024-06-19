@@ -5,8 +5,8 @@ import numpy as np
 import math
 
 from geometry_msgs.msg import  PoseStamped, TwistStamped, Point
-from bboat_pkg.srv import mode_serv, mode_servResponse
-from bboat_pkg.msg import cmd_msg
+# from bboat_pkg.srv import mode_serv, mode_servResponse
+# from bboat_pkg.msg import cmd_msg
 from lib.bboat_lib import *
 
 class SimuNode():
@@ -40,6 +40,9 @@ class SimuNode():
 
 		# --- Services
 		rospy.Service('/mode', mode_serv, self.Mode_Service_callback)
+
+
+		rospy.Service('/gains', gain_serv, self.Gain_Service_callback)
 
 		# --- Init done
 		rospy.loginfo('[SIMU] Simu node Start')
@@ -84,7 +87,24 @@ class SimuNode():
 		'''
 		resp = mode_servResponse()
 		resp.mode = "AUTO"
-		resp.mission = "VSB"
+		resp.mission = "PTN"
+		return resp
+
+	def Gain_Service_callback(self, req): 
+		resp = gain_servResponse()
+
+		resp.kp_1 = Float64(1.5)
+
+		resp.kd_1 = Float64(0)
+
+		resp.ki_1 = Float64(0)
+
+		resp.kp_2 = Float64(0.5)
+
+		resp.kd_2 = Float64(0)
+
+		resp.ki_2 = Float64(0)
+		# resp = self.gains
 		return resp
 
 # Main function.

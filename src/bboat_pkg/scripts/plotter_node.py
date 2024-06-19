@@ -21,6 +21,8 @@ class PlotterNode():
 
 		self.flag_plotting = rospy.get_param('/bboat_plotter_node/plot')
 
+		self.mode_simu = rospy.get_param('/bboat_plotter_node/mission_simu')
+
 
 
 		# --- Subs
@@ -32,28 +34,34 @@ class PlotterNode():
 		self.pose_rob = np.zeros((3,1))
 
 
-		self.sub_vsb_pose = rospy.Subscriber('/vSBPosition', PoseStamped, self.Pose_vSB_callback)
-		self.x_vsb_store = []
-		self.y_vsb_store = []
-		self.psi_vsb_store = []
-		self.pose_vsb = np.zeros((3,1))
+
+		rospy.wait_for_service('/current_target')
+		self.client_target = rospy.ServiceProxy('/current_target', current_target_serv)
+
+
+
+		if not self.mode_simu: 
+			self.sub_vsb_pose = rospy.Subscriber('/vSBPosition', PoseStamped, self.Pose_vSB_callback)
+			self.x_vsb_store = []
+			self.y_vsb_store = []
+			self.psi_vsb_store = []
+			self.pose_vsb = np.zeros((3,1))
+			self.vel_vsb_Rvsb = np.zeros((3,1))
+			self.u_vsb_store = []
+			self.v_vsb_store = []
+			self.r_vsb_store = []
+			self.sub_vsb_speed = rospy.Subscriber('/vSBSpeed', PoseStamped, self.Speed_vSB_callback)
+
+			self.sub_a = rospy.Subscriber('/a', Point, self.a_callback)
+			self.a = np.zeros((2,1))
+			self.sub_b = rospy.Subscriber('/b', Point, self.b_callback)
+			self.b = np.zeros((2,1))
 
 		self.vel_robot_RB = np.zeros((3,1))
 		self.u_rob_store = []
 		self.v_rob_store = []
 		self.r_rob_store = []
 		self.sub_vel_robot = rospy.Subscriber('/vel_robot_RB', Twist, self.Vel_Robot_callback)
-
-		self.vel_vsb_Rvsb = np.zeros((3,1))
-		self.u_vsb_store = []
-		self.v_vsb_store = []
-		self.r_vsb_store = []
-		self.sub_vsb_speed = rospy.Subscriber('/vSBSpeed', PoseStamped, self.Speed_vSB_callback)
-
-		self.sub_a = rospy.Subscriber('/a', Point, self.a_callback)
-		self.a = np.zeros((2,1))
-		self.sub_b = rospy.Subscriber('/b', Point, self.b_callback)
-		self.b = np.zeros((2,1))
 
 
 		self.u1, self.u2 = 0, 0
@@ -70,9 +78,9 @@ class PlotterNode():
 		if self.flag_plotting:
 			self.fig = figure(1)
 			self.plot_wind = self.fig.add_subplot(111, aspect='equal')
-
-			self.fig2 = figure(2)
-			self.plot_wind2 = self.fig2.add_subplot(131, aspect='equal')
+			if not self.mode_simu: 
+				self.fig2 = figure(2)
+				self.plot_wind2 = self.fig2.add_subplot(131, aspect='equal')
 
 
 		# --- Init done
@@ -83,17 +91,11 @@ class PlotterNode():
 		while not rospy.is_shutdown():
 			# rospy.loginfo('[PLOTTER] Plotter Loop')
 
-			self.u_vsb_store.append(self.vel_vsb_Rvsb[0,0])
-			self.v_vsb_store.append(self.vel_vsb_Rvsb[1,0])
-			self.r_vsb_store.append(self.vel_vsb_Rvsb[2,0])
+
 
 			self.x_rob_store.append(self.pose_rob[0,0])
 			self.y_rob_store.append(self.pose_rob[1,0])
 			self.psi_rob_store.append(self.pose_rob[2,0])
-
-			self.x_vsb_store.append(self.pose_vsb[0,0])
-			self.y_vsb_store.append(self.pose_vsb[1,0])
-			self.psi_vsb_store.append(self.pose_vsb[2,0])
 
 			self.u1_store.append(self.u1)
 			self.u2_store.append(self.u2)
@@ -102,9 +104,18 @@ class PlotterNode():
 			self.v_rob_store.append(self.vel_robot_RB[1,0])
 			self.r_rob_store.append(self.vel_robot_RB[2,0])
 
+			if not self.mode_simu: 
+				self.u_vsb_store.append(self.vel_vsb_Rvsb[0,0])
+				self.v_vsb_store.append(self.vel_vsb_Rvsb[1,0])
+				self.r_vsb_store.append(self.vel_vsb_Rvsb[2,0])
+				
+				self.x_vsb_store.append(self.pose_vsb[0,0])
+				self.y_vsb_store.append(self.pose_vsb[1,0])
+				self.psi_vsb_store.append(self.pose_vsb[2,0])
+
 			self.Plot_1()
 
-			self.Plot_2()
+			# self.Plot_2()
 
 			self.rate.sleep()
 
@@ -165,17 +176,22 @@ class PlotterNode():
 		xlabel('y_0 : East')
 		ylabel('x_0 : North')
 
+		if not self.mode_simu: 
+			plot([self.a[1,0], self.b[1,0]], [self.a[0,0], self.b[0,0]], 'k')
 
-		plot([self.a[1,0], self.b[1,0]], [self.a[0,0], self.b[0,0]], 'k')
-		plot(self.b[1,0], self.b[0,0], 'ok')
-		plot(self.y_vsb_store, self.x_vsb_store, '--r')
-		plot(self.pose_vsb[1,0], self.pose_vsb[0,0], 'or')
+			plot(self.y_vsb_store, self.x_vsb_store, '--r')
+			plot(self.pose_vsb[1,0], self.pose_vsb[0,0], 'or')
+			plot([self.pose_vsb[1,0], self.pose_vsb[1,0]+5*sin(self.pose_vsb[2,0])], [self.pose_vsb[0,0], self.pose_vsb[0,0]+5*cos(self.pose_vsb[2,0])], 'r')
+		
+		else: 
+			pt = self.client_target(True)
+			plot( pt.target.y, pt.target.x, 'ok')
 
 		x_rob, y_rob, psi_rob = self.pose_rob.flatten()
+
 		plot(y_rob, x_rob, 'ob')
 		plot([y_rob, y_rob+5*sin(psi_rob)], [x_rob, x_rob+5*cos(psi_rob)], 'b')
 
-		plot([self.pose_vsb[1,0], self.pose_vsb[1,0]+5*sin(self.pose_vsb[2,0])], [self.pose_vsb[0,0], self.pose_vsb[0,0]+5*cos(self.pose_vsb[2,0])], 'r')
 		# plot([self.pose_vsb[1,0], self.pose_vsb[1,0]+5*sin(self.θ_bar)],  [self.pose_vsb[0,0], self.pose_vsb[0,0]+5*cos(self.θ_bar)], 'g')
 
 		# wind = 10*self.awind * np.array([[cos(self.ψ)], [sin(self.ψ)]])

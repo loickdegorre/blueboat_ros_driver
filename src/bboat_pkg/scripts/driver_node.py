@@ -88,7 +88,6 @@ class DriverNode():
         # --- Pubs
         self.pub_rc_override = rospy.Publisher('/mavros/rc/override', OverrideRCIn, queue_size=10)
 
-        self.pub_manual_control = rospy.Publisher('/mavros/manual_control/send', ManualControl, queue_size=10)
 
         # --- Services
         rospy.wait_for_service('/reset_lamb_ref')
@@ -141,11 +140,6 @@ class DriverNode():
                 self.prev_turn = turn
 
                 camera = int(1500+500*self.joy_cam)
-                # manual_msg = ManualControl()
-                # manual_msg.z = 1000*self.joy_fwrd 
-                # manual_msg.r = 1000*self.joy_turn   
-
-                # self.pub_manual_control.publish(manual_msg)
 
 
             elif self.mode == "AUTO":

@@ -1,7 +1,10 @@
 <launch>
 	
-	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" />
+	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/mission_simu.txt" />
+	<arg name="mission_simu" default="1" />
 
+	<arg name="plot" default="1" />
+	
 	<!-- Setting ROS control -->
 	<node name="set_sysid"
 	pkg="mavros"
@@ -24,14 +27,15 @@
 	pkg="bboat_pkg"
 	output="screen">
 		<param name="filepath" value="$(arg filepath)" />
+		<param name="mission_simu" value="$(arg mission_simu)" />
 	</node>
 
 	<!-- BBoat Virtual Sail Boat node -->
-	<node name="bboat_vsb_node"
+	<!--node name="bboat_vsb_node"
 	type="virtual_sb_node.py"
 	pkg="bboat_pkg"
 	output="screen"
-	/>
+	/ -->
 
 	<!-- BBoat Controller node -->
 	<node name="bboat_controller_node"
@@ -46,5 +50,14 @@
 	pkg="joy"
 	output="screen"
 	/>
+	
+	<!-- BBoat Plotter node -->
+	<node name="bboat_plotter_node"
+	type="plotter_node.py"
+	pkg="bboat_pkg"
+	output="screen">
+		<param name="plot" value="$(arg plot)" />
+		<param name="mission_simu" value="$(arg mission_simu)" />
+	</node>
 	
 </launch>

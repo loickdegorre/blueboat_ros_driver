@@ -68,6 +68,7 @@ class ControllerNode():
 				connected = False
 
 
+
 		self.client_gains = rospy.ServiceProxy('/gains', gain_serv)
 		# rospy.wait_for_service('/gains')
 		# connected = False
@@ -88,7 +89,6 @@ class ControllerNode():
 			except resoyServiceException as exc:
 				rospy.logwarn(f'[CONTROLLER] Current Target service cannot be reached - {str(exc)}')
 				connected = False
-
 
 		# --- Init done
 		rospy.loginfo('[CONTROLLER] Controller node Start')

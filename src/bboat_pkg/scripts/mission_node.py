@@ -15,6 +15,8 @@ class MissionNode():
 		
 		self.mission_points = self.Parse_Mission_File()
 
+		self.mission_simu = rospy.get_param('/bboat_mission_node/mission_simu')
+
 		self.current_target = self.mission_points[0,:]
 
 		self.next_point_index = 0
@@ -22,19 +24,19 @@ class MissionNode():
 
 		self.ref_lamb = np.zeros((2,1))
 
-
-		rospy.wait_for_service('/lambert_ref')
-		connected = False
-		while not connected:
-			try:
-				self.client_ref_lambert = rospy.ServiceProxy('/lambert_ref', lambert_ref_serv)
-				connected = True
-			except rospy.ServiceException as exc:
-				rospy.logwarn(f'[MISSION] Lambert ref service cannot be reached - {str(exc)}')
-				connected = False
-		resp = self.client_ref_lambert(True)
-		self.ref_lamb[0,0] = resp.lambert_ref.x
-		self.ref_lamb[1,0] = resp.lambert_ref.y
+		if not self.mission_simu: 
+			rospy.wait_for_service('/lambert_ref')
+			connected = False
+			while not connected:
+				try:
+					self.client_ref_lambert = rospy.ServiceProxy('/lambert_ref', lambert_ref_serv)
+					connected = True
+				except rospy.ServiceException as exc:
+					rospy.logwarn(f'[MISSION] Lambert ref service cannot be reached - {str(exc)}')
+					connected = False
+			resp = self.client_ref_lambert(True)
+			self.ref_lamb[0,0] = resp.lambert_ref.x
+			self.ref_lamb[1,0] = resp.lambert_ref.y
 
 
 		rospy.Service('/next_target', next_target_serv, self.Next_Target_callback)
@@ -63,10 +65,10 @@ class MissionNode():
 			next_point_lambert = deg_to_Lamb(lon, lat)
 
 			#print(f'mission : next point lambert {next_point_lambert[0]} | {next_point_lambert[1]}')
-
-			resp = self.client_ref_lambert(True)
-			self.ref_lamb[0,0] = resp.lambert_ref.x
-			self.ref_lamb[1,0] = resp.lambert_ref.y
+			if not self.mission_simu: 
+				resp = self.client_ref_lambert(True)
+				self.ref_lamb[0,0] = resp.lambert_ref.x
+				self.ref_lamb[1,0] = resp.lambert_ref.y
 
 
 			#print(f'mission : next point lambert apres {next_point_lambert[0]- self.ref_lamb[0,0]} | {next_point_lambert[1]- self.ref_lamb[1,0]}')
@@ -111,20 +113,22 @@ class MissionNode():
 	def Current_Target_callback(self, req):
 		trgt = Point()
 
-		lat, lon = self.mission_points[0, 0], self.mission_points[0, 1]
-		next_point_lambert = deg_to_Lamb(lon, lat)
+		if not self.mission_simu: 
+			lat, lon = self.mission_points[0, 0], self.mission_points[0, 1]
+			next_point_lambert = deg_to_Lamb(lon, lat)
 
-		#print(f'mission : next point lambert {next_point_lambert[0]} | {next_point_lambert[1]}')
+			#print(f'mission : next point lambert {next_point_lambert[0]} | {next_point_lambert[1]}')
 
-		resp = self.client_ref_lambert(True)
-		self.ref_lamb[0,0] = resp.lambert_ref.x
-		self.ref_lamb[1,0] = resp.lambert_ref.y
+			resp = self.client_ref_lambert(True)
+			self.ref_lamb[0,0] = resp.lambert_ref.x
+			self.ref_lamb[1,0] = resp.lambert_ref.y
 
 
-		#print(f'mission : next point lambert apres {next_point_lambert[0]- self.ref_lamb[0,0]} | {next_point_lambert[1]- self.ref_lamb[1,0]}')
+			#print(f'mission : next point lambert apres {next_point_lambert[0]- self.ref_lamb[0,0]} | {next_point_lambert[1]- self.ref_lamb[1,0]}')
 
-		trgt.x, trgt.y = next_point_lambert[1]- self.ref_lamb[0,0], next_point_lambert[0]- self.ref_lamb[1,0]
-
+			trgt.x, trgt.y = next_point_lambert[1]- self.ref_lamb[0,0], next_point_lambert[0]- self.ref_lamb[1,0]
+		else: 
+			trgt.x, trgt.y = self.mission_points[0, 0], self.mission_points[0, 1]
 		return trgt
 
 
