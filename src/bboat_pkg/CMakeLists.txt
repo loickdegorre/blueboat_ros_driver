@@ -63,12 +63,8 @@ add_service_files(
   FILES
   reset_lamb_serv.srv
   next_target_serv.srv
-  mode_serv.srv
   lambert_ref_serv.srv
   current_target_serv.srv
-  gain_serv.srv
-  reset_vsb_serv.srv
-  path_description_serv.srv
 )
 
 ## Generate actions in the 'action' folder
