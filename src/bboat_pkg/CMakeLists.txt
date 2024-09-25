@@ -55,6 +55,7 @@ catkin_python_setup()
 add_message_files(
   FILES
   cmd_msg.msg
+  mode_msg.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -67,6 +68,7 @@ add_service_files(
   current_target_serv.srv
   gain_serv.srv
   reset_vsb_serv.srv
+  path_description_serv.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -117,7 +119,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES bboat_pkg
-#  CATKIN_DEPENDS rospy std_msgs
+ CATKIN_DEPENDS rospy std_msgs
 #  DEPENDS system_lib
 )
 

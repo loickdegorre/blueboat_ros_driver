@@ -1,7 +1,7 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
 messages_str = "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg"
-services_str = "/home/user/bboat_ws/src/bboat_pkg/srv/reset_lamb_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/mode_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/lambert_ref_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv"
+services_str = "/home/user/bboat_ws/src/bboat_pkg/srv/reset_lamb_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/mode_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/lambert_ref_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv;/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
 pkg_name = "bboat_pkg"
 dependencies_str = "std_msgs;nav_msgs;geometry_msgs;sensor_msgs"
 langs = "gencpp;geneus;genlisp;gennodejs;genpy"

@@ -610,6 +610,19 @@ nav_msgs_generate_messages_nodejs/fast:
 .PHONY : nav_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named _bboat_pkg_generate_messages_check_deps_reset_vsb_serv
+
+# Build rule for target.
+_bboat_pkg_generate_messages_check_deps_reset_vsb_serv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _bboat_pkg_generate_messages_check_deps_reset_vsb_serv
+.PHONY : _bboat_pkg_generate_messages_check_deps_reset_vsb_serv
+
+# fast build rule for target.
+_bboat_pkg_generate_messages_check_deps_reset_vsb_serv/fast:
+	$(MAKE) -f bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_vsb_serv.dir/build.make bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_vsb_serv.dir/build
+.PHONY : _bboat_pkg_generate_messages_check_deps_reset_vsb_serv/fast
+
+#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -818,6 +831,19 @@ bboat_pkg_generate_messages/fast:
 .PHONY : bboat_pkg_generate_messages/fast
 
 #=============================================================================
+# Target rules for targets named _bboat_pkg_generate_messages_check_deps_gain_serv
+
+# Build rule for target.
+_bboat_pkg_generate_messages_check_deps_gain_serv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _bboat_pkg_generate_messages_check_deps_gain_serv
+.PHONY : _bboat_pkg_generate_messages_check_deps_gain_serv
+
+# fast build rule for target.
+_bboat_pkg_generate_messages_check_deps_gain_serv/fast:
+	$(MAKE) -f bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_gain_serv.dir/build.make bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_gain_serv.dir/build
+.PHONY : _bboat_pkg_generate_messages_check_deps_gain_serv/fast
+
+#=============================================================================
 # Target rules for targets named _bboat_pkg_generate_messages_check_deps_reset_lamb_serv
 
 # Build rule for target.
@@ -877,6 +903,7 @@ help:
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... nav_msgs_generate_messages_nodejs"
+	@echo "... _bboat_pkg_generate_messages_check_deps_reset_vsb_serv"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_py"
@@ -893,6 +920,7 @@ help:
 	@echo "... actionlib_msgs_generate_messages_nodejs"
 	@echo "... actionlib_msgs_generate_messages_py"
 	@echo "... bboat_pkg_generate_messages"
+	@echo "... _bboat_pkg_generate_messages_check_deps_gain_serv"
 	@echo "... _bboat_pkg_generate_messages_check_deps_reset_lamb_serv"
 .PHONY : help
 

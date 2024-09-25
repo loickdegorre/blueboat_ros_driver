@@ -52,6 +52,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/user/bboat_ws/src/bboat_pkg/srv/mode_serv.srv"
     "/home/user/bboat_ws/src/bboat_pkg/srv/lambert_ref_serv.srv"
     "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv"
+    "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv"
+    "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
     )
 endif()
 

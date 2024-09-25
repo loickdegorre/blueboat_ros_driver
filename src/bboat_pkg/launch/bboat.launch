@@ -1,7 +1,7 @@
 <launch>
 	
 	<!-- arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" / -->
-	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/boulouris_1.txt" />
+	<arg name="filepath" default="/home/luiz/catkin_ws/src/bboat_pkg/mission_files/4_pompes_4.txt" />
 	<arg name="mission_simu" default="0" />
 	
 	<arg name="record" default="false" />	
@@ -56,6 +56,7 @@
 	pkg="bboat_pkg"
 	output="screen">
 		<param name="plot" value="$(arg plot)" />
+		<param name="mission_simu" value="$(arg mission_simu)" />
 	</node>
 
 

@@ -1,6 +1,6 @@
 <launch>
 	
-	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/mission_simu.txt" />
+	<arg name="filepath" default="/home/luiz/catkin_ws/src/bboat_pkg/mission_files/sinus_ensta.txt" />
 	<arg name="mission_simu" default="1" />
 
 	<arg name="plot" default="1" />
@@ -19,7 +19,6 @@
 	pkg="bboat_pkg"
 	output="screen"
 	/>
-
 
 	<!-- BBoat Mission node -->
 	<node name="bboat_mission_node"
@@ -44,12 +43,19 @@
 	output="screen"
 	/>
 
+	<!-- Sensor node -->
+	<node name="bboat_sensor_node"
+	type="sensor_node.py"
+	pkg="bboat_pkg"
+	output="screen"
+	/>
+
 	<!-- Joystick node -->
-	<node name="joystick_node"
+	<!-- <node name="joystick_node"
 	type="joy_node"
 	pkg="joy"
 	output="screen"
-	/>
+	/> -->
 	
 	<!-- BBoat Plotter node -->
 	<node name="bboat_plotter_node"

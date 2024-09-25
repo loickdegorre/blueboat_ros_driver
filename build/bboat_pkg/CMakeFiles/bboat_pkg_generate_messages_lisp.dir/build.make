@@ -59,6 +59,8 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/mode_serv.lisp
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/lambert_ref_serv.lisp
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/current_target_serv.lisp
+bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/gain_serv.lisp
+bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_vsb_serv.lisp
 
 
 /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/msg/cmd_msg.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
@@ -75,8 +77,8 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel
 /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/next_target_serv.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/next_target_serv.lisp: /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv
 /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/next_target_serv.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/next_target_serv.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/next_target_serv.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/next_target_serv.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from bboat_pkg/next_target_serv.srv"
 	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv
 
@@ -97,6 +99,17 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating Lisp code from bboat_pkg/current_target_serv.srv"
 	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv
 
+/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/gain_serv.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/gain_serv.lisp: /home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv
+/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/gain_serv.lisp: /opt/ros/noetic/share/std_msgs/msg/Float64.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Lisp code from bboat_pkg/gain_serv.srv"
+	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv
+
+/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_vsb_serv.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_vsb_serv.lisp: /home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating Lisp code from bboat_pkg/reset_vsb_serv.srv"
+	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv
+
 bboat_pkg_generate_messages_lisp: bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp
 bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/msg/cmd_msg.lisp
 bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_lamb_serv.lisp
@@ -104,6 +117,8 @@ bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ro
 bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/mode_serv.lisp
 bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/lambert_ref_serv.lisp
 bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/current_target_serv.lisp
+bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/gain_serv.lisp
+bboat_pkg_generate_messages_lisp: /home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_vsb_serv.lisp
 bboat_pkg_generate_messages_lisp: bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_lisp.dir/build.make
 
 .PHONY : bboat_pkg_generate_messages_lisp

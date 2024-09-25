@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "bboat_pkg: 1 messages, 5 services")
+message(STATUS "bboat_pkg: 1 messages, 7 services")
 
 set(MSG_I_FLAGS "-Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg;-Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg;-Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg;-Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg")
 
@@ -29,7 +29,7 @@ add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
 
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv" NAME_WE)
 add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv" "geometry_msgs/Quaternion:geometry_msgs/Point:geometry_msgs/Pose"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv" "geometry_msgs/Quaternion:geometry_msgs/Pose:geometry_msgs/Point"
 )
 
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/mode_serv.srv" NAME_WE)
@@ -45,6 +45,16 @@ add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv" NAME_WE)
 add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv" "geometry_msgs/Point"
+)
+
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
+add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" "std_msgs/Float64"
+)
+
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
+add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" ""
 )
 
 #
@@ -70,7 +80,7 @@ _generate_srv_cpp(bboat_pkg
 _generate_srv_cpp(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bboat_pkg
 )
 _generate_srv_cpp(bboat_pkg
@@ -89,6 +99,18 @@ _generate_srv_cpp(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_cpp(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_cpp(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bboat_pkg
 )
 
@@ -115,6 +137,10 @@ add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_ch
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/lambert_ref_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -143,7 +169,7 @@ _generate_srv_eus(bboat_pkg
 _generate_srv_eus(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bboat_pkg
 )
 _generate_srv_eus(bboat_pkg
@@ -162,6 +188,18 @@ _generate_srv_eus(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_eus(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_eus(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bboat_pkg
 )
 
@@ -188,6 +226,10 @@ add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_ch
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/lambert_ref_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -216,7 +258,7 @@ _generate_srv_lisp(bboat_pkg
 _generate_srv_lisp(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bboat_pkg
 )
 _generate_srv_lisp(bboat_pkg
@@ -235,6 +277,18 @@ _generate_srv_lisp(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_lisp(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_lisp(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bboat_pkg
 )
 
@@ -261,6 +315,10 @@ add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_c
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/lambert_ref_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -289,7 +347,7 @@ _generate_srv_nodejs(bboat_pkg
 _generate_srv_nodejs(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bboat_pkg
 )
 _generate_srv_nodejs(bboat_pkg
@@ -308,6 +366,18 @@ _generate_srv_nodejs(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_nodejs(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_nodejs(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bboat_pkg
 )
 
@@ -334,6 +404,10 @@ add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/lambert_ref_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -362,7 +436,7 @@ _generate_srv_py(bboat_pkg
 _generate_srv_py(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bboat_pkg
 )
 _generate_srv_py(bboat_pkg
@@ -381,6 +455,18 @@ _generate_srv_py(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_py(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_py(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bboat_pkg
 )
 
@@ -407,6 +493,10 @@ add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_che
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/lambert_ref_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

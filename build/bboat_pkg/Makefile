@@ -543,6 +543,21 @@ nav_msgs_generate_messages_nodejs/fast:
 .PHONY : nav_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
+bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_vsb_serv.dir/rule:
+	cd /home/user/bboat_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_vsb_serv.dir/rule
+.PHONY : bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_vsb_serv.dir/rule
+
+# Convenience name for target.
+_bboat_pkg_generate_messages_check_deps_reset_vsb_serv: bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_vsb_serv.dir/rule
+
+.PHONY : _bboat_pkg_generate_messages_check_deps_reset_vsb_serv
+
+# fast build rule for target.
+_bboat_pkg_generate_messages_check_deps_reset_vsb_serv/fast:
+	cd /home/user/bboat_ws/build && $(MAKE) -f bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_vsb_serv.dir/build.make bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_vsb_serv.dir/build
+.PHONY : _bboat_pkg_generate_messages_check_deps_reset_vsb_serv/fast
+
+# Convenience name for target.
 bboat_pkg/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
 	cd /home/user/bboat_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bboat_pkg/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 .PHONY : bboat_pkg/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
@@ -783,6 +798,21 @@ bboat_pkg_generate_messages/fast:
 .PHONY : bboat_pkg_generate_messages/fast
 
 # Convenience name for target.
+bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_gain_serv.dir/rule:
+	cd /home/user/bboat_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_gain_serv.dir/rule
+.PHONY : bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_gain_serv.dir/rule
+
+# Convenience name for target.
+_bboat_pkg_generate_messages_check_deps_gain_serv: bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_gain_serv.dir/rule
+
+.PHONY : _bboat_pkg_generate_messages_check_deps_gain_serv
+
+# fast build rule for target.
+_bboat_pkg_generate_messages_check_deps_gain_serv/fast:
+	cd /home/user/bboat_ws/build && $(MAKE) -f bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_gain_serv.dir/build.make bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_gain_serv.dir/build
+.PHONY : _bboat_pkg_generate_messages_check_deps_gain_serv/fast
+
+# Convenience name for target.
 bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_lamb_serv.dir/rule:
 	cd /home/user/bboat_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_lamb_serv.dir/rule
 .PHONY : bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_reset_lamb_serv.dir/rule
@@ -835,6 +865,7 @@ help:
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... nav_msgs_generate_messages_nodejs"
+	@echo "... _bboat_pkg_generate_messages_check_deps_reset_vsb_serv"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_py"
@@ -851,6 +882,7 @@ help:
 	@echo "... actionlib_msgs_generate_messages_nodejs"
 	@echo "... actionlib_msgs_generate_messages_py"
 	@echo "... bboat_pkg_generate_messages"
+	@echo "... _bboat_pkg_generate_messages_check_deps_gain_serv"
 	@echo "... _bboat_pkg_generate_messages_check_deps_reset_lamb_serv"
 .PHONY : help
 

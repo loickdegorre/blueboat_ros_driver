@@ -132,6 +132,7 @@ class SensorNode():
 		# --- Check GPS fix
 		if msg.status.status >= 0:
 			lat, lon = msg.latitude, msg.longitude
+
 		else: # --- Send ref lat and lon if no GPS fix - for testing
 			if self.count_msg_gps > 50:
 				rospy.logwarn('[SENSOR] No GPS Fix') 
@@ -140,7 +141,8 @@ class SensorNode():
 				self.count_msg_gps+=1
 				
 			lat,lon = lat_standard, lon_standard
-		
+
+
 		# x,y = deg_to_Lamb(lon, lat)	
 		y,x = deg_to_Lamb(lon, lat)	
 
