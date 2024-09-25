@@ -38,32 +38,23 @@ class CameraNode():
 		rospy.loginfo('[CAMERA] Camera Node Start')
 
 	def loop(self): 
-		# rospy.loginfo('[CAMERA] Camera node loop')
+		rospy.loginfo('[CAMERA] Camera node loop') 
+		rc_msg = OverrideRCIn()
+		for i in range(0,16):
+			chan = [1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500]
 
-		while not rospy.is_shutdown():
-
-			theta_cam = sawtooth(self.heading_rob - self.heading_vSB)
-			
-			if abs(theta_cam) > pi/2: 
-				theta_cam = sign(theta_cam)*pi/2
-
-			self.pub_cam_cmd.publish(theta_cam)
-
-			self.rate.sleep()
+			chan[i] = 1700
+			testst
 
 
+			rc_msg.channels = chan
+			self.pub_rc_override.publish(rc_msg)
+			print(i)
 
-	def Pose_Robot_callback(self, msg):
-		'''
-			Parse robot pose message - x, y, psi in local lambert frame R0
-		'''
-		self.heading_rob = msg.pose.position.z # psi
+			sleep(1)
 
-	def Pose_vSB_callback(self, msg):
-		'''
-			Parse Virtuasl Sailboat pose message - x, y, psi considered in local lambert frame R0
-		'''
-		self.heading_vSB = msg.pose.position.z
+		rc_msg.channels = [1500,1500,1500,1500,1600,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500]
+		self.pub_rc_override.publish(rc_msg)
 
 if __name__ == '__main__':
 	rospy.init_node('camera')
