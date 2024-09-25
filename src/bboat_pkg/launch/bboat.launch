@@ -9,8 +9,6 @@
 
 	<arg name="log" default="0" />
 
-	<arg name="plot" default="0" />
-
 	<!-- Setting ROS control -->
 	<node name="set_sysid"
 	pkg="mavros"
@@ -50,14 +48,7 @@
 		<param name="log" value="$(arg log)" />
 	</node>
 
-	<!-- BBoat Plotter node -->
-	<node name="bboat_plotter_node"
-	type="plotter_node.py"
-	pkg="bboat_pkg"
-	output="screen">
-		<param name="plot" value="$(arg plot)" />
-		<param name="mission_simu" value="$(arg mission_simu)" />
-	</node>
+	
 
 
 	<!-- BBoat Virtual Sail Boat node -->
