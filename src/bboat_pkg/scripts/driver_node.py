@@ -35,7 +35,7 @@ class DriverNode():
             - Joystick node
             - Command topic from controller node
         Publishers
-            - Mavros override - Sens forward and turning commands
+            - Mavros override - Sends forward and turning commands
         Service Clients
             - Reset Lambert Ref to current position client
             - Request current Lambert ref
@@ -88,6 +88,14 @@ class DriverNode():
         # --- Pubs
         self.pub_rc_override = rospy.Publisher('/mavros/rc/override', OverrideRCIn, queue_size=10)
 
+        self.mode_publisher = rospy.Publisher('/modepub', mode_msg , queue_size=10)
+        while self.mode_publisher.get_num_connections() == 0:
+            rospy.loginfo("Esperando por subscribers...")
+            rospy.sleep(1)
+
+        first_mode_msg = mode_msg()
+        first_mode_msg.mode = self.mode
+        first_mode_msg.mission = self.auto_mission
 
         # --- Services
         rospy.wait_for_service('/reset_lamb_ref')
@@ -113,7 +121,6 @@ class DriverNode():
 
         self.client_reset_vsb = rospy.ServiceProxy('/reset_vsb', reset_vsb_serv)
 
-        self.mode_publisher = rospy.Publisher('/modepub', mode_msg , queue_size=10)
 
         while self.mode_publisher.get_num_connections() == 0:
             rospy.loginfo("Esperando por subscribers...")
@@ -126,10 +133,8 @@ class DriverNode():
 
         self.mode_publisher.publish(first_mode_msg)
 
-
+        # --- Services
         rospy.Service('/gains', gain_serv, self.Gain_Service_callback)
-        rospy.Service('/mode', mode_serv, self.Mode_Service_callback)
-
 
         # --- Init done
         rospy.loginfo('[DRIVER] Driver Node Start')
@@ -143,17 +148,20 @@ class DriverNode():
             # Build and publish override message depending on mode
             rc_msg = OverrideRCIn()
             if self.mode == "MANUAL":
+                # Check direction depending on props
                 #fwrd = (1500+500*self.joy_fwrd) #int
                 #turn = (1500-500*self.joy_turn) #int
 
                 fwrd = (1500-500*self.joy_turn) #int
                 turn = (1500+500*self.joy_fwrd) #int
 
+                # Smoothing command values
                 fwrd = int(0.15*fwrd + 0.85*self.prev_fwrd)
                 turn = int(0.5*turn + 0.5*self.prev_turn)
                 self.prev_fwrd = fwrd
                 self.prev_turn = turn
 
+                # Camera control
                 camera = int(1500+500*self.joy_cam)
 
 
@@ -165,11 +173,12 @@ class DriverNode():
                 else:
                     camera = 1500
 
-            # print(f'{fwrd}, {turn}, {camera}')
+            # Sends RC commands
             # All unused channels set to neutral value seems safe
             rc_msg.channels = [turn,1500,fwrd,1500,1500,1500,camera,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500]
             self.pub_rc_override.publish(rc_msg)
 
+            # Print status every 50 loops
             if self.count_print == 50: 
                 if self.armed_flag:
                     rospy.loginfo(f'[DRIVER] Status : Armed | Mode : {self.mode} | Mission : {self.auto_mission} | Battery : {round(self.battery, 2)}')
@@ -188,7 +197,7 @@ class DriverNode():
 
     def Joy_callback(self, msg): 
         '''
-            Parse Jaystick message
+            Parse Joystick message
         '''
         #rospy.loginfo('[DRIVER] Joystick')
 
@@ -220,7 +229,7 @@ class DriverNode():
                     self.mode = "AUTO"
                 elif self.mode == "AUTO":
                     self.mode = "MANUAL"
-                rospy.loginfo(f'[DRIVER] {self.mode}')
+                rospy.loginfo(f'[DRIVER] Mode = {self.mode}')
 
                 msg = mode_msg()
                 msg.mode = self.mode
@@ -231,6 +240,7 @@ class DriverNode():
             if buttons[2]: 
                 self.client_reset_vsb(True)
 
+            # Allows setting gains with joystick in real time - unused
             if buttons[5] : 
                 self.index_gain = self.index_gain + 1
                 rospy.loginfo(f'Gains : index = {self.index_gain} | kp1 = {self.gains[0,0]} | ki1 = {self.gains[1,0]} | kd1 = {self.gains[2,0]} | kp2 = {self.gains[3,0]} | ki2 = {self.gains[4,0]} | kd2 = {self.gains[5,0]}')
@@ -294,12 +304,6 @@ class DriverNode():
         # elif not self.should_be_armed_flag and (self.should_be_armed_flag != self.armed_flag): 
         #     rospy.logwarn('[DRIVER] BBoat should NOT be armed but is armed')
 
-    def Mode_Service_callback(self, req):
-        '''
-            Sends mode on request
-        '''
-        resp = mode_servResponse(self.mode, self.auto_mission)
-        return resp
 
     def Command_callback(self, msg): 
         '''
