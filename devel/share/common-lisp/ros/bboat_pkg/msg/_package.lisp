@@ -3,5 +3,7 @@
   (:export
    "<CMD_MSG>"
    "CMD_MSG"
+   "<MODE_MSG>"
+   "MODE_MSG"
   ))
 

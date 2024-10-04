@@ -10,12 +10,11 @@ from time import sleep
 from mavros_msgs.msg import State, OverrideRCIn
 
 from lib.bboat_lib import *
+from lib.command_lib import *
 from bboat_pkg.msg import *
 
 import datetime, time
 import os
-
-from command_lib import *
 
 
 class LoggerNode(): 

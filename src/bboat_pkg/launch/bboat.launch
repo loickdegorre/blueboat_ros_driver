@@ -1,8 +1,8 @@
 <launch>
 	
-	<!-- arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" / -->
-	<arg name="filepath" default="/home/luiz/catkin_ws/src/bboat_pkg/mission_files/4_pompes_4.txt" />
+	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" />
 	<arg name="mission_simu" default="0" />
+
 	
 	<arg name="record" default="false" />	
 		
@@ -75,11 +75,11 @@
 	/>
 
 	<!-- BBoat Camera node -->
-	<node name="bboat_camera_node"
+	<!-- node name="bboat_camera_node"
 	type="camera_node.py"
 	pkg="bboat_pkg"
 	output="screen"
-	/>
+	/ -->
 
 	<!-- Joystick node -->
 	<node name="joystick_node"

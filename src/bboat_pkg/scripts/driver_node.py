@@ -196,13 +196,13 @@ class DriverNode():
         axes = msg.axes
         if not (buttons == self.buttons_prev):
             # Arm - Pause
-            if buttons[11]: #7
+            if buttons[7]: #XBOX 11
                 rospy.loginfo('[DRIVER] Arming Thrusters')
                 #call(["rosrun", "mavros", "mavsafety", "arm"])
                 os.system("rosrun mavros mavsafety arm")
                 self.should_be_armed_flag = True
             # Disarm - Reset   
-            if buttons[10]: #6
+            if buttons[6]: #XBOX 10
                 rospy.loginfo('[DRIVER] Disarming Thrusters')
                 # call(["rosrun", "mavros", "mavsafety", "disarm"])
                 os.system("rosrun mavros mavsafety disarm")

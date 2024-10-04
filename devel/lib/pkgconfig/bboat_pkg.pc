@@ -5,4 +5,4 @@ Description: Description of bboat_pkg
 Version: 0.0.0
 Cflags: -I/home/user/bboat_ws/devel/include
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: rospy std_msgs

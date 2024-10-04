@@ -16,6 +16,8 @@
     (:file "_package_mode_serv" :depends-on ("_package"))
     (:file "next_target_serv" :depends-on ("_package_next_target_serv"))
     (:file "_package_next_target_serv" :depends-on ("_package"))
+    (:file "path_description_serv" :depends-on ("_package_path_description_serv"))
+    (:file "_package_path_description_serv" :depends-on ("_package"))
     (:file "reset_lamb_serv" :depends-on ("_package_reset_lamb_serv"))
     (:file "_package_reset_lamb_serv" :depends-on ("_package"))
     (:file "reset_vsb_serv" :depends-on ("_package_reset_vsb_serv"))

@@ -42,7 +42,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/bboat_pkg/msg" TYPE FILE FILES "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/bboat_pkg/msg" TYPE FILE FILES
+    "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg"
+    "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg"
+    )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -54,6 +57,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/user/bboat_ws/src/bboat_pkg/srv/current_target_serv.srv"
     "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv"
     "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+    "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv"
     )
 endif()
 

@@ -10,11 +10,10 @@ import time
 from mavros_msgs.msg import State, OverrideRCIn
 
 from lib.bboat_lib import *
+from lib.command_lib import *
 from bboat_pkg.msg import *
 from bboat_pkg.srv import path_description_serv
 
-
-from command_lib import *
 
 import datetime, time
 import os

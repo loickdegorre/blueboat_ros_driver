@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "bboat_pkg: 1 messages, 7 services")
+message(STATUS "bboat_pkg: 2 messages, 8 services")
 
 set(MSG_I_FLAGS "-Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg;-Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg;-Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg;-Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg")
 
@@ -20,6 +20,11 @@ add_custom_target(bboat_pkg_generate_messages ALL)
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg" NAME_WE)
 add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg" "std_msgs/Float64"
+)
+
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg" NAME_WE)
+add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg" ""
 )
 
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_lamb_serv.srv" NAME_WE)
@@ -57,6 +62,11 @@ add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" ""
 )
 
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv" NAME_WE)
+add_custom_target(_bboat_pkg_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bboat_pkg" "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv" ""
+)
+
 #
 #  langs = gencpp;geneus;genlisp;gennodejs;genpy
 #
@@ -67,6 +77,12 @@ _generate_msg_cpp(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bboat_pkg
+)
+_generate_msg_cpp(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bboat_pkg
 )
 
@@ -109,6 +125,12 @@ _generate_srv_cpp(bboat_pkg
 )
 _generate_srv_cpp(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_cpp(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bboat_pkg
@@ -128,6 +150,8 @@ add_dependencies(bboat_pkg_generate_messages bboat_pkg_generate_messages_cpp)
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_lamb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv" NAME_WE)
@@ -141,6 +165,8 @@ add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_ch
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_cpp _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -156,6 +182,12 @@ _generate_msg_eus(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bboat_pkg
+)
+_generate_msg_eus(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bboat_pkg
 )
 
@@ -198,6 +230,12 @@ _generate_srv_eus(bboat_pkg
 )
 _generate_srv_eus(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_eus(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bboat_pkg
@@ -217,6 +255,8 @@ add_dependencies(bboat_pkg_generate_messages bboat_pkg_generate_messages_eus)
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_lamb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv" NAME_WE)
@@ -230,6 +270,8 @@ add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_ch
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_eus _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -245,6 +287,12 @@ _generate_msg_lisp(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bboat_pkg
+)
+_generate_msg_lisp(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bboat_pkg
 )
 
@@ -287,6 +335,12 @@ _generate_srv_lisp(bboat_pkg
 )
 _generate_srv_lisp(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_lisp(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bboat_pkg
@@ -306,6 +360,8 @@ add_dependencies(bboat_pkg_generate_messages bboat_pkg_generate_messages_lisp)
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_lamb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv" NAME_WE)
@@ -319,6 +375,8 @@ add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_c
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_lisp _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -334,6 +392,12 @@ _generate_msg_nodejs(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bboat_pkg
+)
+_generate_msg_nodejs(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bboat_pkg
 )
 
@@ -376,6 +440,12 @@ _generate_srv_nodejs(bboat_pkg
 )
 _generate_srv_nodejs(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bboat_pkg
+)
+_generate_srv_nodejs(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bboat_pkg
@@ -395,6 +465,8 @@ add_dependencies(bboat_pkg_generate_messages bboat_pkg_generate_messages_nodejs)
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_lamb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv" NAME_WE)
@@ -408,6 +480,8 @@ add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_nodejs _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -423,6 +497,12 @@ _generate_msg_py(bboat_pkg
   "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float64.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bboat_pkg
+)
+_generate_msg_py(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg"
+  "${MSG_I_FLAGS}"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bboat_pkg
 )
 
@@ -469,6 +549,12 @@ _generate_srv_py(bboat_pkg
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bboat_pkg
 )
+_generate_srv_py(bboat_pkg
+  "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bboat_pkg
+)
 
 ### Generating Module File
 _generate_module_py(bboat_pkg
@@ -484,6 +570,8 @@ add_dependencies(bboat_pkg_generate_messages bboat_pkg_generate_messages_py)
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/cmd_msg.msg" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/msg/mode_msg.msg" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_lamb_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv" NAME_WE)
@@ -497,6 +585,8 @@ add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_che
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/gain_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/reset_vsb_serv.srv" NAME_WE)
+add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv" NAME_WE)
 add_dependencies(bboat_pkg_generate_messages_py _bboat_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

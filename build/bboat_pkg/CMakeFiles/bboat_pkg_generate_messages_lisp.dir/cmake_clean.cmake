@@ -1,10 +1,12 @@
 file(REMOVE_RECURSE
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/msg/cmd_msg.lisp"
+  "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/msg/mode_msg.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/current_target_serv.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/gain_serv.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/lambert_ref_serv.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/mode_serv.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/next_target_serv.lisp"
+  "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/path_description_serv.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_lamb_serv.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_vsb_serv.lisp"
   "CMakeFiles/bboat_pkg_generate_messages_lisp"

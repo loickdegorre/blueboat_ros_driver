@@ -14,8 +14,8 @@ from bboat_pkg.msg import cmd_msg, mode_msg
 from bboat_pkg.srv import mode_serv, mode_servResponse, current_target_serv, gain_serv, gain_servResponse, path_description_serv
 
 from lib.bboat_lib import *
+from lib.command_lib import *
 
-from command_lib import *
 import time
 
 
@@ -225,7 +225,7 @@ class ControllerNode():
 
 				elif mode.mission == "PTN":
 
-					command_type = "SLID" #Select command law
+					command_type = "H" #Select command law
 
 					# For Matrix H control (Trajectory Following):
 					if(command_type == "H"):
