@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/user/bboat_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/home/user/bboats_ws/src/bboat_pkg"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/user/bboat_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/home/user/bboats_ws/src/bboat_pkg"
+    ]
+}

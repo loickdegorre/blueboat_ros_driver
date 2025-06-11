@@ -1,0 +1,300 @@
+{
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"include",
+			"generate_messages",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"build/bboat_pkg/cmake/bboat_pkg-genmsg.cmake",
+			"/opt/ros/noetic/share/genmsg/cmake/genmsg-extras.cmake",
+			"bboat_pkg/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 82,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 307,
+				"parent" : 1
+			},
+			{
+				"file" : 0,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 460,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 485,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 477,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 475,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 479,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 473,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 675,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 467,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 678,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 669,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 672,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 483,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 469,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 481,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 471,
+				"parent" : 3
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "_bboat_pkg_generate_messages_check_deps_path_description_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "_bboat_pkg_generate_messages_check_deps_lambert_ref_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "_bboat_pkg_generate_messages_check_deps_mode_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "_bboat_pkg_generate_messages_check_deps_current_target_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "_bboat_pkg_generate_messages_check_deps_next_target_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "geometry_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 11,
+			"id" : "_bboat_pkg_generate_messages_check_deps_cmd_msg::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 12,
+			"id" : "sensor_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 13,
+			"id" : "std_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 14,
+			"id" : "nav_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 15,
+			"id" : "_bboat_pkg_generate_messages_check_deps_reset_vsb_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 16,
+			"id" : "_bboat_pkg_generate_messages_check_deps_mode_msg::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 17,
+			"id" : "_bboat_pkg_generate_messages_check_deps_gain_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 18,
+			"id" : "_bboat_pkg_generate_messages_check_deps_reset_lamb_serv::@03b060ae1c40f2fb6e1f"
+		}
+	],
+	"id" : "bboat_pkg_generate_messages_nodejs::@03b060ae1c40f2fb6e1f",
+	"name" : "bboat_pkg_generate_messages_nodejs",
+	"paths" : 
+	{
+		"build" : "bboat_pkg",
+		"source" : "bboat_pkg"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "build/bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/msg/cmd_msg.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/msg/mode_msg.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/srv/reset_lamb_serv.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/srv/next_target_serv.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/srv/mode_serv.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/srv/lambert_ref_serv.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/srv/current_target_serv.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/srv/gain_serv.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/srv/reset_vsb_serv.js.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/share/gennodejs/ros/bboat_pkg/srv/path_description_serv.js.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

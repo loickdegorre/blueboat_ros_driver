@@ -1,0 +1,18 @@
+file(REMOVE_RECURSE
+  "../devel/share/common-lisp/ros/bboat_pkg/msg/cmd_msg.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/msg/mode_msg.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/srv/current_target_serv.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/srv/gain_serv.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/srv/lambert_ref_serv.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/srv/mode_serv.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/srv/next_target_serv.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/srv/path_description_serv.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/srv/reset_lamb_serv.lisp"
+  "../devel/share/common-lisp/ros/bboat_pkg/srv/reset_vsb_serv.lisp"
+  "CMakeFiles/bboat_pkg_generate_messages_lisp"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang )
+  include(CMakeFiles/bboat_pkg_generate_messages_lisp.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

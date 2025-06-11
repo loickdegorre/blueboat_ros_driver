@@ -1,0 +1,8 @@
+prefix=/home/user/bboat_ws/src/build/devel
+
+Name: bboat_pkg
+Description: Description of bboat_pkg
+Version: 0.0.0
+Cflags: -I/home/user/bboat_ws/src/build/devel/include
+Libs: -L${prefix}/lib 
+Requires: rospy std_msgs

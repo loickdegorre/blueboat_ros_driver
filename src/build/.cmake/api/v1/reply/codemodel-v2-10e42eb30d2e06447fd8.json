@@ -1,0 +1,663 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						4
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0.2"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						26,
+						27,
+						28,
+						43,
+						54
+					]
+				},
+				{
+					"build" : "gtest",
+					"childIndexes" : 
+					[
+						2
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "/usr/src/googletest"
+				},
+				{
+					"build" : "gtest/googlemock",
+					"childIndexes" : 
+					[
+						3
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6.4"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "/usr/src/googletest/googlemock",
+					"targetIndexes" : 
+					[
+						34,
+						35
+					]
+				},
+				{
+					"build" : "gtest/googletest",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6.4"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 3,
+					"source" : "/usr/src/googletest/googletest",
+					"targetIndexes" : 
+					[
+						36,
+						37
+					]
+				},
+				{
+					"build" : "bboat_pkg",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 4,
+					"source" : "bboat_pkg",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						29,
+						30,
+						31,
+						32,
+						33,
+						38,
+						39,
+						40,
+						41,
+						42,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						4
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						26,
+						27,
+						28,
+						43,
+						54
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						2
+					],
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "googletest-distribution",
+					"parentIndex" : 0
+				},
+				{
+					"childIndexes" : 
+					[
+						3
+					],
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "gmock",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						34,
+						35
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "gtest",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						36,
+						37
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "bboat_pkg",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						29,
+						30,
+						31,
+						32,
+						33,
+						38,
+						39,
+						40,
+						41,
+						42,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_cmd_msg::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_cmd_msg-Debug-f6142bdc36941c88b3c8.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_cmd_msg",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_current_target_serv::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_current_target_serv-Debug-d5b8255690f311c491f3.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_current_target_serv",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_gain_serv::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_gain_serv-Debug-afcd10ba6dfbfc256fb0.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_gain_serv",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_lambert_ref_serv::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_lambert_ref_serv-Debug-38d4f647335ec0a5c0ca.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_lambert_ref_serv",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_mode_msg::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_mode_msg-Debug-376d59c43a3d756c33fe.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_mode_msg",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_mode_serv::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_mode_serv-Debug-d1db758053b0910c239d.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_mode_serv",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_next_target_serv::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_next_target_serv-Debug-b76fec192f9677bfa6df.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_next_target_serv",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_path_description_serv::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_path_description_serv-Debug-f5efe9a5baae6957bd27.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_path_description_serv",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_reset_lamb_serv::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_reset_lamb_serv-Debug-718a97f9adce81ce17d7.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_reset_lamb_serv",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "_bboat_pkg_generate_messages_check_deps_reset_vsb_serv::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-_bboat_pkg_generate_messages_check_deps_reset_vsb_serv-Debug-1bbd1299e372baaebb0c.json",
+					"name" : "_bboat_pkg_generate_messages_check_deps_reset_vsb_serv",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "actionlib_msgs_generate_messages_cpp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-actionlib_msgs_generate_messages_cpp-Debug-018888c2461d1098e0f3.json",
+					"name" : "actionlib_msgs_generate_messages_cpp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "actionlib_msgs_generate_messages_eus::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-actionlib_msgs_generate_messages_eus-Debug-c242eef9d9a5b97e0225.json",
+					"name" : "actionlib_msgs_generate_messages_eus",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "actionlib_msgs_generate_messages_lisp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-actionlib_msgs_generate_messages_lisp-Debug-5c16e5dfaa3dfaca7967.json",
+					"name" : "actionlib_msgs_generate_messages_lisp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "actionlib_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-actionlib_msgs_generate_messages_nodejs-Debug-97cee68af534ed1fdb52.json",
+					"name" : "actionlib_msgs_generate_messages_nodejs",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "actionlib_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-actionlib_msgs_generate_messages_py-Debug-cd17cef7b5887ebb23f5.json",
+					"name" : "actionlib_msgs_generate_messages_py",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_gencpp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_gencpp-Debug-4de4270f953534fe219a.json",
+					"name" : "bboat_pkg_gencpp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_generate_messages::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_generate_messages-Debug-f080984998facebf1f11.json",
+					"name" : "bboat_pkg_generate_messages",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_generate_messages_cpp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_generate_messages_cpp-Debug-8e1561949012ad29bdb1.json",
+					"name" : "bboat_pkg_generate_messages_cpp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_generate_messages_eus::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_generate_messages_eus-Debug-c0e85e1839b1fa580e4d.json",
+					"name" : "bboat_pkg_generate_messages_eus",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_generate_messages_lisp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_generate_messages_lisp-Debug-a6b45686c7a33da76d0f.json",
+					"name" : "bboat_pkg_generate_messages_lisp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_generate_messages_nodejs::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_generate_messages_nodejs-Debug-265509454f52f7851d2d.json",
+					"name" : "bboat_pkg_generate_messages_nodejs",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_generate_messages_py::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_generate_messages_py-Debug-643b5ea0f8d0c15f7301.json",
+					"name" : "bboat_pkg_generate_messages_py",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_geneus::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_geneus-Debug-d46273efc345ec118bdc.json",
+					"name" : "bboat_pkg_geneus",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_genlisp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_genlisp-Debug-9a0a177369cd73045ae2.json",
+					"name" : "bboat_pkg_genlisp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_gennodejs::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_gennodejs-Debug-feb556114ecbfafb6098.json",
+					"name" : "bboat_pkg_gennodejs",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "bboat_pkg_genpy::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-bboat_pkg_genpy-Debug-abe4fb8e4222ed61a237.json",
+					"name" : "bboat_pkg_genpy",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "clean_test_results::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-clean_test_results-Debug-0c2d8f4834861a8f9446.json",
+					"name" : "clean_test_results",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "download_extra_data::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-download_extra_data-Debug-26d419a6bf2b582c2a72.json",
+					"name" : "download_extra_data",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "doxygen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-doxygen-Debug-88595cbda2a15872d775.json",
+					"name" : "doxygen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "geometry_msgs_generate_messages_cpp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-geometry_msgs_generate_messages_cpp-Debug-08226fe7e614c7f73497.json",
+					"name" : "geometry_msgs_generate_messages_cpp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "geometry_msgs_generate_messages_eus::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-geometry_msgs_generate_messages_eus-Debug-402a127f802cdd30cb1e.json",
+					"name" : "geometry_msgs_generate_messages_eus",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "geometry_msgs_generate_messages_lisp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-geometry_msgs_generate_messages_lisp-Debug-fe5af7a4cc4c1bab1ee6.json",
+					"name" : "geometry_msgs_generate_messages_lisp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "geometry_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-geometry_msgs_generate_messages_nodejs-Debug-c8044f757f78b3b74f92.json",
+					"name" : "geometry_msgs_generate_messages_nodejs",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "geometry_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-geometry_msgs_generate_messages_py-Debug-f4e54e500bc720463286.json",
+					"name" : "geometry_msgs_generate_messages_py",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "gmock::@e3f94eedc5dc07131386",
+					"jsonFile" : "target-gmock-Debug-31f91dd44a23975a9bb8.json",
+					"name" : "gmock",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "gmock_main::@e3f94eedc5dc07131386",
+					"jsonFile" : "target-gmock_main-Debug-cc10876429d25d8aa82b.json",
+					"name" : "gmock_main",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "gtest::@b738d542747fbb7ea6e3",
+					"jsonFile" : "target-gtest-Debug-d898f45654e826fa9517.json",
+					"name" : "gtest",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "gtest_main::@b738d542747fbb7ea6e3",
+					"jsonFile" : "target-gtest_main-Debug-474819b745854831aa0b.json",
+					"name" : "gtest_main",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nav_msgs_generate_messages_cpp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-nav_msgs_generate_messages_cpp-Debug-9e38b69c0d082a1457a4.json",
+					"name" : "nav_msgs_generate_messages_cpp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nav_msgs_generate_messages_eus::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-nav_msgs_generate_messages_eus-Debug-bd880bfb9440ce412988.json",
+					"name" : "nav_msgs_generate_messages_eus",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nav_msgs_generate_messages_lisp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-nav_msgs_generate_messages_lisp-Debug-12413d5a110c7e80db53.json",
+					"name" : "nav_msgs_generate_messages_lisp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nav_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-nav_msgs_generate_messages_nodejs-Debug-a1e84be144f6fe37d3e4.json",
+					"name" : "nav_msgs_generate_messages_nodejs",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nav_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-nav_msgs_generate_messages_py-Debug-9339e3e52584c1107a11.json",
+					"name" : "nav_msgs_generate_messages_py",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "run_tests::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-run_tests-Debug-8df51f7a33fa18f9de57.json",
+					"name" : "run_tests",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "sensor_msgs_generate_messages_cpp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-sensor_msgs_generate_messages_cpp-Debug-25ab9f23c680541f9987.json",
+					"name" : "sensor_msgs_generate_messages_cpp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "sensor_msgs_generate_messages_eus::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-sensor_msgs_generate_messages_eus-Debug-3aaeb469818135261b17.json",
+					"name" : "sensor_msgs_generate_messages_eus",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "sensor_msgs_generate_messages_lisp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-sensor_msgs_generate_messages_lisp-Debug-94620e6c8422c9233f4e.json",
+					"name" : "sensor_msgs_generate_messages_lisp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "sensor_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-sensor_msgs_generate_messages_nodejs-Debug-8bd293b9675220fa3086.json",
+					"name" : "sensor_msgs_generate_messages_nodejs",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "sensor_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-sensor_msgs_generate_messages_py-Debug-ab0845af348ec0033d88.json",
+					"name" : "sensor_msgs_generate_messages_py",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "std_msgs_generate_messages_cpp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-std_msgs_generate_messages_cpp-Debug-770a66714d9a4d10571c.json",
+					"name" : "std_msgs_generate_messages_cpp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "std_msgs_generate_messages_eus::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-std_msgs_generate_messages_eus-Debug-d70e60275cc10e6a8106.json",
+					"name" : "std_msgs_generate_messages_eus",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "std_msgs_generate_messages_lisp::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-std_msgs_generate_messages_lisp-Debug-799b28b3c98169348268.json",
+					"name" : "std_msgs_generate_messages_lisp",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "std_msgs_generate_messages_nodejs::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-std_msgs_generate_messages_nodejs-Debug-22f8f24b5c76cb1ab057.json",
+					"name" : "std_msgs_generate_messages_nodejs",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "std_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f",
+					"jsonFile" : "target-std_msgs_generate_messages_py-Debug-e195590dcc14021276c5.json",
+					"name" : "std_msgs_generate_messages_py",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "tests::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-tests-Debug-645674a8b6faee116c67.json",
+					"name" : "tests",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/user/bboat_ws/src/build",
+		"source" : "/home/user/bboat_ws/src"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

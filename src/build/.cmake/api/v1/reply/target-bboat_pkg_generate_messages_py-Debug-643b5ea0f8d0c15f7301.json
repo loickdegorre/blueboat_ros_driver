@@ -1,0 +1,314 @@
+{
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"include",
+			"generate_messages",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"build/bboat_pkg/cmake/bboat_pkg-genmsg.cmake",
+			"/opt/ros/noetic/share/genmsg/cmake/genmsg-extras.cmake",
+			"bboat_pkg/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 82,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 307,
+				"parent" : 1
+			},
+			{
+				"file" : 0,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 565,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 590,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 582,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 580,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 584,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 578,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 572,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 701,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 588,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 710,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 707,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 704,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 574,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 586,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 576,
+				"parent" : 3
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "_bboat_pkg_generate_messages_check_deps_path_description_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "_bboat_pkg_generate_messages_check_deps_lambert_ref_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "_bboat_pkg_generate_messages_check_deps_mode_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "_bboat_pkg_generate_messages_check_deps_current_target_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "_bboat_pkg_generate_messages_check_deps_next_target_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "_bboat_pkg_generate_messages_check_deps_cmd_msg::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 11,
+			"id" : "std_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 12,
+			"id" : "_bboat_pkg_generate_messages_check_deps_reset_vsb_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 13,
+			"id" : "sensor_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 14,
+			"id" : "geometry_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 15,
+			"id" : "nav_msgs_generate_messages_py::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 16,
+			"id" : "_bboat_pkg_generate_messages_check_deps_mode_msg::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 17,
+			"id" : "_bboat_pkg_generate_messages_check_deps_gain_serv::@03b060ae1c40f2fb6e1f"
+		},
+		{
+			"backtrace" : 18,
+			"id" : "_bboat_pkg_generate_messages_check_deps_reset_lamb_serv::@03b060ae1c40f2fb6e1f"
+		}
+	],
+	"id" : "bboat_pkg_generate_messages_py::@03b060ae1c40f2fb6e1f",
+	"name" : "bboat_pkg_generate_messages_py",
+	"paths" : 
+	{
+		"build" : "bboat_pkg",
+		"source" : "bboat_pkg"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "build/bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/msg/_cmd_msg.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/msg/_mode_msg.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/_reset_lamb_serv.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/_next_target_serv.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/_mode_serv.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/_lambert_ref_serv.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/_current_target_serv.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/_gain_serv.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/_reset_vsb_serv.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/_path_description_serv.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/devel/lib/python3/dist-packages/bboat_pkg/srv/__init__.py.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}
