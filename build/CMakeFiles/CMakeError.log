@@ -1,21 +1,21 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/user/bboat_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_7193a/fast && /usr/bin/make -f CMakeFiles/cmTC_7193a.dir/build.make CMakeFiles/cmTC_7193a.dir/build
+Run Build Command(s):/usr/bin/make cmTC_cda5c/fast && /usr/bin/make -f CMakeFiles/cmTC_cda5c.dir/build.make CMakeFiles/cmTC_cda5c.dir/build
 make[1]: Entering directory '/home/user/bboat_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_7193a.dir/src.c.o
-/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_7193a.dir/src.c.o   -c /home/user/bboat_ws/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_7193a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7193a.dir/link.txt --verbose=1
-/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_7193a.dir/src.c.o  -o cmTC_7193a 
-/usr/bin/ld: CMakeFiles/cmTC_7193a.dir/src.c.o: in function `main':
+Building C object CMakeFiles/cmTC_cda5c.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_cda5c.dir/src.c.o   -c /home/user/bboat_ws/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_cda5c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cda5c.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_cda5c.dir/src.c.o  -o cmTC_cda5c 
+/usr/bin/ld: CMakeFiles/cmTC_cda5c.dir/src.c.o: in function `main':
 src.c:(.text+0x46): undefined reference to `pthread_create'
 /usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
 /usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_7193a.dir/build.make:87: cmTC_7193a] Error 1
+make[1]: *** [CMakeFiles/cmTC_cda5c.dir/build.make:87: cmTC_cda5c] Error 1
 make[1]: Leaving directory '/home/user/bboat_ws/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_7193a/fast] Error 2
+make: *** [Makefile:121: cmTC_cda5c/fast] Error 2
 
 
 Source file was:
@@ -41,18 +41,18 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/user/bboat_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_20367/fast && /usr/bin/make -f CMakeFiles/cmTC_20367.dir/build.make CMakeFiles/cmTC_20367.dir/build
+Run Build Command(s):/usr/bin/make cmTC_f8e9b/fast && /usr/bin/make -f CMakeFiles/cmTC_f8e9b.dir/build.make CMakeFiles/cmTC_f8e9b.dir/build
 make[1]: Entering directory '/home/user/bboat_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_20367.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_20367.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_20367
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_20367.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_20367.dir/CheckFunctionExists.c.o  -o cmTC_20367  -lpthreads 
+Building C object CMakeFiles/cmTC_f8e9b.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_f8e9b.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_f8e9b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f8e9b.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_f8e9b.dir/CheckFunctionExists.c.o  -o cmTC_f8e9b  -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_20367.dir/build.make:87: cmTC_20367] Error 1
+make[1]: *** [CMakeFiles/cmTC_f8e9b.dir/build.make:87: cmTC_f8e9b] Error 1
 make[1]: Leaving directory '/home/user/bboat_ws/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_20367/fast] Error 2
+make: *** [Makefile:121: cmTC_f8e9b/fast] Error 2
 
 
 

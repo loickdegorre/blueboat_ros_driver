@@ -63,6 +63,7 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/l
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_gain_serv.py
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_reset_vsb_serv.py
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_path_description_serv.py
+bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_traj_serv.py
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/__init__.py
 
@@ -85,9 +86,9 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/l
 
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_next_target_serv.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_next_target_serv.py: /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv
+/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_next_target_serv.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_next_target_serv.py: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_next_target_serv.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_next_target_serv.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python code from SRV bboat_pkg/next_target_serv"
 	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv
 
@@ -124,6 +125,11 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/l
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating Python code from SRV bboat_pkg/path_description_serv"
 	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv
 
+/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_traj_serv.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
+/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_traj_serv.py: /home/user/bboat_ws/src/bboat_pkg/srv/traj_serv.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Python code from SRV bboat_pkg/traj_serv"
+	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/user/bboat_ws/src/bboat_pkg/srv/traj_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv
+
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/_cmd_msg.py
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/_mode_msg.py
@@ -135,7 +141,8 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/l
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_gain_serv.py
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_reset_vsb_serv.py
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_path_description_serv.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Python msg __init__.py for bboat_pkg"
+/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_traj_serv.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Python msg __init__.py for bboat_pkg"
 	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg --initpy
 
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
@@ -149,7 +156,8 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/l
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_gain_serv.py
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_reset_vsb_serv.py
 /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_path_description_serv.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Python srv __init__.py for bboat_pkg"
+/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/__init__.py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_traj_serv.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Generating Python srv __init__.py for bboat_pkg"
 	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv --initpy
 
 bboat_pkg_generate_messages_py: bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py
@@ -163,6 +171,7 @@ bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packa
 bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_gain_serv.py
 bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_reset_vsb_serv.py
 bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_path_description_serv.py
+bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_traj_serv.py
 bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/msg/__init__.py
 bboat_pkg_generate_messages_py: /home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/__init__.py
 bboat_pkg_generate_messages_py: bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_py.dir/build.make

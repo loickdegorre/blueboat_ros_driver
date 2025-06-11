@@ -9,6 +9,7 @@ file(REMOVE_RECURSE
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/path_description_serv.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_lamb_serv.lisp"
   "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/reset_vsb_serv.lisp"
+  "/home/user/bboat_ws/devel/share/common-lisp/ros/bboat_pkg/srv/traj_serv.lisp"
   "CMakeFiles/bboat_pkg_generate_messages_lisp"
 )
 

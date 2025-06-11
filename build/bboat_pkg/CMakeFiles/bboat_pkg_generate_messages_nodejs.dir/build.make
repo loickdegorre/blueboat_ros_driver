@@ -63,6 +63,7 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/dev
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/gain_serv.js
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/reset_vsb_serv.js
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/path_description_serv.js
+bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/traj_serv.js
 
 
 /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/msg/cmd_msg.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
@@ -83,9 +84,9 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/dev
 
 /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/next_target_serv.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/next_target_serv.js: /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv
+/home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/next_target_serv.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/next_target_serv.js: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
 /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/next_target_serv.js: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/next_target_serv.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Javascript code from bboat_pkg/next_target_serv.srv"
 	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv
 
@@ -122,6 +123,11 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/dev
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating Javascript code from bboat_pkg/path_description_serv.srv"
 	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv
 
+/home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/traj_serv.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/traj_serv.js: /home/user/bboat_ws/src/bboat_pkg/srv/traj_serv.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Javascript code from bboat_pkg/traj_serv.srv"
+	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/user/bboat_ws/src/bboat_pkg/srv/traj_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv
+
 bboat_pkg_generate_messages_nodejs: bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs
 bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/msg/cmd_msg.js
 bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/msg/mode_msg.js
@@ -133,6 +139,7 @@ bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ro
 bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/gain_serv.js
 bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/reset_vsb_serv.js
 bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/path_description_serv.js
+bboat_pkg_generate_messages_nodejs: /home/user/bboat_ws/devel/share/gennodejs/ros/bboat_pkg/srv/traj_serv.js
 bboat_pkg_generate_messages_nodejs: bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_nodejs.dir/build.make
 
 .PHONY : bboat_pkg_generate_messages_nodejs

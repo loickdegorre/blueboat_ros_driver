@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/user/bboat_ws/build
 include bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_next_target_serv.dir/progress.make
 
 bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_next_target_serv:
-	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py bboat_pkg /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv geometry_msgs/Quaternion:geometry_msgs/Pose:geometry_msgs/Point
+	cd /home/user/bboat_ws/build/bboat_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py bboat_pkg /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv geometry_msgs/Point:geometry_msgs/Quaternion:geometry_msgs/Pose
 
 _bboat_pkg_generate_messages_check_deps_next_target_serv: bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_next_target_serv
 _bboat_pkg_generate_messages_check_deps_next_target_serv: bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_next_target_serv.dir/build.make

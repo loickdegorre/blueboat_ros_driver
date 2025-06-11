@@ -9,13 +9,15 @@ from time import sleep
 
 from mavros_msgs.msg import State, OverrideRCIn
 
-from lib.bboat_lib import *
-from lib.command_lib import *
+from bboat_lib import *
+from command_lib import *
 from bboat_pkg.msg import *
 
 import datetime, time
 import os
 
+from virtual_sb_node import WIND_ANGLE, WIND_SPEED
+from controller_node import epsx, epsy, command_type
 
 class LoggerNode(): 
 	def __init__(self):
@@ -23,77 +25,64 @@ class LoggerNode():
 		self.rate = rospy.Rate(100)
 
 		self.log_flag = rospy.get_param('/bboat_logger_node/log')
+		self.flag_mission_traj = rospy.get_param('/bboat_controller_node/mission_traj')
+
 		if self.log_flag:
 
-			rospy.wait_for_service('/get_spline_points')
-			connected = False
-			while not connected:
-				try:
-					self.path_points_client = rospy.ServiceProxy('/get_spline_points', path_description_serv)
-					connected = True
-				except rospy.ServiceException as exc:
-					rospy.logwarn(f'[CONTROLLER] Path spline service cannot be reached - {str(exc)}')
-					connected = False
-
-			self.path_points = reconstruct_spline_matrix(self.path_points_client())
-
-
-			name = "first_slid"
-
 			now = datetime.datetime.now()
-			now_str = now.strftime("%Y-%m-%d_%H-%M-%S") + f"-{name}"
+			now_str = now.strftime("%Y-%m-%d_%H-%M-%S")
 
-			os.mkdir(f"/home/luiz/log_bboat2/{now_str}")
+			os.mkdir(f"/home/user/log_bboat/{now_str}")
 
-			filename_pose_rob = f"/home/luiz/log_bboat2/{now_str}/pose_rob.txt"
+			filename_pose_rob = f"/home/user/log_bboat/{now_str}/pose_rob.txt"
 
-			# filename_pose_vsb = f"/home/luiz/log_bboat/{now_str}/pose_vsb.txt"
+			filename_pose_vsb = f"/home/user/log_bboat/{now_str}/pose_vsb.txt"
 
-			filename_command = f"/home/luiz/log_bboat2/{now_str}/command.txt"
+			filename_command = f"/home/user/log_bboat/{now_str}/command.txt"
 
-			filename_target= f"/home/luiz/log_bboat2/{now_str}/control_target.txt"
+			filename_target= f"/home/user/log_bboat/{now_str}/control_target.txt"
 
-			filename_path = f"/home/luiz/log_bboat2/{now_str}/path.txt"
+			filename_vitesse = f"/home/user/log_bboat/{now_str}/speed.txt"
 
-			filename_vitesse = f"/home/luiz/log_bboat2/{now_str}/speed.txt"
+			filename_params = f"/home/user/log_bboat/{now_str}/params.txt"
 
 
 			self.f1=open(filename_pose_rob, 'w') 
 
-			# self.f2=open(filename_pose_vsb, 'w') 
+			self.f2=open(filename_pose_vsb, 'w') 
 
 			self.f3=open(filename_command, 'w') 
 
 			self.f4 = open(filename_target,'w')
 
-			self.f5 = open(filename_path,'w')
-
 			self.file_vitesse = open(filename_vitesse,'w')
-
-			if self.log_flag:
-				for i in range(len(self.path_points)):
-					np.savetxt(self.f5, self.path_points[i].flatten()[None], fmt='%s', delimiter=',')
-
 
 		# --- Subs
 		self.sub_pose_robot = rospy.Subscriber('/pose_robot_R0', PoseStamped, self.Pose_Robot_callback)
 		# rospy.wait_for_message('/pose_robot_R0', PoseStamped, timeout=None)
 
-		# self.sub_vsb_pose = rospy.Subscriber('/vSBPosition', PoseStamped, self.Pose_vSB_callback)
+		self.sub_vsb_pose = rospy.Subscriber('/vSBPosition', PoseStamped, self.Pose_vSB_callback)
 
 		self.sub_cmd = rospy.Subscriber('/command', cmd_msg, self.Command_callback)
 
 		self.sub_target = rospy.Subscriber('/control_target', Point, self.Control_Target_callback)
 
 		self.sub_vel_robot = rospy.Subscriber('/vel_robot_RB', Twist, self.Vel_Robot_callback)
+		self.a = np.zeros((2,1))
+		self.b = np.zeros((2,1))
+		self.sub_a = rospy.Subscriber('/a', Point, self.a_callback)
+		self.sub_b = rospy.Subscriber('/b', Point, self.b_callback)
+		
 
-		# time
-		# Pose robot
-		# Pose vSB
-		# command
+		# --- Param log
+		if self.log_flag :
+			self.file_params = open(filename_params, 'w')
+			self.file_params.write(f'Command {command_type} | epsx {epsx} | epsy {epsy} | wind speed {WIND_SPEED} | wind angle {WIND_ANGLE} ')
+
+			if not self.flag_mission_traj: rospy.wait_for_message('/a', Point, timeout=None)
 
 		# --- Init done
-		rospy.loginfo('[LOGGER] Logger Node Start')
+		rospy.loginfo('[LOGGER] Logger Node Initialized')
 
 	def loop (self): 
 		i=0
@@ -106,7 +95,8 @@ class LoggerNode():
 		self.f2.close()
 		self.f3.close()
 		self.f4.close()
-		self.f5.close()
+
+		self.file_params.close()
 
 	def Pose_Robot_callback(self, msg):
 		'''
@@ -154,6 +144,17 @@ class LoggerNode():
 			np.savetxt(self.file_vitesse, arr[None], fmt='%s', delimiter=',')
 
 			
+	def a_callback(self, msg):
+		self.a[0,0] = msg.x
+		self.a[1,0] = msg.y
+		np.savetxt(self.file_params, self.a, fmt='%s', delimiter=',')
+
+	def b_callback(self, msg):
+		self.b[0,0] = msg.x
+		self.b[1,0] = msg.y
+		np.savetxt(self.file_params, self.b, fmt='%s', delimiter=',')
+
+
 if __name__ == '__main__':
 	rospy.init_node('logger')
 

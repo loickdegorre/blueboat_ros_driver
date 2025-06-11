@@ -9,7 +9,8 @@ from time import sleep
 
 from mavros_msgs.msg import State, OverrideRCIn
 
-from lib.bboat_lib import *
+from bboat_lib import *
+from command_lib import *
 
 class CameraNode():
 	'''

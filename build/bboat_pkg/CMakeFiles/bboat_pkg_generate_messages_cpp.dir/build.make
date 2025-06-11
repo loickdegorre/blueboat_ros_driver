@@ -63,6 +63,7 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/gain_serv.h
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/reset_vsb_serv.h
 bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/path_description_serv.h
+bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/traj_serv.h
 
 
 /home/user/bboat_ws/devel/include/bboat_pkg/cmd_msg.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
@@ -87,9 +88,9 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/
 
 /home/user/bboat_ws/devel/include/bboat_pkg/next_target_serv.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
 /home/user/bboat_ws/devel/include/bboat_pkg/next_target_serv.h: /home/user/bboat_ws/src/bboat_pkg/srv/next_target_serv.srv
+/home/user/bboat_ws/devel/include/bboat_pkg/next_target_serv.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/user/bboat_ws/devel/include/bboat_pkg/next_target_serv.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
 /home/user/bboat_ws/devel/include/bboat_pkg/next_target_serv.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/user/bboat_ws/devel/include/bboat_pkg/next_target_serv.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/user/bboat_ws/devel/include/bboat_pkg/next_target_serv.h: /opt/ros/noetic/share/gencpp/msg.h.template
 /home/user/bboat_ws/devel/include/bboat_pkg/next_target_serv.h: /opt/ros/noetic/share/gencpp/srv.h.template
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating C++ code from bboat_pkg/next_target_serv.srv"
@@ -140,6 +141,13 @@ bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating C++ code from bboat_pkg/path_description_serv.srv"
 	cd /home/user/bboat_ws/src/bboat_pkg && /home/user/bboat_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/bboat_ws/src/bboat_pkg/srv/path_description_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/include/bboat_pkg -e /opt/ros/noetic/share/gencpp/cmake/..
 
+/home/user/bboat_ws/devel/include/bboat_pkg/traj_serv.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/user/bboat_ws/devel/include/bboat_pkg/traj_serv.h: /home/user/bboat_ws/src/bboat_pkg/srv/traj_serv.srv
+/home/user/bboat_ws/devel/include/bboat_pkg/traj_serv.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/user/bboat_ws/devel/include/bboat_pkg/traj_serv.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/bboat_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating C++ code from bboat_pkg/traj_serv.srv"
+	cd /home/user/bboat_ws/src/bboat_pkg && /home/user/bboat_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/bboat_ws/src/bboat_pkg/srv/traj_serv.srv -Ibboat_pkg:/home/user/bboat_ws/src/bboat_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p bboat_pkg -o /home/user/bboat_ws/devel/include/bboat_pkg -e /opt/ros/noetic/share/gencpp/cmake/..
+
 bboat_pkg_generate_messages_cpp: bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp
 bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/cmd_msg.h
 bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/mode_msg.h
@@ -151,6 +159,7 @@ bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/cur
 bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/gain_serv.h
 bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/reset_vsb_serv.h
 bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/path_description_serv.h
+bboat_pkg_generate_messages_cpp: /home/user/bboat_ws/devel/include/bboat_pkg/traj_serv.h
 bboat_pkg_generate_messages_cpp: bboat_pkg/CMakeFiles/bboat_pkg_generate_messages_cpp.dir/build.make
 
 .PHONY : bboat_pkg_generate_messages_cpp

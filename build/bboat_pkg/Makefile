@@ -498,6 +498,21 @@ std_msgs_generate_messages_py/fast:
 .PHONY : std_msgs_generate_messages_py/fast
 
 # Convenience name for target.
+bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir/rule:
+	cd /home/user/bboat_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir/rule
+.PHONY : bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir/rule
+
+# Convenience name for target.
+_bboat_pkg_generate_messages_check_deps_traj_serv: bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir/rule
+
+.PHONY : _bboat_pkg_generate_messages_check_deps_traj_serv
+
+# fast build rule for target.
+_bboat_pkg_generate_messages_check_deps_traj_serv/fast:
+	cd /home/user/bboat_ws/build && $(MAKE) -f bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir/build.make bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir/build
+.PHONY : _bboat_pkg_generate_messages_check_deps_traj_serv/fast
+
+# Convenience name for target.
 bboat_pkg/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule:
 	cd /home/user/bboat_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bboat_pkg/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
 .PHONY : bboat_pkg/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
@@ -892,6 +907,7 @@ help:
 	@echo "... nav_msgs_generate_messages_lisp"
 	@echo "... bboat_pkg_geneus"
 	@echo "... std_msgs_generate_messages_py"
+	@echo "... _bboat_pkg_generate_messages_check_deps_traj_serv"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_nodejs"

@@ -11,6 +11,7 @@ file(REMOVE_RECURSE
   "/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_path_description_serv.py"
   "/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_reset_lamb_serv.py"
   "/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_reset_vsb_serv.py"
+  "/home/user/bboat_ws/devel/lib/python3/dist-packages/bboat_pkg/srv/_traj_serv.py"
   "CMakeFiles/bboat_pkg_generate_messages_py"
 )
 

@@ -9,6 +9,7 @@ file(REMOVE_RECURSE
   "/home/user/bboat_ws/devel/include/bboat_pkg/path_description_serv.h"
   "/home/user/bboat_ws/devel/include/bboat_pkg/reset_lamb_serv.h"
   "/home/user/bboat_ws/devel/include/bboat_pkg/reset_vsb_serv.h"
+  "/home/user/bboat_ws/devel/include/bboat_pkg/traj_serv.h"
   "CMakeFiles/bboat_pkg_generate_messages_cpp"
 )
 

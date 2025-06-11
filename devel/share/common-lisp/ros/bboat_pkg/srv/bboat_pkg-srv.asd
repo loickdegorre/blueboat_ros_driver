@@ -22,4 +22,6 @@
     (:file "_package_reset_lamb_serv" :depends-on ("_package"))
     (:file "reset_vsb_serv" :depends-on ("_package_reset_vsb_serv"))
     (:file "_package_reset_vsb_serv" :depends-on ("_package"))
+    (:file "traj_serv" :depends-on ("_package_traj_serv"))
+    (:file "_package_traj_serv" :depends-on ("_package"))
   ))

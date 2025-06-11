@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "/home/user/bboat_ws/devel/share/roseus/ros/bboat_pkg/srv/path_description_serv.l"
   "/home/user/bboat_ws/devel/share/roseus/ros/bboat_pkg/srv/reset_lamb_serv.l"
   "/home/user/bboat_ws/devel/share/roseus/ros/bboat_pkg/srv/reset_vsb_serv.l"
+  "/home/user/bboat_ws/devel/share/roseus/ros/bboat_pkg/srv/traj_serv.l"
   "CMakeFiles/bboat_pkg_generate_messages_eus"
 )
 

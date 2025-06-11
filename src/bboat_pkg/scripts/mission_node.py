@@ -6,7 +6,7 @@ from geometry_msgs.msg import Pose, Point
 from scipy.interpolate import CubicSpline
 
 from bboat_pkg.srv import next_target_serv, next_target_servResponse, lambert_ref_serv, current_target_serv, path_description_serv, path_description_servResponse
-from lib.bboat_lib import *
+from bboat_lib import *
 
 class MissionNode(): 
 	def __init__(self): 
@@ -38,14 +38,14 @@ class MissionNode():
 		self.ref_lamb[0,0] = resp.lambert_ref.x
 		self.ref_lamb[1,0] = resp.lambert_ref.y
 
-		self.mission_spline = self.get_path_spline_points()
+		# self.mission_spline = self.get_path_spline_points()
 
 
 		rospy.Service('/next_target', next_target_serv, self.Next_Target_callback)
 
 		rospy.Service('/current_target', current_target_serv, self.Current_Target_callback)
 
-		rospy.Service('/get_spline_points', path_description_serv, self.handle_get_spline_points)
+		# rospy.Service('/get_spline_points', path_description_serv, self.handle_get_spline_points)
 
 
 		#print(f'mission : first ref lambert = {self.ref_lamb[0,0]} | {self.ref_lamb[1,0]}')
@@ -85,7 +85,7 @@ class MissionNode():
 			next_point.position.y = next_point_lambert[0]- self.ref_lamb[1,0]	
 
 
-			print(f'-------------- point {self.next_point_index} lat {lat}, lon {lon} x {next_point.position.x}, y {next_point.position.y}')
+			# print(f'-------------- point {self.next_point_index} lat {lat}, lon {lon} x {next_point.position.x}, y {next_point.position.y}')
 
 			self.current_target = np.array([[next_point.position.x], [next_point.position.y]])
 			self.next_point_index +=1
@@ -192,90 +192,90 @@ class MissionNode():
 	# 	# Return results
 	# 	return np.vstack((x, y, s, phi_f, curvature, g_c, dx, dy, ddx, ddy))
 	
-	def get_path_spline_points(self):
+	# def get_path_spline_points(self):
 
-			x = []
-			y = []
+	# 		x = []
+	# 		y = []
 
-			lat, lon = self.mission_points[:, 0], self.mission_points[:, 1]
-			resp = self.client_ref_lambert(True)
-			self.ref_lamb[0,0] = resp.lambert_ref.x
-			self.ref_lamb[1,0] = resp.lambert_ref.y
+	# 		lat, lon = self.mission_points[:, 0], self.mission_points[:, 1]
+	# 		resp = self.client_ref_lambert(True)
+	# 		self.ref_lamb[0,0] = resp.lambert_ref.x
+	# 		self.ref_lamb[1,0] = resp.lambert_ref.y
 
-			for i in range(len(lat)):
-				next_point_lambert = deg_to_Lamb(lon[i], lat[i])
-				x.append(next_point_lambert[1]- self.ref_lamb[0,0])
-				y.append(next_point_lambert[0]- self.ref_lamb[1,0])
+	# 		for i in range(len(lat)):
+	# 			next_point_lambert = deg_to_Lamb(lon[i], lat[i])
+	# 			x.append(next_point_lambert[1]- self.ref_lamb[0,0])
+	# 			y.append(next_point_lambert[0]- self.ref_lamb[1,0])
 
-			# Initial x and y coordinates
-			# x = np.array([2, -3, -8, -3, 2, -3, -8])
+	# 		# Initial x and y coordinates
+	# 		# x = np.array([2, -3, -8, -3, 2, -3, -8])
 
-			print(x)
-			print(y)
+	# 		print(x)
+	# 		print(y)
 			
-			# aux = y
-			# y = x
-			# x = aux
+	# 		# aux = y
+	# 		# y = x
+	# 		# x = aux
 
 
-			# Cubic spline interpolation
-			# cs = CubicSpline(x, y)
+	# 		# Cubic spline interpolation
+	# 		# cs = CubicSpline(x, y)
 
-			# Generate 10,000 evenly spaced points and interpolate x
-			# x = np.linspace(x[0], x[-1], 1000)
-			# # y = cs(x)
-			# y = np.linspace(y[0], y[-1], 1000)
+	# 		# Generate 10,000 evenly spaced points and interpolate x
+	# 		# x = np.linspace(x[0], x[-1], 1000)
+	# 		# # y = cs(x)
+	# 		# y = np.linspace(y[0], y[-1], 1000)
 
-			t = np.linspace(0, 1, len(x))
+	# 		t = np.linspace(0, 1, len(x))
 			
-			# Cria splines cúbicas para x(t) e y(t)
-			cs_x = CubicSpline(t, x)
-			cs_y = CubicSpline(t, y)
+	# 		# Cria splines cúbicas para x(t) e y(t)
+	# 		cs_x = CubicSpline(t, x)
+	# 		cs_y = CubicSpline(t, y)
 			
-			# Gera pontos para o parâmetro t
-			t_dense = np.linspace(t[0], t[-1], 10000)
-			x_dense = cs_x(t_dense)
-			y_dense = cs_y(t_dense)
+	# 		# Gera pontos para o parâmetro t
+	# 		t_dense = np.linspace(t[0], t[-1], 10000)
+	# 		x_dense = cs_x(t_dense)
+	# 		y_dense = cs_y(t_dense)
 			
-			# Calcula as distâncias e a distância cumulativa ao longo do caminho
-			distances = np.sqrt(np.diff(x_dense)**2 + np.diff(y_dense)**2)
-			s = np.zeros_like(x_dense)
-			s[1:] = np.cumsum(distances)
+	# 		# Calcula as distâncias e a distância cumulativa ao longo do caminho
+	# 		distances = np.sqrt(np.diff(x_dense)**2 + np.diff(y_dense)**2)
+	# 		s = np.zeros_like(x_dense)
+	# 		s[1:] = np.cumsum(distances)
 			
-			# Calcula ds/dt
-			ds_dt = np.gradient(s, t_dense)
+	# 		# Calcula ds/dt
+	# 		ds_dt = np.gradient(s, t_dense)
 			
-			# Calcula as derivadas primeira e segunda de x e y em relação a t
-			dx_dt = cs_x(t_dense, 1)
-			dy_dt = cs_y(t_dense, 1)
-			ddx_dt = cs_x(t_dense, 2)
-			ddy_dt = cs_y(t_dense, 2)
+	# 		# Calcula as derivadas primeira e segunda de x e y em relação a t
+	# 		dx_dt = cs_x(t_dense, 1)
+	# 		dy_dt = cs_y(t_dense, 1)
+	# 		ddx_dt = cs_x(t_dense, 2)
+	# 		ddy_dt = cs_y(t_dense, 2)
 			
-			# Converte as primeiras derivadas para serem em relação a s
-			dx_ds = dx_dt / ds_dt
-			dy_ds = dy_dt / ds_dt
+	# 		# Converte as primeiras derivadas para serem em relação a s
+	# 		dx_ds = dx_dt / ds_dt
+	# 		dy_ds = dy_dt / ds_dt
 			
-			# Converte as segundas derivadas para serem em relação a s
-			ddx_ds = (ddx_dt / ds_dt**2) - (dx_dt * np.gradient(ds_dt, t_dense) / ds_dt**3)
-			ddy_ds = (ddy_dt / ds_dt**2) - (dy_dt * np.gradient(ds_dt, t_dense) / ds_dt**3)
+	# 		# Converte as segundas derivadas para serem em relação a s
+	# 		ddx_ds = (ddx_dt / ds_dt**2) - (dx_dt * np.gradient(ds_dt, t_dense) / ds_dt**3)
+	# 		ddy_ds = (ddy_dt / ds_dt**2) - (dy_dt * np.gradient(ds_dt, t_dense) / ds_dt**3)
 			
-			# Calcula phi_f (ângulo do vetor tangente)
-			phi_f = np.arctan2(dy_ds, dx_ds)
+	# 		# Calcula phi_f (ângulo do vetor tangente)
+	# 		phi_f = np.arctan2(dy_ds, dx_ds)
 			
-			# Calcula a curvatura usando derivadas em relação a t
-			curvature = (dx_dt * ddy_dt - dy_dt * ddx_dt) / (dx_dt**2 + dy_dt**2)**1.5
+	# 		# Calcula a curvatura usando derivadas em relação a t
+	# 		curvature = (dx_dt * ddy_dt - dy_dt * ddx_dt) / (dx_dt**2 + dy_dt**2)**1.5
 			
-			# Calcula o gradiente da curvatura em relação a s
-			dc_ds = np.gradient(curvature, s)
-			g_c = dc_ds
+	# 		# Calcula o gradiente da curvatura em relação a s
+	# 		dc_ds = np.gradient(curvature, s)
+	# 		g_c = dc_ds
 
-			# Return results
-			return np.vstack((x_dense, y_dense, s, phi_f, curvature, g_c, dx_ds, dy_ds, ddx_ds, ddy_ds))
+	# 		# Return results
+	# 		return np.vstack((x_dense, y_dense, s, phi_f, curvature, g_c, dx_ds, dy_ds, ddx_ds, ddy_ds))
 	
 
-	def handle_get_spline_points(self, req):
-		result = self.mission_spline
-		return path_description_servResponse(x=result[0], y=result[1], s=result[2], phi_f=result[3], curvature=result[4], g_c=result[5], dx=result[6], dy=result[7], ddx=result[8], ddy=result[9])
+	# def handle_get_spline_points(self, req):
+	# 	result = self.mission_spline
+	# 	return path_description_servResponse(x=result[0], y=result[1], s=result[2], phi_f=result[3], curvature=result[4], g_c=result[5], dx=result[6], dy=result[7], ddx=result[8], ddy=result[9])
 
 
 

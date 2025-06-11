@@ -9,18 +9,18 @@ from std_msgs.msg import Bool, Float64
 
 from sensor_msgs.msg import Joy, BatteryState
 
-from mavros_msgs.msg import State, OverrideRCIn, ManualControl
+from mavros_msgs.msg import State, OverrideRCIn, ManualControl, RCIn
 
 from bboat_pkg.srv import reset_lamb_serv, mode_serv, mode_servResponse, lambert_ref_serv, gain_serv, reset_vsb_serv, gain_servResponse
 from bboat_pkg.msg import cmd_msg, mode_msg
-from lib.bboat_lib import *
+from bboat_lib import *
 
 from subprocess import call
 import os
 
 
 
-Missions = ["VSB", "CAP", "PTN"]
+Missions = ["VSB", "TRAJ", "CAP"]
 max_fwrd = 1700
 min_fwrd = 1300
 max_turn = 1700
@@ -51,7 +51,7 @@ class DriverNode():
         self.joy_cam = 0
 
         self.mode = "MANUAL" #MANUAL - AUTO
-        self.mission_index = 0
+        self.mission_index = 1
         self.auto_mission = Missions[self.mission_index]
         self.count_print = 0
         
@@ -63,6 +63,7 @@ class DriverNode():
         self.should_be_armed_flag = False
 
         self.buttons_prev = []
+        self.channels_rc_in = []
 
         self.prev_fwrd = 1500
         self.prev_turn = 1500
@@ -75,13 +76,15 @@ class DriverNode():
         self.index_gain = 0
 
         # --- Subs
-        rospy.Subscriber("/joy", Joy, self.Joy_callback)
+        # rospy.Subscriber("/joy", Joy, self.Joy_callback)
 
         rospy.Subscriber("/mavros/state", State, self.State_callback)
         rospy.wait_for_message("/mavros/state", State, timeout=None)
         rospy.Subscriber("/mavros/battery", BatteryState, self.Battery_callback)
 
         rospy.Subscriber("/cam_cmd", Float64, self.Camera_cmd_callback)
+
+        rospy.Subscriber("/mavros/rc/in", RCIn, self.RCIn_callback)
 
         self.sub_cmd = rospy.Subscriber('/command', cmd_msg, self.Command_callback)
 
@@ -116,7 +119,7 @@ class DriverNode():
         self.mode_publisher = rospy.Publisher('/modepub', mode_msg , queue_size=10)
 
         while self.mode_publisher.get_num_connections() == 0:
-            rospy.loginfo("Esperando por subscribers...")
+            rospy.loginfo("[DRIVER] Waiting for subscribers...")
             rospy.sleep(1)
 
         first_mode_msg = mode_msg()
@@ -132,32 +135,39 @@ class DriverNode():
 
 
         # --- Init done
-        rospy.loginfo('[DRIVER] Driver Node Start')
+        rospy.loginfo('[DRIVER] Driver Node Initialized')
 
 
     def loop(self): 
         # Main while loop.
         while not rospy.is_shutdown():
             #rospy.loginfo('[DRIVER] Heartbeat')
+            # Republish mode once per loop
+            msg = mode_msg()
+            msg.mode = self.mode
+            msg.mission = self.auto_mission
 
-            # Build and publish override message depending on mode
-            rc_msg = OverrideRCIn()
-            if self.mode == "MANUAL":
-                #fwrd = (1500+500*self.joy_fwrd) #int
-                #turn = (1500-500*self.joy_turn) #int
-
-                fwrd = (1500-500*self.joy_turn) #int
-                turn = (1500+500*self.joy_fwrd) #int
-
-                fwrd = int(0.15*fwrd + 0.85*self.prev_fwrd)
-                turn = int(0.5*turn + 0.5*self.prev_turn)
-                self.prev_fwrd = fwrd
-                self.prev_turn = turn
-
-                camera = int(1500+500*self.joy_cam)
+            self.mode_publisher.publish(msg)
 
 
-            elif self.mode == "AUTO":
+            # When modes are monitored with RC there is no need for a manual control of the props
+            # if self.mode == "MANUAL":
+            #     #fwrd = (1500+500*self.joy_fwrd) #int
+            #     #turn = (1500-500*self.joy_turn) #int
+
+            #     fwrd = (1500-500*self.joy_turn) #int
+            #     turn = (1500+500*self.joy_fwrd) #int
+
+            #     fwrd = int(0.15*fwrd + 0.85*self.prev_fwrd)
+            #     turn = int(0.5*turn + 0.5*self.prev_turn)
+            #     self.prev_fwrd = fwrd
+            #     self.prev_turn = turn
+
+            #     camera = int(1500+500*self.joy_cam)
+
+
+            # elif self.mode == "AUTO":
+            if self.mode == "AUTO":
                 fwrd = int(self.auto_cmd[0,0])
                 turn = int(self.auto_cmd[1,0])
                 if self.auto_mission == "VSB":
@@ -165,10 +175,12 @@ class DriverNode():
                 else:
                     camera = 1500
 
-            # print(f'{fwrd}, {turn}, {camera}')
-            # All unused channels set to neutral value seems safe
-            rc_msg.channels = [turn,1500,fwrd,1500,1500,1500,camera,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500]
-            self.pub_rc_override.publish(rc_msg)
+                # Build and publish override message only in auto mode
+                rc_msg = OverrideRCIn()
+
+                # All unused channels set to 0 to allow RC readings
+                rc_msg.channels = [turn,0,fwrd,0,0,0,camera,0,0,0,0,0,0,0,0,0,0,0]
+                self.pub_rc_override.publish(rc_msg)
 
             if self.count_print == 50: 
                 if self.armed_flag:
@@ -186,101 +198,101 @@ class DriverNode():
             self.rate.sleep()
 
 
-    def Joy_callback(self, msg): 
-        '''
-            Parse Jaystick message
-        '''
-        #rospy.loginfo('[DRIVER] Joystick')
+    # def Joy_callback(self, msg): 
+    #     '''
+    #         Parse Joystick message
+    #     '''
+    #     #rospy.loginfo('[DRIVER] Joystick')
 
-        buttons = msg.buttons
-        axes = msg.axes
-        if not (buttons == self.buttons_prev):
-            # Arm - Pause
-            if buttons[7]: #XBOX 11
-                rospy.loginfo('[DRIVER] Arming Thrusters')
-                #call(["rosrun", "mavros", "mavsafety", "arm"])
-                os.system("rosrun mavros mavsafety arm")
-                self.should_be_armed_flag = True
-            # Disarm - Reset   
-            if buttons[6]: #XBOX 10
-                rospy.loginfo('[DRIVER] Disarming Thrusters')
-                # call(["rosrun", "mavros", "mavsafety", "disarm"])
-                os.system("rosrun mavros mavsafety disarm")
-                self.should_be_armed_flag = False
+    #     buttons = msg.buttons
+    #     axes = msg.axes
+    #     if not (buttons == self.buttons_prev):
+    #         # # Arm - Pause
+    #         # if buttons[7]: #XBOX 11
+    #         #     rospy.loginfo('[DRIVER] Arming Thrusters')
+    #         #     #call(["rosrun", "mavros", "mavsafety", "arm"])
+    #         #     os.system("rosrun mavros mavsafety arm")
+    #         #     self.should_be_armed_flag = True
+    #         # # Disarm - Reset   
+    #         # if buttons[6]: #XBOX 10
+    #         #     rospy.loginfo('[DRIVER] Disarming Thrusters')
+    #         #     # call(["rosrun", "mavros", "mavsafety", "disarm"])
+    #         #     os.system("rosrun mavros mavsafety disarm")
+    #         #     self.should_be_armed_flag = False
 
-            # Reset Lambert reference - A
-            if buttons[0] : 
-                rospy.loginfo('[DRIVER] Reset Lambert')
-                resp = self.client_reset_lamb(True)
+    #         # Reset Lambert reference - A
+    #         if buttons[0] : 
+    #             rospy.loginfo('[DRIVER] Reset Lambert')
+    #             resp = self.client_reset_lamb(True)
 
-            # Switch mode - B
-            if buttons[1]: 
-                rospy.loginfo('[DRIVER] Switching mode to: ')    
-                if self.mode == "MANUAL":
-                    self.mode = "AUTO"
-                elif self.mode == "AUTO":
-                    self.mode = "MANUAL"
-                rospy.loginfo(f'[DRIVER] {self.mode}')
+    #         # # Switch mode - B
+    #         # if buttons[1]: 
+    #         #     rospy.loginfo('[DRIVER] Switching mode to: ')    
+    #         #     if self.mode == "MANUAL":
+    #         #         self.mode = "AUTO"
+    #         #     elif self.mode == "AUTO":
+    #         #         self.mode = "MANUAL"
+    #         #     rospy.loginfo(f'[DRIVER] {self.mode}')
 
-                msg = mode_msg()
-                msg.mode = self.mode
-                msg.mission = self.auto_mission
+    #         #     msg = mode_msg()
+    #         #     msg.mode = self.mode
+    #         #     msg.mission = self.auto_mission
 
-                self.mode_publisher.publish(msg)
+    #         #     self.mode_publisher.publish(msg)
 
-            if buttons[2]: 
-                self.client_reset_vsb(True)
+    #         if buttons[2]: 
+    #             self.client_reset_vsb(True)
 
-            if buttons[5] : 
-                self.index_gain = self.index_gain + 1
-                rospy.loginfo(f'Gains : index = {self.index_gain} | kp1 = {self.gains[0,0]} | ki1 = {self.gains[1,0]} | kd1 = {self.gains[2,0]} | kp2 = {self.gains[3,0]} | ki2 = {self.gains[4,0]} | kd2 = {self.gains[5,0]}')
-
-
-                if self.index_gain > 5: 
-                    self.index_gain = 0
-
-            if axes[7] == 1 : 
-                self.gains[self.index_gain, 0] = self.gains[self.index_gain, 0] + 0.05
-                rospy.loginfo(f'Gains : index = {self.index_gain} | kp1 = {self.gains[0,0]} | ki1 = {self.gains[1,0]} | kd1 = {self.gains[2,0]} | kp2 = {self.gains[3,0]} | ki2 = {self.gains[4,0]} | kd2 = {self.gains[5,0]}')
-
-            if axes[7] == -1 : 
-                self.gains[self.index_gain, 0] = self.gains[self.index_gain, 0] - 0.05
-                rospy.loginfo(f'Gains : index = {self.index_gain} | kp1 = {self.gains[0,0]} | ki1 = {self.gains[1,0]} | kd1 = {self.gains[2,0]} | kp2 = {self.gains[3,0]} | ki2 = {self.gains[4,0]} | kd2 = {self.gains[5,0]}')
-
-            if axes[6] == -1:
-                if self.mission_index < len(Missions)-1:
-                    self.mission_index += 1
-                else:
-                    self.mission_index = 0
-                self.auto_mission = Missions[self.mission_index]
-                rospy.loginfo(f'[DRIVER] Switching Mission to {self.auto_mission}')
-
-                msg = mode_msg()
-                msg.mode = self.mode
-                msg.mission = self.auto_mission
-
-                self.mode_publisher.publish(msg)
-
-            elif axes[6] == 1:
-                if self.mission_index > 0:
-                    self.mission_index -=1
-                else:
-                    self.mission_index = len(Missions)-1
-                self.auto_mission = Missions[self.mission_index]            
-                rospy.loginfo(f'[DRIVER] Switching Mission to {self.auto_mission}')
-
-                msg = mode_msg()
-                msg.mode = self.mode
-                msg.mission = self.auto_mission
-
-                self.mode_publisher.publish(msg)
+    #         if buttons[5] : 
+    #             self.index_gain = self.index_gain + 1
+    #             rospy.loginfo(f'Gains : index = {self.index_gain} | kp1 = {self.gains[0,0]} | ki1 = {self.gains[1,0]} | kd1 = {self.gains[2,0]} | kp2 = {self.gains[3,0]} | ki2 = {self.gains[4,0]} | kd2 = {self.gains[5,0]}')
 
 
-        # Joystick values between -1 and 1
-        self.joy_fwrd = axes[1]
-        self.joy_turn = axes[0]
+    #             if self.index_gain > 5: 
+    #                 self.index_gain = 0
 
-        self.joy_cam = axes[3]
+    #         # if axes[7] == 1 : 
+    #         #     self.gains[self.index_gain, 0] = self.gains[self.index_gain, 0] + 0.05
+    #         #     rospy.loginfo(f'Gains : index = {self.index_gain} | kp1 = {self.gains[0,0]} | ki1 = {self.gains[1,0]} | kd1 = {self.gains[2,0]} | kp2 = {self.gains[3,0]} | ki2 = {self.gains[4,0]} | kd2 = {self.gains[5,0]}')
+
+    #         # if axes[7] == -1 : 
+    #         #     self.gains[self.index_gain, 0] = self.gains[self.index_gain, 0] - 0.05
+    #         #     rospy.loginfo(f'Gains : index = {self.index_gain} | kp1 = {self.gains[0,0]} | ki1 = {self.gains[1,0]} | kd1 = {self.gains[2,0]} | kp2 = {self.gains[3,0]} | ki2 = {self.gains[4,0]} | kd2 = {self.gains[5,0]}')
+
+    #         # if axes[6] == -1:
+    #         #     if self.mission_index < len(Missions)-1:
+    #         #         self.mission_index += 1
+    #         #     else:
+    #         #         self.mission_index = 0
+    #         #     self.auto_mission = Missions[self.mission_index]
+    #         #     rospy.loginfo(f'[DRIVER] Switching Mission to {self.auto_mission}')
+
+    #         #     msg = mode_msg()
+    #         #     msg.mode = self.mode
+    #         #     msg.mission = self.auto_mission
+
+    #         #     self.mode_publisher.publish(msg)
+
+    #         # elif axes[6] == 1:
+    #         #     if self.mission_index > 0:
+    #         #         self.mission_index -=1
+    #         #     else:
+    #         #         self.mission_index = len(Missions)-1
+    #         #     self.auto_mission = Missions[self.mission_index]            
+    #         #     rospy.loginfo(f'[DRIVER] Switching Mission to {self.auto_mission}')
+
+    #         #     msg = mode_msg()
+    #         #     msg.mode = self.mode
+    #         #     msg.mission = self.auto_mission
+
+    #         #     self.mode_publisher.publish(msg)
+
+
+    #     # # Joystick values between -1 and 1
+    #     # self.joy_fwrd = axes[1]
+    #     # self.joy_turn = axes[0]
+
+    #     # self.joy_cam = axes[3]
 
     def State_callback(self, msg):
         '''
@@ -339,6 +351,34 @@ class DriverNode():
         resp.ki_2 = Float64(self.gains[5,0])
         # resp = self.gains
         return resp
+
+    def RCIn_callback(self, msg): 
+        # Receive and parse RCIN messages
+        self.channels_rc_in = msg.channels
+
+        # AUTO / MANUEL
+        if self.channels_rc_in[7] > 1600: 
+            self.mode = "AUTO"
+        else: 
+            self.mode = "MANUAL"
+        # rospy.loginfo(f'[DRIVER] {self.mode}')
+        # print(self.channels_rc_in[5])
+        if self.channels_rc_in[5] > 1900: 
+            if self.mission_index < len(Missions)-1:
+                self.mission_index += 1
+            else:
+                self.mission_index = 0
+            self.auto_mission = Missions[self.mission_index]
+            rospy.loginfo(f'[DRIVER] Switching Mission to {self.auto_mission}')
+
+            msg = mode_msg()
+            msg.mode = self.mode
+            msg.mission = self.auto_mission
+
+            self.mode_publisher.publish(msg)
+
+
+
 
 
 # Main function.

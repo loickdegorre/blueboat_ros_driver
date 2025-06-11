@@ -64,6 +64,7 @@
 /home/user/bboat_ws/build/bboat_pkg/CMakeFiles/nav_msgs_generate_messages_lisp.dir
 /home/user/bboat_ws/build/bboat_pkg/CMakeFiles/bboat_pkg_geneus.dir
 /home/user/bboat_ws/build/bboat_pkg/CMakeFiles/std_msgs_generate_messages_py.dir
+/home/user/bboat_ws/build/bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir
 /home/user/bboat_ws/build/bboat_pkg/CMakeFiles/sensor_msgs_generate_messages_cpp.dir
 /home/user/bboat_ws/build/bboat_pkg/CMakeFiles/geometry_msgs_generate_messages_eus.dir
 /home/user/bboat_ws/build/bboat_pkg/CMakeFiles/std_msgs_generate_messages_nodejs.dir

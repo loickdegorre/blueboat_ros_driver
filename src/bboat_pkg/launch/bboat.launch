@@ -1,7 +1,11 @@
 <launch>
 	
-	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" />
+	<!-- arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/default_mission.txt" / -->
+	<arg name="obstacle_filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/obs_0.txt" />
+	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/Guerledan_2.txt" />
+	
 	<arg name="mission_simu" default="0" />
+	<arg name="mission_traj" default="0" />
 
 	
 	<arg name="record" default="false" />	
@@ -48,6 +52,7 @@
 	pkg="bboat_pkg"
 	output="screen">
 		<param name="log" value="$(arg log)" />
+		<param name="mission_traj" value="$(arg mission_traj)" />
 	</node>
 
 	<!-- BBoat Plotter node -->
@@ -57,6 +62,8 @@
 	output="screen">
 		<param name="plot" value="$(arg plot)" />
 		<param name="mission_simu" value="$(arg mission_simu)" />
+		<param name="mission_traj" value="$(arg mission_traj)" />
+		<param name="obstacle_filepath" value="$(arg obstacle_filepath)" />
 	</node>
 
 
@@ -64,15 +71,20 @@
 	<node name="bboat_vsb_node"
 	type="virtual_sb_node.py"
 	pkg="bboat_pkg"
-	output="screen"/>
+	output="screen">
+		<param name="plot" value="$(arg plot)" />
+		<param name="log" value="$(arg log)" />
+		<param name="obstacle_filepath" value="$(arg obstacle_filepath)" />
+	</node>
 	
 
 	<!-- BBoat Controller node -->
 	<node name="bboat_controller_node"
 	type="controller_node.py"
 	pkg="bboat_pkg"
-	output="screen"
-	/>
+	output="screen">
+		<param name="mission_traj" value="$(arg mission_traj)" />
+	</node>
 
 	<!-- BBoat Camera node -->
 	<!-- node name="bboat_camera_node"
@@ -82,11 +94,11 @@
 	/ -->
 
 	<!-- Joystick node -->
-	<node name="joystick_node"
+	<!-- node name="joystick_node"
 	type="joy_node"
 	pkg="joy"
 	output="screen"
-	/>
+	/ -->
 
 	<node pkg="rosbag" type="record" name="rosbag_record_cam"
        args="record -a"

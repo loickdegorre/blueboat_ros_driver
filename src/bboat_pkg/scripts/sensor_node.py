@@ -15,7 +15,8 @@ from sensor_msgs.msg import NavSatFix
 
 from bboat_pkg.srv import reset_lamb_serv, lambert_ref_serv
 
-from lib.bboat_lib import *
+from bboat_lib import *
+from command_lib import *
 
 
 class SensorNode():
@@ -144,6 +145,7 @@ class SensorNode():
 
 
 		# x,y = deg_to_Lamb(lon, lat)	
+		# print(lon, lat)
 		y,x = deg_to_Lamb(lon, lat)	
 
 		# --- First call or when requested with service - Set lambert ref to current position
@@ -156,6 +158,8 @@ class SensorNode():
 
 		self.pose_R0[0,0] = x - self.ref_lamb[0]
 		self.pose_R0[1,0] = y - self.ref_lamb[1]
+
+		# rospy.loginfo(f'[SENSOR] Pose Rob {self.pose_R0}')
 
 	def Heading_callback(self, msg): 
 		'''

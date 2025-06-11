@@ -8,7 +8,8 @@ from geometry_msgs.msg import  PoseStamped, TwistStamped, Point
 from bboat_pkg.msg import mode_msg
 # from bboat_pkg.srv import mode_serv, mode_servResponse
 # from bboat_pkg.msg import cmd_msg
-from lib.bboat_lib import *
+from bboat_lib import *
+from command_lib import *
 
 class SimuNode():
 	'''

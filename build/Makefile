@@ -571,6 +571,19 @@ std_msgs_generate_messages_py/fast:
 .PHONY : std_msgs_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named _bboat_pkg_generate_messages_check_deps_traj_serv
+
+# Build rule for target.
+_bboat_pkg_generate_messages_check_deps_traj_serv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _bboat_pkg_generate_messages_check_deps_traj_serv
+.PHONY : _bboat_pkg_generate_messages_check_deps_traj_serv
+
+# fast build rule for target.
+_bboat_pkg_generate_messages_check_deps_traj_serv/fast:
+	$(MAKE) -f bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir/build.make bboat_pkg/CMakeFiles/_bboat_pkg_generate_messages_check_deps_traj_serv.dir/build
+.PHONY : _bboat_pkg_generate_messages_check_deps_traj_serv/fast
+
+#=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_cpp
 
 # Build rule for target.
@@ -926,6 +939,7 @@ help:
 	@echo "... nav_msgs_generate_messages_lisp"
 	@echo "... bboat_pkg_geneus"
 	@echo "... std_msgs_generate_messages_py"
+	@echo "... _bboat_pkg_generate_messages_check_deps_traj_serv"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_nodejs"

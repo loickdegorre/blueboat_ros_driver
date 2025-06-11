@@ -69,6 +69,7 @@ add_service_files(
   gain_serv.srv
   reset_vsb_serv.srv
   path_description_serv.srv
+  traj_serv.srv
 )
 
 ## Generate actions in the 'action' folder
