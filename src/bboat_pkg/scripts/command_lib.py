@@ -192,6 +192,44 @@ def command_LOSTT(n_state, target, state_error_integral, dt):
 
     return u, r, state_error_integral
 
+def command_State_Extent(n_state, v_robot, target, state_error_integral, dt, u):
+    pos_target = np.array([[target[0,0]], [target[1,0]], [0]]) # update 0 to add psi tracking
+    spe_target = np.array([[target[2,0]], [target[3,0]], [0]])
+
+
+    psi = n_state[2,0]
+
+    Rot = np.array([[np.cos(psi), -np.sin(psi), 0], 
+                    [np.sin(psi), np.cos(psi), 0], 
+                    [0, 0, 1]])    
+    
+    dn_state = Rot@v_robot
+
+    # Calculate the state error and update the integral of the state error
+    state_error = pos_target - n_state
+    dstate_error = spe_target - dn_state
+    state_error_integral += state_error * dt
+
+
+    Rot_cmd = np.array([[np.cos(psi), -u*np.sin(psi)], 
+                    [np.sin(psi), u*np.cos(psi)]])
+
+    Kp = 10.0*np.eye(3)
+    Kd = 1.0*np.eye(3)
+    Ki = 0.0*np.eye(3)
+    PID = Kp*state_error + Ki*state_error_integral + Kd*dstate_error
+    
+    if u!=0: 
+        V = np.linalg.inv(Rot_cmd)@PID
+    else: 
+        print("Control singularity")
+        V = np.array([[0], [0]])
+
+    u += V[0,0]*dt
+    r = V[1,0]
+
+    return u, r, state_error_integral
+
 
 def get_path_points():
 

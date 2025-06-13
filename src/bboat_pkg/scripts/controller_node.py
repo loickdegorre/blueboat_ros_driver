@@ -19,8 +19,8 @@ from command_lib import *
 import time
 
 epsx, epsy = 1,0
-## H - Model_based_guidance - ADRC_guidance - LOS_TT
-command_type = "LOS_TT" #Select command law 
+## H - Model_based_guidance - ADRC_guidance - LOS_TT - State_Extent
+command_type = "State_Extent" #Select command law 
 
 class ControllerNode(): 
 	'''
@@ -55,6 +55,9 @@ class ControllerNode():
 		self.V = np.zeros((2,1)) # ADRC virtual input V = [vx, vy]
 		self.Zx = np.zeros((2,1)) # Observer state [x, epsx]
 		self.Zy = np.zeros((2,1)) # Observer state [y, epsy]
+
+		# State extend
+		self.u_SE = 0
 
 
 		# --- Subs
@@ -275,6 +278,19 @@ class ControllerNode():
 						self.control_target = target
 						u1, u2, self.state_error_integral = command_LOSTT(self.pose_robot, self.control_target, self.state_error_integral, self.dT)
 					
+					elif(command_type == "State_Extent"): 
+						# Update target in trajectory tracking
+						if self.i < len(self.traj.trajx): 
+							target = np.array([[self.traj.trajx[self.i]], [self.traj.trajy[self.i]], [self.traj.trajdx[self.i]], [self.traj.trajdy[self.i]]])
+							self.i += 1
+						else: 
+							self.i = 0
+							rospy.loginfor('[CONTROLLER] Trajectory completed')
+						
+						self.control_target = target
+						u1, u2, self.state_error_integral = command_State_Extent(self.pose_robot, self.vel_robot_RB , self.control_target, self.state_error_integral, self.dT, self.u_SE)
+						self.u_SE = u1
+
 					# For Path Following AUV
 					# if(command_type == "AUV"):
 
