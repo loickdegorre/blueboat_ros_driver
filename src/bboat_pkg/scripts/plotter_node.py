@@ -87,16 +87,16 @@ class PlotterNode():
 			self.sub_vsb_speed = rospy.Subscriber('/vSBSpeed', PoseStamped, self.Speed_vSB_callback)
 
 			
-			self.a = np.zeros((2,1))
-			self.b = np.zeros((2,1))
-			self.sub_a = rospy.Subscriber('/a', Point, self.a_callback)
-			self.sub_b = rospy.Subscriber('/b', Point, self.b_callback)
-			rospy.wait_for_message('/a', Point, timeout=None)
+		# 	self.a = np.zeros((2,1))
+		# 	self.b = np.zeros((2,1))
+		# 	self.sub_a = rospy.Subscriber('/a', Point, self.a_callback)
+		# 	self.sub_b = rospy.Subscriber('/b', Point, self.b_callback)
+		# 	rospy.wait_for_message('/a', Point, timeout=None)
 
 
 
-			self.obstacle_file = rospy.get_param('/bboat_vsb_node/obstacle_filepath')
-			self.obstacles = self.Parse_Obstacle_File()
+		self.obstacle_file = rospy.get_param('/bboat_plotter_node/obstacle_filepath')
+		self.obstacles = self.Parse_Obstacle_File()
 
 
 
@@ -137,6 +137,8 @@ class PlotterNode():
 
 			#self.Plot_2()
 
+			# self.Plot_3()
+
 			self.u1_store.append(self.u1)
 			self.u2_store.append(self.u2)
 			self.x_rob_store.append(self.pose_rob[0,0])
@@ -145,13 +147,13 @@ class PlotterNode():
 			self.u_rob_store.append(self.vel_robot_RB[0,0])
 			self.v_rob_store.append(self.vel_robot_RB[1,0])
 			self.r_rob_store.append(self.vel_robot_RB[2,0])
-			if not self.flag_mission_traj:
-				self.u_vsb_store.append(self.vel_vsb_Rvsb[0,0])
-				self.v_vsb_store.append(self.vel_vsb_Rvsb[1,0])
-				self.r_vsb_store.append(self.vel_vsb_Rvsb[2,0])	
-				self.x_vsb_store.append(self.pose_vsb[0,0])
-				self.y_vsb_store.append(self.pose_vsb[1,0])
-				self.psi_vsb_store.append(self.pose_vsb[2,0])
+			# if not self.flag_mission_traj:
+			# 	self.u_vsb_store.append(self.vel_vsb_Rvsb[0,0])
+			# 	self.v_vsb_store.append(self.vel_vsb_Rvsb[1,0])
+			# 	self.r_vsb_store.append(self.vel_vsb_Rvsb[2,0])	
+			# 	self.x_vsb_store.append(self.pose_vsb[0,0])
+			# 	self.y_vsb_store.append(self.pose_vsb[1,0])
+			# 	self.psi_vsb_store.append(self.pose_vsb[2,0])
 
 
 			self.rate.sleep()
@@ -218,6 +220,7 @@ class PlotterNode():
 			F = float(tab[3])
 			obstacles.append([x, y, R, F])
 		file.close()
+		print(obstacles)
 		return obstacles
 
 
@@ -231,9 +234,6 @@ class PlotterNode():
 		ylabel('x_0 : North')
 
 
-		# if not self.mode_simu: 
-
-		# else: 
 		if self.flag_mission_traj: 
 			x_rob, y_rob, psi_rob = self.pose_rob.flatten()
 			pt = self.control_target
@@ -329,6 +329,39 @@ class PlotterNode():
 		ylabel('r')
 
 		pause(0.001)
+		show(block=False)
+
+	def Plot_3(self): 
+		# Plot en y abscisse, x ordonnée pour avoir North vers le haut
+		figure(1)
+		cla()
+		# self.plot_wind.grid()
+		# self.plot_wind.invert_xaxis()
+		xlabel('y_0 : East')
+		ylabel('x_0 : North')
+
+
+		x_rob, y_rob, psi_rob = self.pose_rob.flatten()
+		plot(y_rob, x_rob, 'ob')
+		plot([y_rob, y_rob+5*sin(psi_rob)], [x_rob, x_rob+5*cos(psi_rob)], 'b')
+		plot(self.y_rob_store, self.x_rob_store, '--b')
+
+
+		for i in range(0, len(self.obstacles), 1):
+			obs = self.obstacles[i]
+			plot(obs[1], obs[0], 'om', MarkerSize=obs[2])
+			# add_patch(plt.Circle(obs[0:2], obs[2], color='k', fill=False))
+
+
+
+		x_limit = [- 5000, 5000]
+		y_limit = [- 5000, 5000]
+
+		xlim(x_limit)
+		ylim(y_limit)
+
+
+		pause(.0001)
 		show(block=False)
 
 

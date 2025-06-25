@@ -5,13 +5,12 @@
 
 	<arg name="plot" default="0" />
 	
-	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/Guerledan_3.txt" />
+	<arg name="waypoint_filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/egonav_waypoint.txt" />
 	<arg name="obstacle_filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/egonav_obstacles.txt" />
-	
 	
 
 	<arg name="mission_simu" default="0" />
-	<arg name="mission_traj" default="1" />
+	<arg name="mission_traj" default="0" />
 	
 	<arg name="record" default="false" />	
 		
@@ -27,11 +26,12 @@
 	/>
 
 	<!-- BBoat Traj Tracking node -->
-	<node name="bboat_traj_tracking_node"
-	type="traj_tracking_node.py"
+	<node name="bboat_egonav_node"
+	type="ego_node.py"
 	pkg="bboat_pkg"
 	output="screen">
-		<param name="filepath" value="$(arg filepath)" />
+		<param name="waypoint_filepath" value="$(arg waypoint_filepath)" />
+		<param name="obstacle_filepath" value="$(arg obstacle_filepath)" />
 	</node>
 	
 	<!-- BBoat Driver node -->

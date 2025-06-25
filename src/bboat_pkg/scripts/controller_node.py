@@ -7,7 +7,7 @@ import math
 from pyproj import Proj, transform
 from pyproj import Transformer
 
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, Float32
 from geometry_msgs.msg import PoseStamped, Point, Twist
 
 from bboat_pkg.msg import cmd_msg, mode_msg
@@ -77,6 +77,10 @@ class ControllerNode():
 
 		self.vel_robot_RB = np.zeros((3,1))
 		self.sub_vel_robot = rospy.Subscriber('/vel_robot_RB', Twist, self.Vel_Robot_callback)
+
+		self.psi_ref = 0
+		self.sub_desired_heading = rospy.Subscriber('/desired_heading', Float32, self.Desired_Heading_callback)
+
 
 
 		self.inte_1 = 0
@@ -213,11 +217,14 @@ class ControllerNode():
 
 
 				elif mode.mission == "CAP":
-					u1 = 0.0
+					u1 = 1.
 
-					psi_des = 0# math.pi/2
-					Kp = 0.5
-					u2 = Kp*sawtooth(psi_des - psi_rob)
+					if self.psi_ref <0: 
+						self.psi_ref = 2*np.pi +self.psi_ref
+
+					# print(self.psi_ref, psi_rob)
+					Kp = 0.75
+					u2 = Kp*sawtooth(self.psi_ref - psi_rob)
 					
 					# rospy.loginfo(f'[CONTROLLER] CAP desired = {psi_des} robot = {psi_rob}')
 					# print(f'des {psi_des*180/math.pi} rob {psi_rob*180/math.pi} u2 {u2}')
@@ -232,7 +239,7 @@ class ControllerNode():
 							self.i += 1
 						else: 
 							self.i = 0
-							rospy.loginfor('[CONTROLLER] Trajectory completed')
+							rospy.loginfo('[CONTROLLER] Trajectory completed')
 						# print(target)
 						
 						# print(f'avant {self.control_target}')
@@ -249,7 +256,7 @@ class ControllerNode():
 							self.i += 1
 						else: 
 							self.i = 0
-							rospy.loginfor('[CONTROLLER] Trajectory completed')
+							rospy.loginfo('[CONTROLLER] Trajectory completed')
 						
 						self.control_target = target
 						u1, u2, self.state_error_integral = command_MBG(self.pose_robot, self.control_target, self.state_error_integral, self.dT)
@@ -261,7 +268,7 @@ class ControllerNode():
 							self.i += 1
 						else: 
 							self.i = 0
-							rospy.loginfor('[CONTROLLER] Trajectory completed')
+							rospy.loginfo('[CONTROLLER] Trajectory completed')
 						
 						self.control_target = target
 						u1, u2, self.V, self.Zx, self.Zy = command_ADRCG(self.pose_robot,  self.control_target, self.dT, self.V, self.Zx, self.Zy)
@@ -273,7 +280,7 @@ class ControllerNode():
 							self.i += 1
 						else: 
 							self.i = 0
-							rospy.loginfor('[CONTROLLER] Trajectory completed')
+							rospy.loginfo('[CONTROLLER] Trajectory completed')
 						
 						self.control_target = target
 						u1, u2, self.state_error_integral = command_LOSTT(self.pose_robot, self.control_target, self.state_error_integral, self.dT)
@@ -285,7 +292,7 @@ class ControllerNode():
 							self.i += 1
 						else: 
 							self.i = 0
-							rospy.loginfor('[CONTROLLER] Trajectory completed')
+							rospy.loginfo('[CONTROLLER] Trajectory completed')
 						
 						self.control_target = target
 						u1, u2, self.state_error_integral = command_State_Extent(self.pose_robot, self.vel_robot_RB , self.control_target, self.state_error_integral, self.dT, self.u_SE)
@@ -362,8 +369,9 @@ class ControllerNode():
 					u2 = np.sign(u2)*MAX_SPEED_TURN	
 
 				# Favore rotation -> don't move forward when turning is required	
-				# if abs(u2) > U2_THRESH:
-				# 	u1 = 0
+				if abs(u2) > 0.5:
+					# print('sat rota')
+					u1 = 0
 
 				self.last_u1, self.last_u2 = u1, u2
 
@@ -419,6 +427,8 @@ class ControllerNode():
 	def Mode_callback(self, msg):
 		self.mode_msg = msg
 		
+	def Desired_Heading_callback(self, msg): 
+		self.psi_ref = msg.data
 
 
 if __name__ == '__main__':

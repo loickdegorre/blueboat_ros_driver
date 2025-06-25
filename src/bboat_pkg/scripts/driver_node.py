@@ -21,6 +21,7 @@ import os
 
 
 Missions = ["VSB", "TRAJ", "CAP"]
+index = 2
 max_fwrd = 1700
 min_fwrd = 1300
 max_turn = 1700
@@ -51,7 +52,7 @@ class DriverNode():
         self.joy_cam = 0
 
         self.mode = "MANUAL" #MANUAL - AUTO
-        self.mission_index = 1
+        self.mission_index = index
         self.auto_mission = Missions[self.mission_index]
         self.count_print = 0
         

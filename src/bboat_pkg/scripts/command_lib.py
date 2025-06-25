@@ -99,16 +99,17 @@ def command_MBG(n_state, target, state_error_integral, dt):
 
 
     # Proportional and integral gains
-    Kp = np.diag([0.8, 0.8, 0])
-    Kr = 5
+    Kp = np.diag([0.6, 0.6, 0])
+    Kr = 0.75
     Ki_state = np.array([[0], [0], [0]])
 
     W = spe_target + Kp@state_error
 
     u = np.linalg.norm(W)
     psi_r = np.arctan2(W[1,0], W[0,0])
+    # print(psi_r, n_state[2,0])
 
-    r = Kr*(psi_r - n_state[2,0])
+    r = Kr*sawtooth(psi_r - n_state[2,0])
 
     return u, r, state_error_integral
 
@@ -121,8 +122,8 @@ def command_ADRCG(n_state, target, dt, V, Zx, Zy):
 
     # Frequency pole placement 
     w_ctrl = 0.55
-    w_obs = w_ctrl/2
-    zeta = 1
+    w_obs = 0.75/0.8 #w_ctrl/2
+    zeta = 3.5
 
     poles_ctrl = np.roots([1, w_ctrl])
     poles_obs = np.roots([1, 2*zeta*w_obs, w_obs**2])
@@ -131,14 +132,14 @@ def command_ADRCG(n_state, target, dt, V, Zx, Zy):
     A_obs = np.array([[0, 1], 
                       [0, 0]])
     B_obs = np.array([[1], [0]])
-    C_obs = np.array([[1,0]])
+    C_obs = np.array([[1, 0]])
 
     L_obs = place(A_obs.T, C_obs.T, poles_obs).T
-    # print(A_obs, Zx, B_obs, V[0,0], L_obs, (n_state[0,0] - Zx[0,0]))
-    Zx += dt * (A_obs @ Zx + B_obs @ np.array([[V[0,0]]]) - L_obs * (n_state[0,0] - Zx[0,0]))
+
+    Zx += dt * (A_obs @ Zx + B_obs*V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
 
 
-    Zy += dt * (A_obs @ Zy + B_obs * V[1,0] - L_obs * (n_state[1,0] - Zy[0,0]))
+    Zy += dt * (A_obs @ Zy + B_obs*V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
 
     # Guidance
     A_ctrl = np.array([[0]])
@@ -146,15 +147,15 @@ def command_ADRCG(n_state, target, dt, V, Zx, Zy):
     C_ctrl = np.array([[1]])
     K = place(A_ctrl.T, C_ctrl.T, poles_ctrl).T
 
-    Kp = K*np.eye(2)
-    Kr = 5
-    P = Kp@(state_error[0:2] - np.array([[Zx[-1, 0]], [Zy[-1,0]]]))
-    V = spe_target + np.array([[P[0,0], P[1,0], 0]])
+    Kp = np.diag([0.6, 0.6]) #K*np.eye(2)
+    Kr = 0.75
+    P = Kp@(state_error[0:2]) 
+    V = spe_target + np.array([[P[0,0], P[1,0], 0]]) - np.array([[Zx[-1, 0]], [Zy[-1,0]], [0]])
 
-    u = np.linalg.norm(V)
+    u = V[0,0]*np.cos(n_state[2,0]) + V[1,0]*np.sin(n_state[2,0]) # np.linalg.norm(V)
     psi_r = np.arctan2(V[1,0], V[0,0])
 
-    r = Kr*(psi_r - n_state[2,0])
+    r = Kr*sawtooth(psi_r - n_state[2,0])
 
     return u, r, V, Zx, Zy
 
@@ -166,8 +167,8 @@ def command_LOSTT(n_state, target, state_error_integral, dt):
     psi_r = np.arctan2(spe_target[1,0], spe_target[0,0])  # Path heading angle
     ud = np.linalg.norm(spe_target)  # Ref speed
 
-    Rotd = np.array([[np.cos(psi_r), -np.sin(psi_r)],
-                    [np.sin(psi_r),  np.cos(psi_r)]], dtype=float)
+    Rotd = np.array([[np.cos(psi_r), np.sin(psi_r)],
+                    [-np.sin(psi_r),  np.cos(psi_r)]], dtype=float)
     
     # Calculate the state error and update the integral of the state error
     state_error = pos_target - n_state
@@ -181,14 +182,14 @@ def command_LOSTT(n_state, target, state_error_integral, dt):
     Kp = np.array([[0.8], [0.8], [0]])
     Ki_state = np.array([[0], [0], [0]])
 
-    Ku = 2
-    Kr = 5  
+    Ku = 1
+    Kr = 0.75
     u = ud + Ku*Err_path[0]
 
 
     psi_d = psi_r + np.arctan2(Err_path[1], lookahead)  # Command heading angle
 
-    r = Kr*(psi_d - n_state[2,0])
+    r = Kr*sawtooth(psi_d - n_state[2,0])
 
     return u, r, state_error_integral
 
@@ -198,6 +199,8 @@ def command_State_Extent(n_state, v_robot, target, state_error_integral, dt, u):
 
 
     psi = n_state[2,0]
+
+    # Signe mat rota
 
     Rot = np.array([[np.cos(psi), -np.sin(psi), 0], 
                     [np.sin(psi), np.cos(psi), 0], 
@@ -211,22 +214,28 @@ def command_State_Extent(n_state, v_robot, target, state_error_integral, dt, u):
     state_error_integral += state_error * dt
 
 
-    Rot_cmd = np.array([[np.cos(psi), -u*np.sin(psi)], 
-                    [np.sin(psi), u*np.cos(psi)]])
+    # Rot_cmd = np.array([[np.cos(psi), -u*np.sin(psi)], 
+    #                 [np.sin(psi), u*np.cos(psi)]])
 
-    Kp = 10.0*np.eye(3)
-    Kd = 1.0*np.eye(3)
-    Ki = 0.0*np.eye(3)
-    PID = Kp*state_error + Ki*state_error_integral + Kd*dstate_error
+    Rot_cmd = np.array([[np.cos(psi), u*np.sin(psi)], 
+                    [-np.sin(psi), u*np.cos(psi)]])
+    
+
+    Kp = 1.0*np.eye(2)
+    Kd = 0.0*np.eye(2)
+    Ki = 0.0*np.eye(2)
+    PID = Kp@state_error[0:2] + Ki@state_error_integral[0:2] + Kd@dstate_error[0:2]
     
     if u!=0: 
         V = np.linalg.inv(Rot_cmd)@PID
     else: 
         print("Control singularity")
-        V = np.array([[0], [0]])
+        V = np.array([[0.1], [0]])
 
     u += V[0,0]*dt
     r = V[1,0]
+
+    print(V, u, r, dt)
 
     return u, r, state_error_integral
 
