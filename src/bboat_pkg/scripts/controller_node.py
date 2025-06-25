@@ -18,6 +18,8 @@ from command_lib import *
 
 import time
 
+from dockLib import *
+
 epsx, epsy = 1,0
 ## H - Model_based_guidance - ADRC_guidance - LOS_TT - State_Extent
 command_type = "State_Extent" #Select command law 
@@ -55,6 +57,8 @@ class ControllerNode():
 		self.V = np.zeros((2,1)) # ADRC virtual input V = [vx, vy]
 		self.Zx = np.zeros((2,1)) # Observer state [x, epsx]
 		self.Zy = np.zeros((2,1)) # Observer state [y, epsy]
+
+		self.firstTime = True # used in DOCK2D mission to know if its the first pass in the loop
 
 		# State extend
 		self.u_SE = 0
@@ -355,6 +359,77 @@ class ControllerNode():
 					# 	end_time_com = time.perf_counter()
 
 					# 	# self.control_target = target
+				
+				elif mode.mission == "DOCK2D":
+					TURNING_RADIUS = 3.0
+					if self.firstTime == True: 
+						# --- Creation of Dubin Path
+						tf = 10.0 #TODOOOOOOOOOOOO
+						v_target, v_robot = 1.0,2.0 #TODOOOOOOOOOOOO
+						target_x0, target_y0, target_psi0 = 0.0, 0.0, 0.0 # TODOOOOOOOOOOOOOO
+						final_pose = np.array([[target_x0 + v_target*tf*cos(target_psi0)], [target_y0 + v_target*tf*sin(target_psi0)], [target_psi0]]) # pose.position.z = psi
+						self.dubin_path = get_dubins_path_callback(self.sub_pose_robot, final_pose, TURNING_RADIUS)
+
+						self.firstTime = False
+
+					
+					try:
+						self.u1 = 1.
+						# Compute U
+						x, y, psi = self.sub_pose_robot.flatten()
+						B = np.array([[cos(psi), 0], 
+										[sin(psi), 0], 
+										[0, 1]])
+						
+						X0 = B @ np.array([[self.u1],
+											[self.u2]])
+						x0,y0,psi0 = X0.flatten()
+						V_0 = np.array([[x0],
+										[y0]])
+						W_0 = np.array([[psi0]])
+						
+						lievre, lievreCc,lievreS = interrogation_chemin(self.s,self.dubinsPath)
+
+						smax = max([p.s for p in self.dubinsPath])
+						lievreX,lievreY,lievrePsi = lievre.flatten()
+						E = lievre-self.sub_pose_robot
+						errX, errY, theta = E.flatten()
+						theta = sawtooth1D(theta, "pi")
+						errXY = np.array([[errX],
+										[errY]])
+						R = np.array([[np.cos(lievrePsi), -np.sin(lievrePsi)],
+									[np.sin(lievrePsi),  np.cos(lievrePsi)]])
+						
+						errX_Fresnet = inv(R) @ errXY
+						
+						s1, y1 = errX_Fresnet.flatten() 
+						sp = u1 * cos(theta) - self.K1 * s1
+						lievreXp_Fresnet = np.array([[sp], [0]])
+						dot_X_e_F = lievreXp_Fresnet - inv(R) @ V_0
+
+						s1p,y1p = dot_X_e_F.flatten()
+						psip_lievre = lievreCc * sp
+
+						delta = -np.arctan(self.Kdy1 * y1)
+						deltaPrime = -self.Kdy1 / (1 + (self.Kdy1 * y1) ** 2)
+						deltaP = deltaPrime * y1p
+
+						Err_Ang = sawtooth1D(delta - theta, "pi")
+						if Err_Ang > np.pi: Err_Ang -= 2 * np.pi
+						elif Err_Ang < -np.pi: Err_Ang += 2 * np.pi
+							
+						dot_Theta_Control = deltaP + self.K * Err_Ang
+						dot_psi = psip_lievre - dot_Theta_Control
+						u2 = sawtooth1D(dot_psi, modulo = "pi")
+
+						if sp < 0: sp = 0
+						self.s = self.s + sp*self.dt
+
+					except Exception as e:
+						rospy.loginfo(f"Erreur : {e}")
+						u1 = 0.
+						u2 = 0.
+
 
 				start_after_com = time.perf_counter()
 
