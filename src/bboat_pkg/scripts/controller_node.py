@@ -16,13 +16,15 @@ from bboat_pkg.srv import mode_serv, mode_servResponse, current_target_serv, gai
 from bboat_lib import *
 from command_lib import *
 
+import matplotlib.pyplot as plt
+
 import time
 
 from dockLib import *
 
 epsx, epsy = 1,0
 ## H - Model_based_guidance - ADRC_guidance - LOS_TT - State_Extent
-command_type = "State_Extent" #Select command law 
+command_type = "ADRC_guidance" #Select command law 
 
 class ControllerNode(): 
 	'''
@@ -59,7 +61,8 @@ class ControllerNode():
 		self.Zy = np.zeros((2,1)) # Observer state [y, epsy]
 
 		self.firstTime = True # used in DOCK2D mission to know if its the first pass in the loop
-
+		self.dubin_path = []
+		self.K,self.K1,self.Kdy1,self.K10= 1.,10,1,10
 		# State extend
 		self.u_SE = 0
 
@@ -275,7 +278,7 @@ class ControllerNode():
 							rospy.loginfo('[CONTROLLER] Trajectory completed')
 						
 						self.control_target = target
-						u1, u2, self.V, self.Zx, self.Zy = command_ADRCG(self.pose_robot,  self.control_target, self.dT, self.V, self.Zx, self.Zy)
+						u1, u2, self.V, self.Zx, self.Zy = command_ADRCG(self.pose_robot, self.vel_robot_RB, self.control_target, self.dT, self.V, self.Zx, self.Zy, self.last_u1, self.last_u2)
 					
 					elif(command_type == "LOS_TT"): 
 						# Update target in trajectory tracking
@@ -361,74 +364,85 @@ class ControllerNode():
 					# 	# self.control_target = target
 				
 				elif mode.mission == "DOCK2D":
-					TURNING_RADIUS = 3.0
+					TURNING_RADIUS = 7.5
+					
 					if self.firstTime == True: 
 						# --- Creation of Dubin Path
-						tf = 10.0 #TODOOOOOOOOOOOO
+						tf = 30.0 #TODOOOOOOOOOOOO
 						v_target, v_robot = 1.0,2.0 #TODOOOOOOOOOOOO
-						target_x0, target_y0, target_psi0 = 0.0, 0.0, 0.0 # TODOOOOOOOOOOOOOO
+						target_x0, target_y0, target_psi0 = -2.0, -22.0, 3*np.pi/2 # TODOOOOOOOOOOOOOO
 						final_pose = np.array([[target_x0 + v_target*tf*cos(target_psi0)], [target_y0 + v_target*tf*sin(target_psi0)], [target_psi0]]) # pose.position.z = psi
-						self.dubin_path = get_dubins_path_callback(self.sub_pose_robot, final_pose, TURNING_RADIUS)
+						self.dubin_path = get_dubins_path_callback(self.pose_robot, final_pose, TURNING_RADIUS)
 
 						self.firstTime = False
+						plt.figure("coucou")
+						X = [self.dubin_path[k].x for k in range(len(self.dubin_path))]
+						Y = [self.dubin_path[k].y for k in range(len(self.dubin_path))]
+
+						plt.plot(X,Y)
+						plt.axis("equal")
+						plt.show(block=False)
+						pause(0.001)
+						
+
 
 					
-					try:
-						self.u1 = 1.
-						# Compute U
-						x, y, psi = self.sub_pose_robot.flatten()
-						B = np.array([[cos(psi), 0], 
-										[sin(psi), 0], 
-										[0, 1]])
+					# try:
+					u1 = 1.
+					# Compute U
+					x, y, psi = self.pose_robot.flatten()
+					B = np.array([[cos(psi), 0], 
+									[sin(psi), 0], 
+									[0, 1]])
+					
+					X0 = B @ np.array([[u1],
+										[u2]])
+					x0,y0,psi0 = X0.flatten()
+					V_0 = np.array([[x0],
+									[y0]])
+					W_0 = np.array([[psi0]])
+					
+					lievre, lievreCc,lievreS = interrogation_chemin(self.s,self.dubin_path)
+
+					smax = max([p.s for p in self.dubin_path])
+					lievreX,lievreY,lievrePsi = lievre.flatten()
+					E = lievre-self.pose_robot
+					errX, errY, theta = E.flatten()
+					theta = sawtooth1D(theta, "pi")
+					errXY = np.array([[errX],
+									[errY]])
+					R = np.array([[np.cos(lievrePsi), -np.sin(lievrePsi)],
+								[np.sin(lievrePsi),  np.cos(lievrePsi)]])
+					
+					errX_Fresnet = inv(R) @ errXY
+					
+					s1, y1 = errX_Fresnet.flatten() 
+					sp = u1 * cos(theta) - self.K1 * s1
+					lievreXp_Fresnet = np.array([[sp], [0]])
+					dot_X_e_F = lievreXp_Fresnet - inv(R) @ V_0
+
+					s1p,y1p = dot_X_e_F.flatten()
+					psip_lievre = lievreCc * sp
+
+					delta = -np.arctan(self.Kdy1 * y1)
+					deltaPrime = -self.Kdy1 / (1 + (self.Kdy1 * y1) ** 2)
+					deltaP = deltaPrime * y1p
+
+					Err_Ang = sawtooth1D(delta - theta, "pi")
+					if Err_Ang > np.pi: Err_Ang -= 2 * np.pi
+					elif Err_Ang < -np.pi: Err_Ang += 2 * np.pi
 						
-						X0 = B @ np.array([[self.u1],
-											[self.u2]])
-						x0,y0,psi0 = X0.flatten()
-						V_0 = np.array([[x0],
-										[y0]])
-						W_0 = np.array([[psi0]])
-						
-						lievre, lievreCc,lievreS = interrogation_chemin(self.s,self.dubinsPath)
+					dot_Theta_Control = deltaP + self.K * Err_Ang
+					dot_psi = psip_lievre - dot_Theta_Control
+					u2 = sawtooth1D(dot_psi, modulo = "pi")
 
-						smax = max([p.s for p in self.dubinsPath])
-						lievreX,lievreY,lievrePsi = lievre.flatten()
-						E = lievre-self.sub_pose_robot
-						errX, errY, theta = E.flatten()
-						theta = sawtooth1D(theta, "pi")
-						errXY = np.array([[errX],
-										[errY]])
-						R = np.array([[np.cos(lievrePsi), -np.sin(lievrePsi)],
-									[np.sin(lievrePsi),  np.cos(lievrePsi)]])
-						
-						errX_Fresnet = inv(R) @ errXY
-						
-						s1, y1 = errX_Fresnet.flatten() 
-						sp = u1 * cos(theta) - self.K1 * s1
-						lievreXp_Fresnet = np.array([[sp], [0]])
-						dot_X_e_F = lievreXp_Fresnet - inv(R) @ V_0
+					if sp < 0: sp = 0
+					self.s = self.s + sp*self.dT
 
-						s1p,y1p = dot_X_e_F.flatten()
-						psip_lievre = lievreCc * sp
-
-						delta = -np.arctan(self.Kdy1 * y1)
-						deltaPrime = -self.Kdy1 / (1 + (self.Kdy1 * y1) ** 2)
-						deltaP = deltaPrime * y1p
-
-						Err_Ang = sawtooth1D(delta - theta, "pi")
-						if Err_Ang > np.pi: Err_Ang -= 2 * np.pi
-						elif Err_Ang < -np.pi: Err_Ang += 2 * np.pi
-							
-						dot_Theta_Control = deltaP + self.K * Err_Ang
-						dot_psi = psip_lievre - dot_Theta_Control
-						u2 = sawtooth1D(dot_psi, modulo = "pi")
-
-						if sp < 0: sp = 0
-						self.s = self.s + sp*self.dt
-
-					except Exception as e:
-						rospy.loginfo(f"Erreur : {e}")
-						u1 = 0.
-						u2 = 0.
+					# except Exception as e:
+					# 	rospy.loginfo(f"Erreur : {e}")
+					# 	u1 = 0.
+					# 	u2 = 0.
 
 
 				start_after_com = time.perf_counter()
@@ -443,10 +457,10 @@ class ControllerNode():
 				if abs(u2) > MAX_SPEED_TURN:
 					u2 = np.sign(u2)*MAX_SPEED_TURN	
 
-				# Favore rotation -> don't move forward when turning is required	
-				if abs(u2) > 0.5:
-					# print('sat rota')
-					u1 = 0
+				# # Favore rotation -> don't move forward when turning is required	
+				# if abs(u2) > 0.5:
+				# 	# print('sat rota')
+				# 	u1 = 0
 
 				self.last_u1, self.last_u2 = u1, u2
 

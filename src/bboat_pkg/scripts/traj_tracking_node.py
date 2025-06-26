@@ -52,17 +52,25 @@ class TrajTrackingNode():
         lines = file.readlines()
         lat = []
         long = []
-        px = []
-        py = []
-        t = []
-        dx = [] #cartesian speed x
-        dy = [] #cartesian speed y
+        # px = []
+        # py = []
+        # t = []
+        # dx = [] #cartesian speed x
+        # dy = [] #cartesian speed y
+
+        # Adds 0,0 as a waypoint to limit initial error and integrator sat
+        px = [0]
+        py = [0]
+        t = [0]
+        dx = [0] #cartesian speed x
+        dy = [0] #cartesian speed y
 
         for line in lines: 
             tab = line.split(",")
             lat.append(float(tab[0])) 
             long.append(float(tab[1]))
-            t.append(float(tab[2]))
+            # t.append(float(tab[2]))
+            t.append(float(tab[2])+20) #20s offset for 0,0 waypoint
             dx.append(float(tab[3]))
             dy.append(float(tab[4]))
 

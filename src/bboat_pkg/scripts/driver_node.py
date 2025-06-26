@@ -20,8 +20,8 @@ import os
 
 
 
-Missions = ["VSB", "TRAJ", "CAP"]
-index = 2
+Missions = ["VSB", "TRAJ", "CAP", "DOCK2D"]
+index = 1
 max_fwrd = 1700
 min_fwrd = 1300
 max_turn = 1700

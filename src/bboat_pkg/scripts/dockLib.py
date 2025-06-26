@@ -1,15 +1,18 @@
 
-from roblib import *
+# from roblib import *
 from easydubins import dubin_path
 dubin_path.MAX_LINE_DISTANCE = 0.1
 dubin_path.MAX_CURVE_DISTANCE = 0.1
 dubin_path.MAX_CURVE_ANGLE = 0.1
 from bboat_pkg.msg import PathFollowing2DPoint
+import numpy as np
+from numpy import pi, cos, sin, array, sqrt, arctan2
+
 
 
 def sawtooth1D(psi, modulo = "2pi"):
     if modulo == "2pi": return psi%(2*pi)
-    if modulo == "pi": return (psi + np.pi) % (2 * np.pi) - np.pi
+    if modulo == "pi": return (psi + pi) % (2 * pi) - pi
         
     
 def interrogation_chemin(s,L):
@@ -17,7 +20,7 @@ def interrogation_chemin(s,L):
     if index == None : return None, None, None
     p = L[index]
     lievreX, lievreY, lievreC, lievreS, lievrePsi = p.x, p.y, p.c, p.s, p.theta
-    return np.array([[lievreX],
+    return array([[lievreX],
                      [lievreY],
                      [lievrePsi]]), lievreC,lievreS
 
@@ -52,10 +55,10 @@ def get_straight_line(pose_robot, tf,v ):
 				xk,yk,_  = path[k]
 
 				sk_1 = path_points[-1].s
-				sk = sk_1 + np.sqrt((yk_1-yk)**2+(xk_1-xk)**2)
+				sk = sk_1 + sqrt((yk_1-yk)**2+(xk_1-xk)**2)
 
 				thetak_1 = path_points[-1].theta
-				thetak = np.arctan2(yk-yk_1, xk-xk_1)
+				thetak = arctan2(yk-yk_1, xk-xk_1)
 				ck = (thetak-thetak_1)/sk
 
 				p.x = xk
@@ -69,7 +72,7 @@ def get_straight_line(pose_robot, tf,v ):
 		return path_points
 	
 	except Exception as e:
-		rospy.loginfo(f"Erreur dans le serveur : {e}")
+		print(f"Erreur dans le serveur : {e}")
 		return path_points
 	
 
@@ -100,10 +103,10 @@ def get_dubins_path_callback(pose_robot, final_pose_robot, turning_radius):
 				xk,yk,_  = path[k]
 
 				sk_1 = path_points[-1].s
-				sk = sk_1 + np.sqrt((yk_1-yk)**2+(xk_1-xk)**2)
+				sk = sk_1 + sqrt((yk_1-yk)**2+(xk_1-xk)**2)
 
 				thetak_1 = path_points[-1].theta
-				thetak = np.arctan2(yk-yk_1, xk-xk_1)
+				thetak = arctan2(yk-yk_1, xk-xk_1)
 				ck = (thetak-thetak_1)/sk
 
 				p.x = xk
@@ -117,5 +120,5 @@ def get_dubins_path_callback(pose_robot, final_pose_robot, turning_radius):
 		return path_points
 	
 	except Exception as e:
-		rospy.loginfo(f"Erreur dans le serveur : {e}")
+		print(f"Erreur dans le serveur : {e}")
 		return path_points

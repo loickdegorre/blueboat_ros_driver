@@ -11,6 +11,8 @@ import numpy as np
 from control import place
 from scipy.interpolate import CubicSpline
 
+from bboat_lib import MAX_SPEED_FWRD, MAX_SPEED_TURN
+
 # Model dependent
 M = np.array([[80.2815,     0,       0],
              [       0, 157.5,      11],
@@ -113,7 +115,7 @@ def command_MBG(n_state, target, state_error_integral, dt):
 
     return u, r, state_error_integral
 
-def command_ADRCG(n_state, target, dt, V, Zx, Zy):
+def command_ADRCG(n_state, v_state, target, dt, V, Zx, Zy, last_u1, last_u2):
     pos_target = np.array([[target[0,0]], [target[1,0]], [0]]) # update 0 to add psi tracking
     spe_target = np.array([[target[2,0]], [target[3,0]], [0]])
 
@@ -135,24 +137,54 @@ def command_ADRCG(n_state, target, dt, V, Zx, Zy):
     C_obs = np.array([[1, 0]])
 
     L_obs = place(A_obs.T, C_obs.T, poles_obs).T
+    # print(L_obs)
 
-    Zx += dt * (A_obs @ Zx + B_obs*V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
+    L_obs[1,0] = 2.0
+
+    # Zx += dt * (A_obs @ Zx + B_obs*V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
 
 
-    Zy += dt * (A_obs @ Zy + B_obs*V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
+    # Zy += dt * (A_obs @ Zy + B_obs*V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
+
+    # pseudo_V = np.array([[np.cos(n_state[2,0]), -np.sin(n_state[2,0])], 
+    #                     [np.sin(n_state[2,0]), np.cos(n_state[2,0])]])@np.array([[v_state[0,0]], [v_state[1,0]]])
+    
+    # print(pseudo_V, v_state)
+
+    # Zx += dt * (A_obs @ Zx + B_obs*pseudo_V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
+
+
+    # Zy += dt * (A_obs @ Zy + B_obs*pseudo_V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
+
+    last_V = np.array([[last_u1*np.cos(n_state[2,0])], [last_u1*np.sin(n_state[2,0])]])
+
+
+    Zx += dt * (A_obs @ Zx + B_obs*last_V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
+
+
+    Zy += dt * (A_obs @ Zy + B_obs*last_V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
+
+
+    # print(Zx)
 
     # Guidance
-    A_ctrl = np.array([[0]])
-    B_ctrl = np.array([[1]])
-    C_ctrl = np.array([[1]])
-    K = place(A_ctrl.T, C_ctrl.T, poles_ctrl).T
+    # A_ctrl = np.array([[0]])
+    # B_ctrl = np.array([[1]])
+    # C_ctrl = np.array([[1]])
+    # K = place(A_ctrl.T, C_ctrl.T, poles_ctrl).T
 
-    Kp = np.diag([0.6, 0.6]) #K*np.eye(2)
+    Kp = np.diag([0.6, 0.6, 0]) #K*np.eye(2)
     Kr = 0.75
-    P = Kp@(state_error[0:2]) 
-    V = spe_target + np.array([[P[0,0], P[1,0], 0]]) - np.array([[Zx[-1, 0]], [Zy[-1,0]], [0]])
+    
+    V = spe_target + Kp@state_error - np.array([[Zx[-1, 0]], [Zy[-1,0]], [0]])
 
-    u = V[0,0]*np.cos(n_state[2,0]) + V[1,0]*np.sin(n_state[2,0]) # np.linalg.norm(V)
+    # dist = v_state[1,0]*np.array([[-np.sin(n_state[2,0])], 
+    #                  [np.cos(n_state[2,0])], 
+    #                  [0]])
+
+    # print(Zx[-1, 0],  Zy[-1, 0]) #
+
+    u = np.linalg.norm(V) #V[0,0]*np.cos(n_state[2,0]) + V[1,0]*np.sin(n_state[2,0]) # 
     psi_r = np.arctan2(V[1,0], V[0,0])
 
     r = Kr*sawtooth(psi_r - n_state[2,0])
@@ -174,13 +206,7 @@ def command_LOSTT(n_state, target, state_error_integral, dt):
     state_error = pos_target - n_state
     state_error_integral += state_error * dt
 
-
     Err_path = Rotd@state_error[0:2, 0]
-
-
-    # Proportional and integral gains
-    Kp = np.array([[0.8], [0.8], [0]])
-    Ki_state = np.array([[0], [0], [0]])
 
     Ku = 1
     Kr = 0.75
@@ -222,7 +248,7 @@ def command_State_Extent(n_state, v_robot, target, state_error_integral, dt, u):
     
 
     Kp = 1.0*np.eye(2)
-    Kd = 0.0*np.eye(2)
+    Kd = 0.5*np.eye(2)
     Ki = 0.0*np.eye(2)
     PID = Kp@state_error[0:2] + Ki@state_error_integral[0:2] + Kd@dstate_error[0:2]
     
@@ -232,7 +258,13 @@ def command_State_Extent(n_state, v_robot, target, state_error_integral, dt, u):
         print("Control singularity")
         V = np.array([[0.1], [0]])
 
-    u += V[0,0]*dt
+    #Anti windup
+    if abs(u) < MAX_SPEED_FWRD: 
+        u += V[0,0]*dt
+    else:
+        print('ANTI WINDUP')
+        u = np.sign(u)*MAX_SPEED_FWRD   
+
     r = V[1,0]
 
     print(V, u, r, dt)
