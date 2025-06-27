@@ -107,11 +107,11 @@ def command_MBG(n_state, target, state_error_integral, dt):
 
     W = spe_target + Kp@state_error
 
-    u = np.linalg.norm(W)
     psi_r = np.arctan2(W[1,0], W[0,0])
+    u = np.linalg.norm(W) #W[0,0]*np.cos(psi_r) + W[1,0]*np.sin(psi_r)
     # print(psi_r, n_state[2,0])
 
-    r = Kr*sawtooth(psi_r - n_state[2,0])
+    r = Kr*np.tanh(sawtooth(psi_r - n_state[2,0]))
 
     return u, r, state_error_integral
 
@@ -137,32 +137,33 @@ def command_ADRCG(n_state, v_state, target, dt, V, Zx, Zy, last_u1, last_u2):
     C_obs = np.array([[1, 0]])
 
     L_obs = place(A_obs.T, C_obs.T, poles_obs).T
-    # print(L_obs)
 
-    L_obs[1,0] = 2.0
+    L_obs[0,0] = 3.5
+
+    L_obs[1,0] = 1.5
 
     # Zx += dt * (A_obs @ Zx + B_obs*V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
 
 
     # Zy += dt * (A_obs @ Zy + B_obs*V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
 
-    # pseudo_V = np.array([[np.cos(n_state[2,0]), -np.sin(n_state[2,0])], 
-    #                     [np.sin(n_state[2,0]), np.cos(n_state[2,0])]])@np.array([[v_state[0,0]], [v_state[1,0]]])
+    pseudo_V = np.array([[np.cos(n_state[2,0]), -np.sin(n_state[2,0])], 
+                        [np.sin(n_state[2,0]), np.cos(n_state[2,0])]])@np.array([[v_state[0,0]], [v_state[1,0]]])
     
     # print(pseudo_V, v_state)
 
-    # Zx += dt * (A_obs @ Zx + B_obs*pseudo_V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
+    Zx += dt * (A_obs @ Zx + B_obs*pseudo_V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
 
 
-    # Zy += dt * (A_obs @ Zy + B_obs*pseudo_V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
+    Zy += dt * (A_obs @ Zy + B_obs*pseudo_V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
 
-    last_V = np.array([[last_u1*np.cos(n_state[2,0])], [last_u1*np.sin(n_state[2,0])]])
-
-
-    Zx += dt * (A_obs @ Zx + B_obs*last_V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
+    # last_V = np.array([[last_u1*np.cos(n_state[2,0])], [last_u1*np.sin(n_state[2,0])]])
 
 
-    Zy += dt * (A_obs @ Zy + B_obs*last_V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
+    # Zx += dt * (A_obs @ Zx + B_obs*last_V[0,0] + L_obs*(n_state[0,0] - Zx[0,0]))
+
+
+    # Zy += dt * (A_obs @ Zy + B_obs*last_V[1,0] + L_obs*(n_state[1,0] - Zy[0,0]))
 
 
     # print(Zx)
@@ -173,10 +174,13 @@ def command_ADRCG(n_state, v_state, target, dt, V, Zx, Zy, last_u1, last_u2):
     # C_ctrl = np.array([[1]])
     # K = place(A_ctrl.T, C_ctrl.T, poles_ctrl).T
 
+    est_state_error = pos_target - np.array([[Zx[0,0]],[Zy[0,0]], [0]])
+
     Kp = np.diag([0.6, 0.6, 0]) #K*np.eye(2)
-    Kr = 0.75
+    Kr = 0.70
     
-    V = spe_target + Kp@state_error - np.array([[Zx[-1, 0]], [Zy[-1,0]], [0]])
+    # V = spe_target + Kp@state_error - np.array([[Zx[-1, 0]], [Zy[-1,0]], [0]])
+    V = spe_target + Kp@est_state_error - np.array([[Zx[-1, 0]], [Zy[-1,0]], [0]])
 
     # dist = v_state[1,0]*np.array([[-np.sin(n_state[2,0])], 
     #                  [np.cos(n_state[2,0])], 
@@ -184,10 +188,17 @@ def command_ADRCG(n_state, v_state, target, dt, V, Zx, Zy, last_u1, last_u2):
 
     # print(Zx[-1, 0],  Zy[-1, 0]) #
 
-    u = np.linalg.norm(V) #V[0,0]*np.cos(n_state[2,0]) + V[1,0]*np.sin(n_state[2,0]) # 
     psi_r = np.arctan2(V[1,0], V[0,0])
 
-    r = Kr*sawtooth(psi_r - n_state[2,0])
+
+    u = V[0,0]*np.cos(psi_r) + V[1,0]*np.sin(psi_r)  #np.linalg.norm(V) #V[0,0]*np.cos(n_state[2,0]) + V[1,0]*np.sin(n_state[2,0]) # 
+    # psi_r = np.arctan2(V[1,0], V[0,0])
+
+    # print(psi_r, n_state[2,0], sawtooth(psi_r - n_state[2,0]))
+
+    # r = Kr*sawtooth(psi_r - n_state[2,0])
+
+    r = Kr*np.tanh(sawtooth(psi_r - n_state[2,0]))
 
     return u, r, V, Zx, Zy
 
@@ -208,8 +219,9 @@ def command_LOSTT(n_state, target, state_error_integral, dt):
 
     Err_path = Rotd@state_error[0:2, 0]
 
-    Ku = 1
-    Kr = 0.75
+    Ku = 2
+    Kr = 0.8
+
     u = ud + Ku*Err_path[0]
 
 
@@ -243,8 +255,8 @@ def command_State_Extent(n_state, v_robot, target, state_error_integral, dt, u):
     # Rot_cmd = np.array([[np.cos(psi), -u*np.sin(psi)], 
     #                 [np.sin(psi), u*np.cos(psi)]])
 
-    Rot_cmd = np.array([[np.cos(psi), u*np.sin(psi)], 
-                    [-np.sin(psi), u*np.cos(psi)]])
+    Rot_cmd = np.array([[np.cos(psi), -u*np.sin(psi)], 
+                    [np.sin(psi), u*np.cos(psi)]])
     
 
     Kp = 1.0*np.eye(2)
@@ -267,7 +279,7 @@ def command_State_Extent(n_state, v_robot, target, state_error_integral, dt, u):
 
     r = V[1,0]
 
-    print(V, u, r, dt)
+    print(V)
 
     return u, r, state_error_integral
 

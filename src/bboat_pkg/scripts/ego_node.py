@@ -24,7 +24,7 @@ class Object:
     v: float = 0.
 
 class SepNavV(Sep):
-	def __init__(self, boat, obstacles, r = 10, epsilon = 0.1):
+	def __init__(self, boat, obstacles, r = 15, epsilon = 0.1):
 		Sep.__init__(self, 2)
 
 		self.boat = boat
@@ -47,7 +47,7 @@ class SepNavV(Sep):
 			for o in self.obstacles
 		]
 
-		self.Sp = [SepProj(s, [0, 1], IntervalVector([Interval(0, 30)]), self.epsilon) for s in self.So]
+		self.Sp = [SepProj(s, [0, 1], IntervalVector([Interval(0, 150)]), self.epsilon) for s in self.So]
 		if len(self.Sp) == 1:
 			self.Su = self.Sp[0]
 		else:
@@ -64,7 +64,7 @@ class SepNavV(Sep):
 		return self.S.separate(x)
 
 class SepNav(Sep):
-	def __init__(self, boat, obstacles, r = 10, epsilon = 0.1):
+	def __init__(self, boat, obstacles, r = 15, epsilon = 0.1):
 		Sep.__init__(self, 2)
 
 		self.boat = boat
@@ -87,7 +87,7 @@ class SepNav(Sep):
 			for o in self.obstacles
 		]
 
-		self.Sp = [SepProj(s, [0, 1], IntervalVector([Interval(0, 30)]), self.epsilon) for s in self.So]
+		self.Sp = [SepProj(s, [0, 1], IntervalVector([Interval(0, 150)]), self.epsilon) for s in self.So]
 		if len(self.Sp) == 1:
 			self.Su = self.Sp[0]
 		else:

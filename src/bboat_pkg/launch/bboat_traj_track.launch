@@ -5,7 +5,7 @@
 
 	<arg name="plot" default="0" />
 	
-	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/Guerledan_3.txt" />
+	<arg name="filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/Guerledan_4.txt" />
 	<arg name="obstacle_filepath" default="/home/user/bboat_ws/src/bboat_pkg/mission_files/egonav_obstacles.txt" />
 	
 	

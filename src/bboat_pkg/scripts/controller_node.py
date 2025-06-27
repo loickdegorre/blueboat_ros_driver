@@ -24,7 +24,7 @@ from dockLib import *
 
 epsx, epsy = 1,0
 ## H - Model_based_guidance - ADRC_guidance - LOS_TT - State_Extent
-command_type = "ADRC_guidance" #Select command law 
+command_type = "LOS_TT" #Select command law 
 
 class ControllerNode(): 
 	'''
@@ -89,6 +89,17 @@ class ControllerNode():
 		self.sub_desired_heading = rospy.Subscriber('/desired_heading', Float32, self.Desired_Heading_callback)
 
 
+		rospy.wait_for_service('/lambert_ref')
+		connected = False
+		while not connected:
+			try:
+				self.client_ref_lambert = rospy.ServiceProxy('/lambert_ref', lambert_ref_serv)
+				connected = True
+			except rospy.ServiceException as exc:
+				rospy.logwarn(f'[MISSION] Lambert ref service cannot be reached - {str(exc)}')
+				connected = False
+		resp = self.client_ref_lambert(True)
+		self.ref_lamb = np.array([[resp.lambert_ref.x], [resp.lambert_ref.y]])
 
 		self.inte_1 = 0
 
@@ -230,7 +241,7 @@ class ControllerNode():
 						self.psi_ref = 2*np.pi +self.psi_ref
 
 					# print(self.psi_ref, psi_rob)
-					Kp = 0.75
+					Kp = .95
 					u2 = Kp*sawtooth(self.psi_ref - psi_rob)
 					
 					# rospy.loginfo(f'[CONTROLLER] CAP desired = {psi_des} robot = {psi_rob}')
@@ -363,17 +374,89 @@ class ControllerNode():
 
 					# 	# self.control_target = target
 				
-				elif mode.mission == "DOCK2D":
+				elif mode.mission == "DOCK2Dtfdefini":
 					TURNING_RADIUS = 7.5
 					
 					if self.firstTime == True: 
 						# --- Creation of Dubin Path
 						tf = 30.0 #TODOOOOOOOOOOOO
 						v_target, v_robot = 1.0,2.0 #TODOOOOOOOOOOOO
-						target_x0, target_y0, target_psi0 = -2.0, -22.0, 3*np.pi/2 # TODOOOOOOOOOOOOOO
+
+
+
+						# target_x0, target_y0, target_psi0 = -2.0, -22.0, 3*np.pi/2 # TODOOOOOOOOOOOOOO
+						# x,y = deg_to_Lamb(lon, lat)	
+						# print(lon, lat)
+						#start
+						lat_trg, lon_trg = 48.197426, -3.013215
+						y_temp,x_temp = deg_to_Lamb(lon_trg, lat_trg)
+
+						target_x0 = x_temp - self.ref_lamb[0, 0]
+						target_y0 = y_temp - self.ref_lamb[1, 0]
+
+						#arrivee
+						lat_trgf, lon_trgf = 48.197489, -3.01523208
+						y_temp,x_temp = deg_to_Lamb(lon_trgf, lat_trgf)
+
+						target_xf = x_temp - self.ref_lamb[0, 0]
+						target_yf = y_temp - self.ref_lamb[1, 0]
+
+						target_psi0 = np.arctan2(target_yf - target_y0, target_xf - target_x0)  #3*np.pi/2
+
 						final_pose = np.array([[target_x0 + v_target*tf*cos(target_psi0)], [target_y0 + v_target*tf*sin(target_psi0)], [target_psi0]]) # pose.position.z = psi
 						self.dubin_path = get_dubins_path_callback(self.pose_robot, final_pose, TURNING_RADIUS)
 
+						self.firstTime = False
+						plt.figure("coucou")
+						X = [self.dubin_path[k].x for k in range(len(self.dubin_path))]
+						Y = [self.dubin_path[k].y for k in range(len(self.dubin_path))]
+
+						plt.plot(X,Y)
+						plt.axis("equal")
+						plt.show(block=False)
+						pause(0.001)
+
+				elif mode.mission == "DOCK2D":
+					TURNING_RADIUS = 6
+					modeChosen = ['L','S','L']
+					
+					if self.firstTime == True: 
+						# --- Creation of Dubin Path
+						
+						v_target, v_robot = 1.0,1.5 #TODOOOOOOOOOOOO
+
+
+
+						# target_x0, target_y0, target_psi0 = -2.0, -22.0, 3*np.pi/2 # TODOOOOOOOOOOOOOO
+						# x,y = deg_to_Lamb(lon, lat)	
+						# print(lon, lat)
+						#start
+						lat_trg, lon_trg = 48.19761513, -3.013166
+						y_temp,x_temp = deg_to_Lamb(lon_trg, lat_trg)
+
+						target_x0 = x_temp - self.ref_lamb[0, 0]
+						target_y0 = y_temp - self.ref_lamb[1, 0]
+
+						#arrivee
+						lat_trgf, lon_trgf = 48.19757937, -3.01426649
+						y_temp,x_temp = deg_to_Lamb(lon_trgf, lat_trgf)
+
+						target_xf = x_temp - self.ref_lamb[0, 0]
+						target_yf = y_temp - self.ref_lamb[1, 0]
+
+						x0_robot, y0_robot,robot_psi0 = self.pose_robot.flatten()
+						X0 = np.array([[x0_robot], [y0_robot]])
+						Y0 = np.array([[target_x0],[target_y0]])
+
+						target_psi0 = np.arctan2(target_yf - target_y0, target_xf - target_x0)  #3*np.pi/2
+						tf, d1,d2,d3 = computeTfLSL(X0, Y0, robot_psi0, target_psi0, TURNING_RADIUS, v_robot, v_target, 0.0)
+						final_pose = np.array([[target_x0 + v_target*tf*cos(target_psi0)], [target_y0 + v_target*tf*sin(target_psi0)], [target_psi0]]) # pose.position.z = psi
+						#self.dubin_path = get_dubins_path_callback(self.pose_robot, final_pose, TURNING_RADIUS)
+						print(f'tf : {tf}')
+
+						xf, yf, psif = final_pose.flatten()
+						self.dubin_path = get_dubins_pathCS(self.pose_robot, final_pose, TURNING_RADIUS, modeChosen)
+						
 						self.firstTime = False
 						plt.figure("coucou")
 						X = [self.dubin_path[k].x for k in range(len(self.dubin_path))]
@@ -388,7 +471,7 @@ class ControllerNode():
 
 					
 					# try:
-					u1 = 1.
+					u1 = 1.5
 					# Compute U
 					x, y, psi = self.pose_robot.flatten()
 					B = np.array([[cos(psi), 0], 
@@ -457,10 +540,10 @@ class ControllerNode():
 				if abs(u2) > MAX_SPEED_TURN:
 					u2 = np.sign(u2)*MAX_SPEED_TURN	
 
-				# # Favore rotation -> don't move forward when turning is required	
-				# if abs(u2) > 0.5:
-				# 	# print('sat rota')
-				# 	u1 = 0
+				# Favore rotation -> don't move forward when turning is required	
+				if abs(u2) > 0.1:
+					# print('sat rota')
+					u1 = 0
 
 				self.last_u1, self.last_u2 = u1, u2
 

@@ -232,6 +232,7 @@ class PlotterNode():
 		# self.plot_wind.invert_xaxis()
 		xlabel('y_0 : East')
 		ylabel('x_0 : North')
+		
 
 
 		if self.flag_mission_traj: 
